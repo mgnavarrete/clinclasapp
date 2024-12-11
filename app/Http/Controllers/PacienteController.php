@@ -224,18 +224,4 @@ class PacienteController extends Controller
             echo "<script>console.error($errorMessage);</script>";
         }
     }
-    public function actualizarPagos()
-    {
-        $now = Carbon::now('America/Santiago');
-        $mesAnteAnterior = $now->copy()->subMonth(2)->startOfMonth()->format('Y-m-d');
-
-        $pagosPendientes = Pago::where('estado', 'pendiente')
-            ->where('mes', $mesAnteAnterior)
-            ->get();
-
-        foreach ($pagosPendientes as $pago) {
-            $pago->estado = 'atrasado';
-            $pago->save();
-        }
-    }
 }

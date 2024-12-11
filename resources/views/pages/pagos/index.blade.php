@@ -135,7 +135,10 @@
             <div class="tab-content task-tabs-container">
                 <div class="tab-pane show active p-0" id="todos" role="tabpanel">
                     <div class="row d-flex align-items-stretch">
-                        @foreach ($pagos as $pago)
+                        @if($pagos->isEmpty())
+                            <p class="text-center">No hay pagos registrados</p>
+                        @else
+                            @foreach ($pagos as $pago)
                                 <div class="col-md-6 d-flex">
                                     <div class="card custom-card flex-fill
                                         @if($pago->estado === 'atrasado') task-pending-card
@@ -166,12 +169,16 @@
                                         </div>
                                     </div>
                                 </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="tab-pane p-0" id="pendientes" role="tabpanel">
                     <div class="row d-flex align-items-stretch">
-                        @foreach ($pendientes as $pago)
+                        @if($pendientes->isEmpty())
+                            <p class="text-center">No hay pagos registrados</p>
+                        @else
+                            @foreach ($pendientes as $pago)
                                 <div class="col-md-6 d-flex">
                                     <div class="card custom-card flex-fill
                                         @if($pago->estado === 'atrasado') task-pending-card
@@ -202,12 +209,16 @@
                                         </div>
                                     </div>
                                 </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="tab-pane p-0" id="atrasados" role="tabpanel">
                     <div class="row d-flex align-items-stretch">
-                        @foreach ($atrasados as $pago)
+                        @if($atrasados->isEmpty())
+                            <p class="text-center">No hay pagos registrados</p>
+                        @else
+                            @foreach ($atrasados as $pago)
                                 <div class="col-md-6 d-flex">
                                     <div class="card custom-card flex-fill
                                         @if($pago->estado === 'atrasado') task-pending-card
@@ -238,12 +249,16 @@
                                         </div>
                                     </div>
                                 </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="tab-pane p-0" id="pagados" role="tabpanel">
                     <div class="row d-flex align-items-stretch">
-                        @foreach ($pagados as $pago)
+                        @if($pagados->isEmpty())
+                            <p class="text-center">No hay pagos registrados</p>
+                        @else
+                            @foreach ($pagados as $pago)
                                 <div class="col-md-6 d-flex">
                                     <div class="card custom-card flex-fill
                                         @if($pago->estado === 'atrasado') task-pending-card
@@ -274,7 +289,8 @@
                                         </div>
                                     </div>
                                 </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>        

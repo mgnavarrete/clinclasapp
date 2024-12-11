@@ -3,10 +3,12 @@
 @section('styles')
 <!-- DATE & TIME PICKER JS -->
 <script src="{{asset('build/assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+<script src="path/to/flatpickr/l10n/es.js"></script>
+<link rel="stylesheet" href="{{asset('build/assets/libs/glightbox/css/glightbox.min.css')}}">       
 @vite('resources/assets/js/date&time_pickers.js')
-
-    <!-- GLIGHTBOX CSS -->
-    <link rel="stylesheet" href="{{asset('build/assets/libs/glightbox/css/glightbox.min.css')}}">
+<!-- INTERNAL PROFILE JS -->
+@vite('resources/assets/js/profile.js')
+    
 @endsection
 
 @section('content')
@@ -482,12 +484,7 @@
 
 @section('scripts')
 
-        <!-- GLIGHTBOX JS -->
-        <script src="{{asset('build/assets/libs/glightbox/js/glightbox.min.js')}}"></script>
-
-        <!-- INTERNAL PROFILE JS -->
-        @vite('resources/assets/js/profile.js')
-
+        
         <script>
             document.addEventListener('DOMContentLoaded', function() {
         flatpickr("#humanfrienndlydate", {

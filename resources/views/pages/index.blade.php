@@ -175,7 +175,6 @@
                 <div class="card custom-card flex-fill timeline-container">
                     <div class="card-header d-flex justify-content-between">
                         <p class="card-title fw-semibold fs-18 mb-0">Próximos Eventos</p>
-                     
                     </div>
                     <div class="card-body p-0" style="height: 600px; overflow-y: auto;">
                         @php
@@ -215,71 +214,68 @@
                                     return \Carbon\Carbon::parse($evento['fecha'])->isTomorrow();
                                 });
                             }
-
-
                         @endphp
 
                         <ul class="timeline list-unstyled mb-5">
-                            @foreach($eventos as $evento)
-                        <li>
-                            <div class="timeline-time text-end">
-                                <span class="date">
-                                    @php
-                                        $fechaEvento = \Carbon\Carbon::parse($evento['fecha']);
-                                    @endphp
-                                    {{ $fechaEvento->isToday() ? 'Hoy' : ucfirst($fechaEvento->translatedFormat('l')) }}
-                                </span>
-                                <span class="time d-inline-block">{{ \Carbon\Carbon::parse($evento['hora_inicio'])->format('H:i') }}</span>
-                            </div>
-                            <div class="timeline-icon">
- 
-                            </div>
-                            <div class="timeline-body {{ $evento === $eventoMasProximo ? 'bg-outline-success' : 'bg-outline-primary' }}">
-                                
-
-                                <a href="javascript:void(0);" data-bs-target="#{{ $evento['modal'] }}{{ $evento['id'] }}" data-bs-toggle="modal">
-
-                                                      
-                                <div class="d-flex align-items-top timeline-main-content flex-wrap mt-0">
-                                    <div class="avatar avatar-md online me-3 avatar-rounded mt-sm-0 mt-4">
-                                        @php
-                                            $numeroAleatorio = $evento['paciente']->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
-                                        @endphp
-                                        <img alt="avatar" src="https://laravelui.spruko.com/ynex/build/assets/images/faces/{{ $numeroAleatorio }}.jpg">
-                                    </div>
-                                    <div class="flex-fill">
-                                        <div class="d-flex align-items-center">
-                                            <div class="mt-sm-0 mt-2">
-                                                <p class="mb-0 fs-14 fw-semibold">{{ $evento['paciente']->nombre }}</p>
-                                                <p class="mb-0 text-muted">{{ $evento['paciente']->curso }}</p>
-                                            </div>
-                                            <div class="ms-auto">
-                                                @php
-                                                    $colorEstado = match(strtolower($evento['estado'])) {
-                                                        'pendiente' => 'bg-warning',
-                                                        'cancelada' => 'bg-danger',
-                                                        'realizada' => 'bg-success',
-                                                        default => 'bg-light text-muted'
-                                                    };
-                                                @endphp
-                                                
-                                                <span class="float-end badge {{ $colorEstado }} timeline-badge mt-0 mt-sm-0">
-                                                    {{ ucfirst($evento['estado']) }}
-                                                </span>
-                                            </div>
+                            @if($eventos->isEmpty())
+                                <li>
+                                    <div class="text-center">
+                                        <div class="alert alert-warning text-center mb-3 ms-3 me-3" role="alert">
+                                            No hay eventos agendados para esta semana
                                         </div>
                                     </div>
-                                
-                                </div>
-                        
-                               
-                                </a>
-                           
-                        </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
+                                </li>
+                            @else
+                                @foreach($eventos as $evento)
+                                    <li>
+                                        <div class="timeline-time text-end">
+                                            <span class="date">
+                                                @php
+                                                    $fechaEvento = \Carbon\Carbon::parse($evento['fecha']);
+                                                @endphp
+                                                {{ $fechaEvento->isToday() ? 'Hoy' : ucfirst($fechaEvento->translatedFormat('l')) }}
+                                            </span>
+                                            <span class="time d-inline-block">{{ \Carbon\Carbon::parse($evento['hora_inicio'])->format('H:i') }}</span>
+                                        </div>
+                                        <div class="timeline-icon"></div>
+                                        <div class="timeline-body {{ $evento === $eventoMasProximo ? 'bg-outline-success' : 'bg-outline-primary' }}">
+                                            <a href="javascript:void(0);" data-bs-target="#{{ $evento['modal'] }}{{ $evento['id'] }}" data-bs-toggle="modal">
+                                                <div class="d-flex align-items-top timeline-main-content flex-wrap mt-0">
+                                                    <div class="avatar avatar-md online me-3 avatar-rounded mt-sm-0 mt-4">
+                                                        @php
+                                                            $numeroAleatorio = $evento['paciente']->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
+                                                        @endphp
+                                                        <img alt="avatar" src="https://laravelui.spruko.com/ynex/build/assets/images/faces/{{ $numeroAleatorio }}.jpg">
+                                                    </div>
+                                                    <div class="flex-fill">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="mt-sm-0 mt-2">
+                                                                <p class="mb-0 fs-14 fw-semibold">{{ $evento['paciente']->nombre }}</p>
+                                                                <p class="mb-0 text-muted">{{ $evento['paciente']->curso }}</p>
+                                                            </div>
+                                                            <div class="ms-auto">
+                                                                @php
+                                                                    $colorEstado = match(strtolower($evento['estado'])) {
+                                                                        'pendiente' => 'bg-warning',
+                                                                        'cancelada' => 'bg-danger',
+                                                                        'realizada' => 'bg-success',
+                                                                        default => 'bg-light text-muted'
+                                                                    };
+                                                                @endphp
+                                                                <span class="float-end badge {{ $colorEstado }} timeline-badge mt-0 mt-sm-0">
+                                                                    {{ ucfirst($evento['estado']) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -300,7 +296,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($pagosPendientes as $pago)
+                                    @forelse($pagosPendientes as $pago)
                                     @php
                                         $apoderadosPaciente = $apoderados->where('id_paciente', $pago->id_paciente);
                                     @endphp
@@ -309,9 +305,14 @@
                                         <td>{{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }}</td>
                                         <td>{{ ucfirst($pago->estado) }}</td>
                                         <td>${{ number_format($pago->valor_total, 0, ',', '.') }}</td>
-                                        
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                    <tr>
+                                        <td colspan="4" class="alert alert-warning text-center mb-3 ms-1 me-1" role="alert">
+                                            No tienes alumnos con pagos pendientes
+                                        </td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

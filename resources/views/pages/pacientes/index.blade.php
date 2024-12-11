@@ -56,71 +56,79 @@
                             </div>
                         </div>
                     </div>
-                    @foreach ($pacientes as $paciente)
-                    @php
-                    $apoderadosPaciente = $paciente->tutores;
-                    $edadPaciente = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age;
-                    $coverImageNumber = rand(1, 6);
-                    $avatarImageNumber = $paciente->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
-                    $sesion = $sesiones->where('id_paciente', $paciente->id_paciente)->first();
-                    @endphp
-                    <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card team-member-card" style="height: 280px;">
-                            <div class="teammember-cover-image">
-                                <img src="https://laravelui.spruko.com/ynex/build/assets/images/media/team-covers/{{ $coverImageNumber }}.jpg" class="card-img-top" alt="...">
-                                <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://laravelui.spruko.com/ynex/build/assets/images/faces/{{ $avatarImageNumber }}.jpg" alt="">
-                                </span>
+                    @if($pacientes->isEmpty())
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center mb-3" role="alert">
+                                No tienes Alumnos Inscritos
                             </div>
-                            <div class="card-body p-0">
-                                <div class="d-flex flex-wrap align-item-center mt-0 justify-content-between border-bottom p-3">
-    
-                                    <div style="margin-left: 4.5rem;">
-                                        <p class="mb-1 fw-semibold fs-17">
-                                            <a href="{{ route('pacientes.show', $paciente->id_paciente) }}">{{ $paciente->nombre }}</a>
-                                        </p>
-                                        <p class="mb-0 fs-12 text-muted text-break">
-                                            {{ $edadPaciente }} años
-                                        </p>
-                                        <p class="mb-0 fs-12 text-muted text-break">
-                                            {{$paciente->curso}}, {{$paciente->colegio}}
-                                        </p>
-                                    </div>
-                                    {{-- <div class="dropdown">
-                                        <button class="btn btn-sm btn-icon btn-light btn-wave waves-effect waves-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Ver</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Editar</a></li>
-    
-                                        </ul>
-                                    </div> --}}
+                        </div>
+                    @else
+                        @foreach ($pacientes as $paciente)
+                        @php
+                        $apoderadosPaciente = $paciente->tutores;
+                        $edadPaciente = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age;
+                        $coverImageNumber = rand(1, 6);
+                        $avatarImageNumber = $paciente->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
+                        $sesion = $sesiones->where('id_paciente', $paciente->id_paciente)->first();
+                        @endphp
+                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="card custom-card team-member-card" style="height: 280px;">
+                                <div class="teammember-cover-image">
+                                    <img src="https://laravelui.spruko.com/ynex/build/assets/images/media/team-covers/{{ $coverImageNumber }}.jpg" class="card-img-top" alt="...">
+                                    <span class="avatar avatar-xl avatar-rounded">
+                                        <img src="https://laravelui.spruko.com/ynex/build/assets/images/faces/{{ $avatarImageNumber }}.jpg" alt="">
+                                    </span>
                                 </div>
-                                <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                        <p class="fw-semibold mb-0">Día</p>
-                                        <span class="text-muted fs-12">
-                                            {{ $sesion ? ($sesion->dia_semana ? ucfirst($sesion->dia_semana) : 'N/A') : 'N/A' }}
-                                        </span>
+                                <div class="card-body p-0">
+                                    <div class="d-flex flex-wrap align-item-center mt-0 justify-content-between border-bottom p-3">
+        
+                                        <div style="margin-left: 4.5rem;">
+                                            <p class="mb-1 fw-semibold fs-17">
+                                                <a href="{{ route('pacientes.show', $paciente->id_paciente) }}">{{ $paciente->nombre }}</a>
+                                            </p>
+                                            <p class="mb-0 fs-12 text-muted text-break">
+                                                {{ $edadPaciente }} años
+                                            </p>
+                                            <p class="mb-0 fs-12 text-muted text-break">
+                                                {{$paciente->curso}}, {{$paciente->colegio}}
+                                            </p>
+                                        </div>
+                                        {{-- <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light btn-wave waves-effect waves-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="javascript:void(0);">Ver</a></li>
+                                                <li><a class="dropdown-item" href="javascript:void(0);">Editar</a></li>
+            
+                                            </ul>
+                                        </div> --}}
                                     </div>
-                                    <div class="text-center p-3 my-auto">
-                                        <p class="fw-semibold mb-0">Hora</p>
-                                        <span class="text-muted fs-12">
-                                            {{ $sesion ? ($sesion->hora_inicio ? \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') : 'N/A') : 'N/A' }}
-                                        </span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                        <p class="fw-semibold mb-0">Valor</p>
-                                        <span class="text-muted fs-12">
-                                            {{ $sesion ? '$' . number_format($sesion->valor, 0, ',', '.') : 'N/A' }}
-                                        </span>
+                                    <div class="team-member-stats d-sm-flex justify-content-evenly">
+                                        <div class="text-center p-3 my-auto">
+                                            <p class="fw-semibold mb-0">Día</p>
+                                            <span class="text-muted fs-12">
+                                                {{ $sesion ? ($sesion->dia_semana ? ucfirst($sesion->dia_semana) : 'N/A') : 'N/A' }}
+                                            </span>
+                                        </div>
+                                        <div class="text-center p-3 my-auto">
+                                            <p class="fw-semibold mb-0">Hora</p>
+                                            <span class="text-muted fs-12">
+                                                {{ $sesion ? ($sesion->hora_inicio ? \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') : 'N/A') : 'N/A' }}
+                                            </span>
+                                        </div>
+                                        <div class="text-center p-3 my-auto">
+                                            <p class="fw-semibold mb-0">Valor</p>
+                                            <span class="text-muted fs-12">
+                                                {{ $sesion ? '$' . number_format($sesion->valor, 0, ',', '.') : 'N/A' }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                     <div class="d-flex justify-content-end">
                         <nav aria-label="Page navigation">
                             <ul class="pagination mb-3">
