@@ -30,10 +30,16 @@
         <div class="card custom-card">
             <div class="card-body p-0">
                 <div class="p-3 d-grid border-bottom border-block-end-dashed">
-                    <button class="btn btn-primary d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#addtask">
-                        <i class="ri-add-circle-line fs-16 align-middle me-1"></i>Agregar Pagos
-                    </button>
-                    <!-- Aquí iría el modal de agregar pagos si lo tienes -->
+                    <div class="dropdown p-3 d-grid border-bottom border-block-end-dashed">
+                        <button class="btn btn-primary d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ri-add-circle-line fs-16 align-middle me-1"></i> Pagos
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#genPagos">Generar Pagos</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#notificacionesModal">Notificar Pagos</a></li>
+
+                        </ul>
+                    </div>
                 </div>
                 <form method="GET" action="{{ route('pagos.index') }}">
                     <div class="p-3 border-bottom border-block-end-dashed">
@@ -46,15 +52,18 @@
                     </div>
                     
                     @php
-                        $current = \Carbon\Carbon::now();
-                        // Mes actual, mes anterior, ante-anterior, etc.
-                        // Generamos una lista de meses dinámicamente
+                        // Generamos una lista de meses de marzo a diciembre
                         $mesesAMostrar = [];
-                        for ($i = 0; $i < 4; $i++) {
-                            $mesesAMostrar[] = $current->copy()->subMonths($i)->startOfMonth();
+                        $inicio = \Carbon\Carbon::create(null, 3, 1); // Marzo
+                        $fin = \Carbon\Carbon::create(null, 12, 1); // Diciembre
+                        while ($inicio->lessThanOrEqualTo($fin)) {
+                            $mesesAMostrar[] = $inicio->copy();
+                            $inicio->addMonth();
                         }
                     @endphp
-
+                    <div class="p-3 d-grid border-bottom border-block-end-dashed">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
                     <div class="p-3 task-navigation border-bottom border-block-end-dashed">
                         <ul class="list-unstyled task-main-nav mb-0">
                             <li class="px-0 pt-2">
@@ -81,9 +90,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="p-3 item-center">
-                        <button type="submit" class="btn btn-primary">Filtrar</button>
-                    </div>
+                    
                 </form>
 
                 <div class="p-3 text-center">
@@ -279,7 +286,7 @@
 
 @endsection
 @include('pages.modals.editPago')
-
+@include('pages.modals.genPago')
 @section('scripts')
     <!-- FLAT PICKER JS -->
     <script src="{{asset('build/assets/libs/flatpickr/flatpickr.min.js')}}"></script>

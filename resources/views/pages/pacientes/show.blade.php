@@ -244,7 +244,7 @@
                                             <button class="nav-link" id="reuniones-tab" data-bs-toggle="tab"
                                                 data-bs-target="#reuniones-tab-pane" type="button" role="tab"
                                                 aria-controls="reuniones-tab-pane" aria-selected="false"><i
-                                                    class="ri-briefcase-4-line me-1 align-middle d-inline-block"></i>Reuniones de {{ ucfirst(\Carbon\Carbon::now()->translatedFormat('F')) }}</button>
+                                                    class="ri-briefcase-4-line me-1 align-middle d-inline-block"></i>Reuniones</button>
                                         </li>
 
 
@@ -300,7 +300,7 @@
                                                         <div class="d-flex justify-content-between flex-wrap gap-2">
                                                             <div>
                                                                 <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                                    <a><i class="ri-bill-line fs-16 op-5 me-1 text-muted"></i></a>
                                                                     {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
                                                                 </p>
 
@@ -344,7 +344,7 @@
                                                         <div class="d-flex justify-content-between flex-wrap gap-2">
                                                             <div>
                                                                 <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                                    <a><i class="ri-briefcase-4-fill fs-16 op-5 me-1 text-muted"></i></a>
                                                                     {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($reunion->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($reunion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($reunion->hora_final)->format('H:i') }}
                                                                 </p>
 
@@ -386,7 +386,7 @@
                                                                 <div class="d-flex justify-content-between flex-wrap gap-2">
                                                                     <div>
                                                                         <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                            <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                                            <a><i class="ri-money-dollar-box-fill fs-16 op-5 me-1 text-muted"></i></a>
                                                                             {{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }} - {{ $pago->paciente->nombre }}
                                                                         </p>
                                                                         <p class="mb-2">Valor Total :
@@ -427,7 +427,7 @@
                                                         <div class="d-flex justify-content-between flex-wrap gap-2">
                                                             <div>
                                                                 <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                                    <a><i class="ri-attachment-line fs-16 op-5 me-1 text-muted"></i></a>
                                                                     {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
                                                                 </p>
 

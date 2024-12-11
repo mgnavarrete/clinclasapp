@@ -171,7 +171,6 @@ class PacienteController extends Controller
         $PacienteEspecialista = PacienteEspecialista::where('id_paciente', $id)->get();
         $especialistasPaciente = Especialista::whereIn('id_especialista', $PacienteEspecialista->pluck('id_especialista'))->get();
 
-        $this->actualizarPagos();
         $pagosPaciente = Pago::where('id_paciente', $id)
             ->orderBy('mes', 'desc')
             ->orderByRaw("FIELD(estado, 'atrasado', 'pendiente', 'pagado')")

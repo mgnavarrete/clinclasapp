@@ -100,15 +100,21 @@
                                 <div class="team-member-stats d-sm-flex justify-content-evenly">
                                     <div class="text-center p-3 my-auto">
                                         <p class="fw-semibold mb-0">Día</p>
-                                        <span class="text-muted fs-12">{{ucfirst($sesion->dia_semana)}}</span>
+                                        <span class="text-muted fs-12">
+                                            {{ $sesion ? ($sesion->dia_semana ? ucfirst($sesion->dia_semana) : 'N/A') : 'N/A' }}
+                                        </span>
                                     </div>
                                     <div class="text-center p-3 my-auto">
                                         <p class="fw-semibold mb-0">Hora</p>
-                                        <span class="text-muted fs-12">{{ \Carbon\Carbon::parse($sesion->hora)->format('H:i') }}</span>
+                                        <span class="text-muted fs-12">
+                                            {{ $sesion ? ($sesion->hora_inicio ? \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') : 'N/A') : 'N/A' }}
+                                        </span>
                                     </div>
                                     <div class="text-center p-3 my-auto">
                                         <p class="fw-semibold mb-0">Valor</p>
-                                        <span class="text-muted fs-12">${{ number_format($sesion->valor, 0, ',', '.') }}</span>
+                                        <span class="text-muted fs-12">
+                                            {{ $sesion ? '$' . number_format($sesion->valor, 0, ',', '.') : 'N/A' }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

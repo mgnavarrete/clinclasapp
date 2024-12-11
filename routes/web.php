@@ -65,4 +65,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
     Route::post('/pago/{id}/update', [PagoController::class, 'update'])->name('pago.update');
     Route::post('/pago/{id}/updatePac', [PagoController::class, 'updatePac'])->name('pago.updatePac');
+    Route::post('/pago/create', [PagoController::class, 'create'])->name('pago.create');
 });

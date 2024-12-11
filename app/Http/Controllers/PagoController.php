@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pago;
 use Carbon\Carbon;
+use App\Models\Paciente;
+use App\Models\EstadoSesion;
+use Mockery\Generator\StringManipulation\Pass\Pass;
+use App\Models\Sesion;
+use App\Models\Reunion;
 
 class PagoController extends Controller
 {
     public function index(Request $request)
     {
+        $this->actualizarPagos();
+
         $search = $request->input('search');
         $monthFilter = $request->input('month_filter', 'todos');
 
-        // Actualizamos los pagos antes de cargar
-        $this->actualizarPagos();
+
 
         $pagos = Pago::with('paciente')
             ->orderBy('mes', 'desc')
@@ -47,12 +53,13 @@ class PagoController extends Controller
         $mesAnteAnterior = $now->copy()->subMonth(2)->startOfMonth()->format('Y-m-d');
 
         $pagosPendientes = Pago::where('estado', 'pendiente')
-            ->where('mes', $mesAnteAnterior)
+            ->where('mes', '<=', $mesAnteAnterior)
             ->get();
 
         foreach ($pagosPendientes as $pago) {
-            $pago->estado = 'atrasado';
-            $pago->save();
+            $pago->update([
+                'estado' => 'atrasado',
+            ]);
         }
     }
 
@@ -81,6 +88,83 @@ class PagoController extends Controller
             'estado' => $validatedData['estado'],
             'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
         ]);
+
+        return redirect()->route('pagos.index')->with('success');
+    }
+
+    public function create(Request $request)
+    {
+        $validatedData = $request->validate([
+            'mes' => 'required|string',
+            'year' => 'required|string',
+        ]);
+
+        // MES TIENE EL NUMERO DEL MES EN STRING CONVERTIRLO EN YEAR-MES-PRIMERO DEL MES DONDE AÑO SEA {YEAR}
+        $mes = Carbon::create($validatedData['year'], $validatedData['mes'], 1)->format('Y-m-d');
+
+        $pacientes = Paciente::all();
+
+        foreach ($pacientes as $paciente) {
+            $sesion = Sesion::where('id_paciente', $paciente->id_paciente)->first();
+            if ($sesion !== null) {
+                // obtener las estadoSesiones del mes de $mes y-m-d
+                $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)
+                    ->whereIn('estado', ['no avisó', 'realizada'])
+                    ->get();
+                $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
+                    ->where('estado', 'realizada')
+                    ->get();
+
+                $mesComparar = Carbon::parse($mes)->format('Y-m');
+                $valorSesiones = 0;
+                $datainfo = "no entro";
+                foreach ($estadoSesiones as $estadoSesion) {
+                    $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
+
+
+                    if ($mesEstado === $mesComparar) {
+                        $datainfo = $sesion->valor;
+                        $valorSesiones += $sesion->valor;
+                    }
+                }
+                $valorReuniones = 0;
+                foreach ($reuniones as $reunion) {
+                    $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
+
+                    if ($mesReunion === $mesComparar) {
+
+                        $valorReuniones += $reunion->valor;
+                    }
+                }
+
+
+
+                $valorTotal = $valorSesiones + $valorReuniones;
+
+                // buscar pago del paciente de ese mes
+                $pago = Pago::where('id_paciente', $paciente->id_paciente)
+                    ->where('mes', $mes)
+                    ->first();
+
+                if ($pago === null && $valorTotal > 0) {
+
+                    Pago::create([
+                        'id_paciente' => $paciente->id_paciente,
+                        'mes' => $mes,
+                        'valor_total' => $valorTotal,
+                        'estado' => 'pendiente',
+                        'fecha_pagado' => null,
+                    ]);
+                } elseif ($pago === null && $valorTotal === 0) {
+                } elseif ($pago->estado === 'pagado') {
+                } elseif ($valorTotal > 0) {
+
+                    $pago->update([
+                        'valor_total' => $valorTotal,
+                    ]);
+                }
+            }
+        }
 
         return redirect()->route('pagos.index')->with('success');
     }
