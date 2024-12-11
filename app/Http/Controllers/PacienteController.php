@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Models\Pago;
 use App\Models\PacienteEspecialista;
 use App\Models\Reunion;
+use Illuminate\Support\Facades\Auth;
 
 class PacienteController extends Controller
 {
@@ -20,7 +21,7 @@ class PacienteController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Paciente::query();
+        $query = Paciente::where('id_user', Auth::user()->id);
 
         if ($request->has('search')) {
             $query->where('nombre', 'like', '%' . $request->input('search') . '%');
@@ -68,6 +69,7 @@ class PacienteController extends Controller
         try {
             // Crear el Paciente
             $paciente = Paciente::create([
+                'id_user' => Auth::user()->id,
                 'nombre' => $validatedData['nombre'],
                 'fecha_nacimiento' => $validatedData['fecha_nacimiento'],
                 'curso' => $validatedData['curso'],
@@ -160,7 +162,7 @@ class PacienteController extends Controller
 
     public function show($id)
     {
-        $paciente = Paciente::findOrFail($id);
+        $paciente = Paciente::where('id_user', Auth::user()->id)->findOrFail($id);
         $sesiones = Sesion::all();
         $sesion = $sesiones->where('id_paciente', $id)->first();
 

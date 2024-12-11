@@ -13,6 +13,7 @@
 @endphp
 <script>
     // Convertir la variable PHP a JSON para evitar problemas de sintaxis
+    console.log('id del usuario', @auth{{Auth::user()->id}}@endauth);
     const estadoSesionesRealizadas = @json($estadoSesionesRealizadasMesActual);
     console.log('Estado Sesiones Realizadas', estadoSesionesRealizadas);
 </script>

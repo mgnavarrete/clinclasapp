@@ -13,6 +13,7 @@ class Paciente extends Model
     protected $primaryKey = 'id_paciente'; // Clave primaria
 
     protected $fillable = [
+        'id_user',
         'nombre',
         'fecha_nacimiento',
         'curso',

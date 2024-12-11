@@ -64,7 +64,7 @@ CREATE TABLE `EstadosSesiones` (
   PRIMARY KEY (`id_estado`),
   KEY `id_sesion` (`id_sesion`),
   CONSTRAINT `EstadosSesiones_ibfk_1` FOREIGN KEY (`id_sesion`) REFERENCES `Sesiones` (`id_sesion`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +73,7 @@ CREATE TABLE `EstadosSesiones` (
 
 LOCK TABLES `EstadosSesiones` WRITE;
 /*!40000 ALTER TABLE `EstadosSesiones` DISABLE KEYS */;
+INSERT INTO `EstadosSesiones` VALUES (1,1,'2024-03-04','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(2,1,'2024-03-11','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(3,1,'2024-03-18','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(4,1,'2024-03-25','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(5,1,'2024-04-01','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(6,1,'2024-04-08','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(7,1,'2024-04-15','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(8,1,'2024-04-22','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(9,1,'2024-04-29','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(10,1,'2024-05-06','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(11,1,'2024-05-13','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(12,1,'2024-05-20','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(13,1,'2024-05-27','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(14,1,'2024-06-03','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(15,1,'2024-06-10','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(16,1,'2024-06-17','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(17,1,'2024-06-24','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(18,1,'2024-07-01','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(19,1,'2024-07-08','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(20,1,'2024-07-15','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(21,1,'2024-07-22','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(22,1,'2024-07-29','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(23,1,'2024-08-05','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(24,1,'2024-08-12','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:51','2024-12-11 21:21:51'),(25,1,'2024-08-19','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(26,1,'2024-08-26','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(27,1,'2024-09-02','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(28,1,'2024-09-09','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(29,1,'2024-09-16','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(30,1,'2024-09-23','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(31,1,'2024-09-30','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(32,1,'2024-10-07','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(33,1,'2024-10-14','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(34,1,'2024-10-21','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(35,1,'2024-10-28','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(36,1,'2024-11-04','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(37,1,'2024-11-11','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(38,1,'2024-11-18','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(39,1,'2024-11-25','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(40,1,'2024-12-02','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(41,1,'2024-12-09','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(42,1,'2024-12-16','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(43,1,'2024-12-23','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52'),(44,1,'2024-12-30','pendiente','09:30:00','10:15:00','','2024-12-11 21:21:52','2024-12-11 21:21:52');
 /*!40000 ALTER TABLE `EstadosSesiones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,9 +126,12 @@ CREATE TABLE `Pacientes` (
   `info_adicional` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `id_user` int NOT NULL,
   PRIMARY KEY (`id_paciente`),
-  UNIQUE KEY `rut` (`rut`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `rut` (`rut`),
+  KEY `fk_pacientes_users` (`id_user`),
+  CONSTRAINT `fk_pacientes_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,6 +140,7 @@ CREATE TABLE `Pacientes` (
 
 LOCK TABLES `Pacientes` WRITE;
 /*!40000 ALTER TABLE `Pacientes` DISABLE KEYS */;
+INSERT INTO `Pacientes` VALUES (1,'Matías Navarrete','1998-12-02','2° Medio','Colegio Santa Cruz','19.890.114-8','Hombre','Av. Chicureo 2100','yyy','2024-12-11 21:21:51','2024-12-11 21:21:51',4);
 /*!40000 ALTER TABLE `Pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +228,7 @@ CREATE TABLE `Sesiones` (
   PRIMARY KEY (`id_sesion`),
   KEY `id_paciente` (`id_paciente`),
   CONSTRAINT `Sesiones_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `Pacientes` (`id_paciente`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,6 +237,7 @@ CREATE TABLE `Sesiones` (
 
 LOCK TABLES `Sesiones` WRITE;
 /*!40000 ALTER TABLE `Sesiones` DISABLE KEYS */;
+INSERT INTO `Sesiones` VALUES (1,1,'lunes','09:30:00','10:15:00',2024,35000.00,'2024-12-11 21:21:51','2024-12-11 21:21:51','individual');
 /*!40000 ALTER TABLE `Sesiones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,7 +259,7 @@ CREATE TABLE `Tutores` (
   PRIMARY KEY (`id_tutor`),
   KEY `id_paciente` (`id_paciente`),
   CONSTRAINT `Tutores_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `Pacientes` (`id_paciente`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,7 +268,36 @@ CREATE TABLE `Tutores` (
 
 LOCK TABLES `Tutores` WRITE;
 /*!40000 ALTER TABLE `Tutores` DISABLE KEYS */;
+INSERT INTO `Tutores` VALUES (1,1,'Norma Tapia','+56995992829','navarretemati@gmail.com','2024-12-11 21:21:51','2024-12-11 21:21:51');
 /*!40000 ALTER TABLE `Tutores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `User_Paciente`
+--
+
+DROP TABLE IF EXISTS `User_Paciente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `User_Paciente` (
+  `id_userpaciente` int NOT NULL AUTO_INCREMENT,
+  `id_user` int NOT NULL,
+  `id_paciente` int NOT NULL,
+  PRIMARY KEY (`id_userpaciente`),
+  KEY `fk_user_userpaciente` (`id_user`),
+  KEY `fk_paciente_userpaciente` (`id_paciente`),
+  CONSTRAINT `fk_paciente_userpaciente` FOREIGN KEY (`id_paciente`) REFERENCES `Pacientes` (`id_paciente`),
+  CONSTRAINT `fk_user_userpaciente` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `User_Paciente`
+--
+
+LOCK TABLES `User_Paciente` WRITE;
+/*!40000 ALTER TABLE `User_Paciente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `User_Paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -392,4 +427,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-11 17:42:30
+-- Dump completed on 2024-12-11 18:26:58
