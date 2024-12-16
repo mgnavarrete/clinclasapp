@@ -57,9 +57,7 @@ class ReunionController extends Controller
             return redirect()->route('pacientes.show', $id)->with('success', 'Reunión creada exitosamente.');
         } catch (\Exception $e) {
             logger()->error('Error al crear la reunión: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al crear la reunión: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
-            // return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear el paciente. <br>' . $e->getMessage()]);
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear la reunión. ' . $e->getMessage()]);
         }
     }
 
@@ -69,15 +67,18 @@ class ReunionController extends Controller
             'estado' => 'required|string',
         ]);
 
-        $reunion = Reunion::findOrFail($id);
-        $reunion->update([
-            'estado' => $validatedData['estado'],
+        try {
+            $reunion = Reunion::findOrFail($id);
+            $reunion->update([
+                'estado' => $validatedData['estado'],
+            ]);
 
-        ]);
-
-
-        // Redirigir a la página anterior con un mensaje de éxito
-        return redirect()->route('pacientes.show', $reunion->id_paciente)->with('success');
+            // Redirigir a la página anterior con un mensaje de éxito
+            return redirect()->route('pacientes.show', $reunion->id_paciente)->with('success', 'Reunión actualizada exitosamente.');
+        } catch (\Exception $e) {
+            logger()->error('Error al actualizar la reunión: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la reunión. ' . $e->getMessage()]);
+        }
     }
 
     public function updateCal(Request $request, $id)
@@ -86,15 +87,18 @@ class ReunionController extends Controller
             'estado' => 'required|string',
         ]);
 
-        $reunion = Reunion::findOrFail($id);
-        $reunion->update([
-            'estado' => $validatedData['estado'],
+        try {
+            $reunion = Reunion::findOrFail($id);
+            $reunion->update([
+                'estado' => $validatedData['estado'],
+            ]);
 
-        ]);
-
-
-        // Redirigir a la página anterior con un mensaje de éxito
-        return redirect()->route('calendario.index')->with('success');
+            // Redirigir a la página anterior con un mensaje de éxito
+            return redirect()->route('calendario.index')->with('success', 'Reunión actualizada exitosamente.');
+        } catch (\Exception $e) {
+            logger()->error('Error al actualizar la reunión: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la reunión. ' . $e->getMessage()]);
+        }
     }
 
     public function updateIdx(Request $request, $id)
@@ -103,14 +107,17 @@ class ReunionController extends Controller
             'estado' => 'required|string',
         ]);
 
-        $reunion = Reunion::findOrFail($id);
-        $reunion->update([
-            'estado' => $validatedData['estado'],
+        try {
+            $reunion = Reunion::findOrFail($id);
+            $reunion->update([
+                'estado' => $validatedData['estado'],
+            ]);
 
-        ]);
-
-
-        // Redirigir a la página anterior con un mensaje de éxito
-        return redirect()->route('index')->with('success');
+            // Redirigir a la página anterior con un mensaje de éxito
+            return redirect()->route('index')->with('success', 'Reunión actualizada exitosamente.');
+        } catch (\Exception $e) {
+            logger()->error('Error al actualizar la reunión: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la reunión. ' . $e->getMessage()]);
+        }
     }
 }

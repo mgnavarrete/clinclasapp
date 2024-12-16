@@ -42,10 +42,8 @@ class TutorController extends Controller
             // Redirigir a la vista de pacientes con un mensaje de éxito
             return redirect()->route('pacientes.show', $id)->with('success', 'Tutor creado correctamente.');
         } catch (\Exception $e) {
-            logger()->error('Error al crear el paciente: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al crear el paciente: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
-            // return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear el paciente. <br>' . $e->getMessage()]);
+            logger()->error('Error al crear el tutor: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear el tutor. Favor intenta de nuevo.']);
         }
     }
 

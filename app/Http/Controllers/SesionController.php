@@ -81,8 +81,7 @@ class SesionController extends Controller
             return redirect()->route('pacientes.show', $sesion->id_paciente)->with('success', 'Sesión actualizada correctamente.');
         } catch (\Exception $e) {
             logger()->error('Error al actualizar la sesión: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al actualizar la sesión: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la sesión. Favor intenta de nuevo.']);
         }
     }
 }

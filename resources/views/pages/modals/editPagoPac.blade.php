@@ -10,10 +10,13 @@
             <div class="modal-body">
                 <form action="{{ route('pago.updatePac', $pago->id_pago) }}" method="POST" id="formEditPago{{ $pago->id_pago }}">
                     @csrf
-                    <p class="fw-semibold mb-3 d-flex align-items-center">
-                        <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="fw-semibold mb-3 d-flex align-items-center">
+                            <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
                      Mes de {{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }} - {{ $pago->paciente->nombre }}
                     </p>
+                    <a href="{{ route('pagos.show', $pago->id_pago) }}" class="fs-12 mb-0 text-secondary">Ver Detalles<i class="ti ti-chevron-right ms-1"></i></a>
+                    </div>
                     <div class="mb-3">
                         <label for="estado{{ $pago->id_pago }}" class="form-label">Estado Pago:</label>
                         <select class="form-select" id="estado{{ $pago->id_pago }}" name="estado">
