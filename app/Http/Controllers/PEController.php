@@ -40,11 +40,10 @@ class PEController extends Controller
             ]);
 
 
-            return redirect()->route('pacientes.show', $id)->with('success');
+            return redirect()->route('pacientes.show', $id)->with('success', 'Paciente actualizado correctamente.');
         } catch (\Exception $e) {
             logger()->error('Error al actualizar la sesión: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al actualizar la sesión: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la sesión. ' . $e->getMessage()]);
         }
     }
 }

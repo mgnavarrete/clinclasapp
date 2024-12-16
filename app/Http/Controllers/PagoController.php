@@ -10,6 +10,8 @@ use App\Models\EstadoSesion;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use App\Models\Sesion;
 use App\Models\Reunion;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Tutor;
 
 class PagoController extends Controller
 {
@@ -20,9 +22,13 @@ class PagoController extends Controller
         $search = $request->input('search');
         $monthFilter = $request->input('month_filter', 'todos');
 
-
+        // Obtener el usuario autenticado
+        $userId = Auth::id();
 
         $pagos = Pago::with('paciente')
+            ->whereHas('paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
             ->orderBy('mes', 'desc')
             ->orderByRaw("FIELD(estado, 'atrasado', 'pendiente', 'pagado')")
             ->get();
@@ -36,7 +42,6 @@ class PagoController extends Controller
 
         // Filtrado por mes (si no es "todos")
         if ($monthFilter !== 'todos') {
-            // $monthFilter viene en formato Y-m-d, el primer día del mes
             $pagos = $pagos->where('mes', $monthFilter);
         }
 
@@ -65,107 +70,166 @@ class PagoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'estado' => 'required|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'estado' => 'required|string',
+            ]);
 
-        $pago = Pago::findOrFail($id);
-        $pago->update([
-            'estado' => $validatedData['estado'],
-            'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
-        ]);
+            $pago = Pago::findOrFail($id);
+            $pago->update([
+                'estado' => $validatedData['estado'],
+                'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
+            ]);
 
-        return redirect()->route('pagos.index')->with('success');
+            return redirect()->route('pagos.index')->with('success', 'Pago actualizado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('pagos.index')->with('error', 'Error al actualizar el pago.');
+        }
     }
+
     public function updatePac(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'estado' => 'required|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'estado' => 'required|string',
+            ]);
 
-        $pago = Pago::findOrFail($id);
-        $pago->update([
-            'estado' => $validatedData['estado'],
-            'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
-        ]);
+            $pago = Pago::findOrFail($id);
+            $pago->update([
+                'estado' => $validatedData['estado'],
+                'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
+            ]);
 
-        return redirect()->route('pagos.index')->with('success');
+            return redirect()->route('pagos.index')->with('success', 'Pago actualizado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('pagos.index')->with('error', 'Error al actualizar el pago.');
+        }
     }
 
     public function create(Request $request)
     {
-        $validatedData = $request->validate([
-            'mes' => 'required|string',
-            'year' => 'required|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'mes' => 'required|string',
+                'year' => 'required|string',
+            ]);
 
-        // MES TIENE EL NUMERO DEL MES EN STRING CONVERTIRLO EN YEAR-MES-PRIMERO DEL MES DONDE AÑO SEA {YEAR}
-        $mes = Carbon::create($validatedData['year'], $validatedData['mes'], 1)->format('Y-m-d');
+            // MES TIENE EL NUMERO DEL MES EN STRING CONVERTIRLO EN YEAR-MES-PRIMERO DEL MES DONDE AÑO SEA {YEAR}
+            $mes = Carbon::create($validatedData['year'], $validatedData['mes'], 1)->format('Y-m-d');
 
-        $pacientes = Paciente::all();
+            $pacientes = Paciente::where('id_user', Auth::user()->id)->get();
 
-        foreach ($pacientes as $paciente) {
-            $sesion = Sesion::where('id_paciente', $paciente->id_paciente)->first();
-            if ($sesion !== null) {
-                // obtener las estadoSesiones del mes de $mes y-m-d
-                $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)
-                    ->whereIn('estado', ['no avisó', 'realizada'])
-                    ->get();
-                $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
-                    ->where('estado', 'realizada')
-                    ->get();
+            foreach ($pacientes as $paciente) {
+                $sesion = Sesion::where('id_paciente', $paciente->id_paciente)->first();
+                if ($sesion !== null) {
+                    // obtener las estadoSesiones del mes de $mes y-m-d
+                    $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)
+                        ->whereIn('estado', ['no avisó', 'realizada'])
+                        ->get();
+                    $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
+                        ->where('estado', 'realizada')
+                        ->get();
 
-                $mesComparar = Carbon::parse($mes)->format('Y-m');
-                $valorSesiones = 0;
-                $datainfo = "no entro";
-                foreach ($estadoSesiones as $estadoSesion) {
-                    $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
+                    $mesComparar = Carbon::parse($mes)->format('Y-m');
+                    $valorSesiones = 0;
+                    $datainfo = "no entro";
+                    foreach ($estadoSesiones as $estadoSesion) {
+                        $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
 
-
-                    if ($mesEstado === $mesComparar) {
-                        $datainfo = $sesion->valor;
-                        $valorSesiones += $sesion->valor;
+                        if ($mesEstado === $mesComparar) {
+                            $datainfo = $sesion->valor;
+                            $valorSesiones += $sesion->valor;
+                        }
                     }
-                }
-                $valorReuniones = 0;
-                foreach ($reuniones as $reunion) {
-                    $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
+                    $valorReuniones = 0;
+                    foreach ($reuniones as $reunion) {
+                        $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
 
-                    if ($mesReunion === $mesComparar) {
-
-                        $valorReuniones += $reunion->valor;
+                        if ($mesReunion === $mesComparar) {
+                            $valorReuniones += $reunion->valor;
+                        }
                     }
-                }
 
+                    $valorTotal = $valorSesiones + $valorReuniones;
 
+                    // buscar pago del paciente de ese mes
+                    $pago = Pago::where('id_paciente', $paciente->id_paciente)
+                        ->where('mes', $mes)
+                        ->first();
 
-                $valorTotal = $valorSesiones + $valorReuniones;
-
-                // buscar pago del paciente de ese mes
-                $pago = Pago::where('id_paciente', $paciente->id_paciente)
-                    ->where('mes', $mes)
-                    ->first();
-
-                if ($pago === null && $valorTotal > 0) {
-
-                    Pago::create([
-                        'id_paciente' => $paciente->id_paciente,
-                        'mes' => $mes,
-                        'valor_total' => $valorTotal,
-                        'estado' => 'pendiente',
-                        'fecha_pagado' => null,
-                    ]);
-                } elseif ($pago === null && $valorTotal === 0) {
-                } elseif ($pago->estado === 'pagado') {
-                } elseif ($valorTotal > 0) {
-
-                    $pago->update([
-                        'valor_total' => $valorTotal,
-                    ]);
+                    if ($pago === null && $valorTotal > 0) {
+                        Pago::create([
+                            'id_paciente' => $paciente->id_paciente,
+                            'mes' => $mes,
+                            'valor_total' => $valorTotal,
+                            'estado' => 'pendiente',
+                            'fecha_pagado' => null,
+                        ]);
+                    } elseif ($pago === null && $valorTotal === 0) {
+                    } elseif ($pago->estado === 'pagado') {
+                    } elseif ($valorTotal > 0) {
+                        $pago->update([
+                            'valor_total' => $valorTotal,
+                        ]);
+                    }
                 }
             }
+
+            return redirect()->route('pagos.index')->with('success', 'Pagos creados correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('pagos.index')->with('error', 'Error al crear los pagos.');
+        }
+    }
+
+    public function show($id)
+    {
+        $pago = Pago::findOrFail($id);
+
+        $sesion = Sesion::where('id_paciente', $pago->id_paciente)->first();
+        $estadoSesionesAll = EstadoSesion::with('sesion')->where('id_sesion', $sesion->id_sesion)->get();
+
+        $reunionesAll = Reunion::where('id_paciente', $pago->id_paciente)->get();
+        // Filtrar sesiones y reuniones del mes del pago
+        $mes = Carbon::parse($pago->mes)->format('Y-m');
+
+        $estadoSesiones = $estadoSesionesAll->filter(function ($estadoSesion) use ($mes) {
+            return Carbon::parse($estadoSesion->fecha)->format('Y-m') === $mes;
+        });
+
+        $reuniones = $reunionesAll->filter(function ($reunion) use ($mes) {
+            return Carbon::parse($reunion->fecha)->format('Y-m') === $mes;
+        });
+
+        $apoderados = Tutor::where('id_paciente', $pago->id_paciente)->get();
+        $eventos = collect();
+
+        foreach ($reuniones as $reunion) {
+            $eventos->push([
+                'id' => $reunion->id,
+                'tipo' => 'Reunión',
+                'fecha' => $reunion->fecha,
+                'estado' => $reunion->estado,
+                'notas' => "",
+                'valor' => $reunion->valor,
+                'hora_inicio' => $reunion->hora_inicio,
+                'hora_final' => $reunion->hora_final,
+            ]);
         }
 
-        return redirect()->route('pagos.index')->with('success');
+        foreach ($estadoSesiones as $sesion) {
+            $eventos->push([
+                'id' => $sesion->id_estado,
+                'tipo' => 'Sesión',
+                'fecha' => $sesion->fecha,
+                'estado' => $sesion->estado,
+                'notas' => $sesion->notas,
+                'valor' => $sesion->sesion->valor,
+                'hora_inicio' => $sesion->hora_inicio,
+                'hora_final' => $sesion->hora_final,
+            ]);
+        }
+        $eventos = $eventos->sortByDesc('fecha');
+
+        return view('pages.pagos.show', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
     }
 }

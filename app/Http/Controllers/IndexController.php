@@ -9,6 +9,7 @@ use App\Models\EstadoSesion;
 use App\Models\Tutor;
 use Carbon\Carbon;
 use App\Models\Reunion;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -16,7 +17,7 @@ class IndexController extends Controller
     {
         $this->actualizarPagos();
         // Total de pacientes
-        $totalPacientes = Paciente::count();
+        $totalPacientes = Paciente::where("id_user", Auth::user()->id)->count();
 
         // Fecha actual y fechas de meses anteriores
         $now = Carbon::now('America/Santiago');
@@ -27,12 +28,19 @@ class IndexController extends Controller
         $mesAnteAnterior = $now->subMonth(2)->format('Y-m');
 
         // Total ganado el mes pasado
-        $totalGanadoMesPasado = Pago::where('mes', 'LIKE', $mesAnterior . '%')
+        $totalGanadoMesPasado = Pago::with('paciente')
+            ->whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+            ->where('mes', 'LIKE', $mesAnterior . '%')
             ->where('estado', 'pagado')
             ->sum('valor_total');
 
         // Total ganado aproximado del mes actual
         $estadoSesionesRealizadas = EstadoSesion::with('Sesion')
+            ->whereHas('sesion.paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
             ->whereIn('estado', ['realizada', 'no avisó'])
             ->get();
 
@@ -40,12 +48,26 @@ class IndexController extends Controller
             return strpos($estadoSesion->fecha, $mesActual) === 0;
         });
 
+        $reunionesRealizadas = Reunion::where('estado', 'realizada')
+            ->where('fecha', 'LIKE', $mesActual . '%')
+            ->whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+            ->get();
+        $totalReunionesRealizadas = $reunionesRealizadas->sum(function ($reunion) {
+            return $reunion->valor;
+        });
+
         $totalGanadoMesActual = $estadoSesionesRealizadasMesActual->sum(function ($estadoSesion) {
             return $estadoSesion->sesion->valor;
         });
-
+        $totalGanadoMesActual += $totalReunionesRealizadas;
         // Total ganado el mes ante anterior
-        $totalGanadoMesAnteAnterior = Pago::where('mes', 'LIKE', $mesAnteAnterior . '%')
+        $totalGanadoMesAnteAnterior = Pago::with('paciente')
+            ->whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+            ->where('mes', 'LIKE', $mesAnteAnterior . '%')
             ->where('estado', 'pagado')
             ->sum('valor_total');
 
@@ -54,49 +76,66 @@ class IndexController extends Controller
 
         // Pagos pendientes
         $pagosPendientes = Pago::with('Paciente')
+            ->whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
             ->whereIn('estado', ['pendiente', 'atrasado'])
             ->get();
-        $apoderados = Tutor::with('Paciente')->get();
+
+        $apoderados = Tutor::with(['Paciente' => function ($query) {
+            $query->where('id_user', Auth::user()->id);
+        }])->get();
 
         // Próximas sesiones (semana actual)
         $inicioSemana = Carbon::now('America/Santiago')->startOfWeek();
         $finSemana = Carbon::now('America/Santiago')->endOfWeek();
 
         $proximasSesiones = EstadoSesion::with('sesion.paciente')
+            ->whereHas('sesion.paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
             ->where('fecha', '>=', $inicioSemana)
             ->where('fecha', '<=', $finSemana)
             ->orderBy('fecha', 'asc')
             ->orderBy('hora_inicio', 'asc')
             ->get();
-
-
 
         $proximasReuniones = Reunion::with('paciente')
+            ->whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
             ->where('fecha', '>=', $inicioSemana)
             ->where('fecha', '<=', $finSemana)
             ->orderBy('fecha', 'asc')
             ->orderBy('hora_inicio', 'asc')
             ->get();
-
-
-
 
         for ($i = 5; $i >= 0; $i--) {
             $mes = Carbon::now()->subMonths($i)->format('Y-m');
             $mesLabel = Carbon::now()->subMonths($i)->format('F Y');
 
-            $ingreso = Pago::where('mes', 'LIKE', $mes . '%')
+            $ingreso = Pago::whereHas('paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+                ->where('mes', 'LIKE', $mes . '%')
                 ->where('estado', 'pagado')
                 ->sum('valor_total');
 
-            $sesiones = EstadoSesion::where('fecha', 'LIKE', $mes . '%')
+            $sesiones = EstadoSesion::whereHas('sesion.paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+                ->where('fecha', 'LIKE', $mes . '%')
                 ->where('estado', 'realizada')
                 ->count();
+
             // Sesiones Pendientes de la semana actual
             $inicioSemana = Carbon::now('America/Santiago')->startOfWeek();
             $finSemana = Carbon::now('America/Santiago')->endOfWeek();
 
-            $sesionesPendientes = EstadoSesion::where('fecha', '>', Carbon::today())
+            $sesionesPendientes = EstadoSesion::whereHas('sesion.paciente', function ($query) {
+                $query->where('id_user', Auth::user()->id);
+            })
+                ->where('fecha', '>', Carbon::today())
                 ->where('fecha', '<=', $finSemana)
                 ->where('estado', 'pendiente')
                 ->count();
@@ -122,9 +161,7 @@ class IndexController extends Controller
             'apoderados',
             'estadoSesionesRealizadas',
             'estadoSesionesRealizadasMesActual',
-
             'proximasReuniones'
-
         ));
     }
     public function actualizarPagos()

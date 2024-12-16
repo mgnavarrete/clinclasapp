@@ -466,7 +466,19 @@
     <!--End::row-1 -->
 
 </div>
+{{-- Mostrar mensaje de éxito --}}
+@if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+@endif
 
+{{-- Mostrar mensaje de error --}}
+@if($errors->any())
+    <script>
+        alert("{{ $errors->first() }}");
+    </script>
+@endif
 <!-- Modals de Edicion, Creacion y Asignacion -->
 @include('pages.modals.editSesion')
 @include('pages.modals.createEspecialista')
@@ -478,7 +490,7 @@
 @include('pages.modals.agendarReunion')
 @include('pages.modals.editReunion')
 @include('pages.modals.agendarSesion')
-
+@include('pages.modals.editPagoPac')
 
 @endsection
 

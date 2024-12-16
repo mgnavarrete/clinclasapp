@@ -118,16 +118,18 @@
                         </div>
                         <div class="col-6">
                             @php
-                                $diferenciaPendientes = $pagosPendientes->count() * -35000;
-                                $iconoPendientes = $diferenciaPendientes >= 0 ? 'ti-caret-up' : 'ti-caret-down';
-                                $colorPendientes = $diferenciaPendientes >= 0 ? 'bg-success-transparent' : 'bg-danger-transparent';
+                                $diferenciaPendientes = $pagosPendientes->sum(function ($pago) {
+                                    return $pago->valor_total;
+                                });
+                                $iconoPendientes = $diferenciaPendientes <= 0 ? 'ti-caret-up' : 'ti-caret-down';
+                                $colorPendientes = $diferenciaPendientes <= 0 ? 'bg-success-transparent' : 'bg-danger-transparent';
                             @endphp
                             <p class="badge {{ $colorPendientes }} float-end d-inline-flex">
-                                <i class="ti {{ $iconoPendientes }} me-1"></i>${{ number_format(    $pagosPendientes->count() * -35000, 0, ',', '.') }}
+                                <i class="ti {{ $iconoPendientes }} me-1"></i>${{ number_format($diferenciaPendientes, 0, ',', '.') }}
                             </p>
                             <p class="main-card-icon mb-0"><span class="avatar avatar-md avatar-rounded bg-warning">
-                                <i class="ti ti-coin-off fs-16"></i>
-                            </span></p>
+                                <i class="ti ti-coin-off fs-16"></i> 
+                            </span> </p>
                         </div>
                     </div>
                 </div>
@@ -324,6 +326,19 @@
     </div>
 
 </div>
+{{-- Mostrar mensaje de éxito --}}
+@if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+@endif
+
+{{-- Mostrar mensaje de error --}}
+@if($errors->any())
+    <script>
+        alert("{{ $errors->first() }}");
+    </script>
+@endif
 @include('pages.modals.editEstadoIdx')
 @include('pages.modals.editReunionIdx')
 @endsection

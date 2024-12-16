@@ -151,12 +151,10 @@ class PacienteController extends Controller
             }
 
             // Redirigir a la vista de pacientes con un mensaje de éxito
-            return redirect()->route('pacientes.index')->with('success', 'Paciente, Tutor y Sesión creados exitosamente.');
+            return redirect()->route('pacientes.show', $paciente->id_paciente)->with('success', 'Alumno creado exitosamente.');
         } catch (\Exception $e) {
-            logger()->error('Error al crear el paciente: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al crear el paciente: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
-            // return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear el paciente. <br>' . $e->getMessage()]);
+            logger()->error('Error al crear el alumno: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear el alumno. ' . $e->getMessage()]);
         }
     }
 
@@ -219,11 +217,10 @@ class PacienteController extends Controller
             $paciente = Paciente::findOrFail($id);
             $paciente->update($validatedData);
 
-            return redirect()->route('pacientes.show', $id)->with('success', 'Paciente actualizado exitosamente.');
+            return redirect()->route('pacientes.show', $id)->with('success', 'Alumno actualizado exitosamente.');
         } catch (\Exception $e) {
-            logger()->error('Error al crear el paciente: ' . $e->getMessage());
-            $errorMessage = json_encode('Error al actualizar el paciente: ' . $e->getMessage());
-            echo "<script>console.error($errorMessage);</script>";
+            logger()->error('Error al actualizar el alumno: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar el alumno. ' . $e->getMessage()]);
         }
     }
 }
