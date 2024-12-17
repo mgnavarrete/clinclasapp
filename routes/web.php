@@ -67,4 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pago/{id}/updatePac', [PagoController::class, 'updatePac'])->name('pago.updatePac');
     Route::post('/pago/create', [PagoController::class, 'create'])->name('pago.create');
     Route::get('/pagos/{id}', [PagoController::class, 'show'])->name('pagos.show');
+    Route::post('/pago/{id}/updateShow', [PagoController::class, 'updateShow'])->name('pago.updateShow');
+
+    Route::get('/pagos/{id}/descargar', [PagoController::class, 'descargarPDF'])->name('pagos.descargar');
+    Route::get('/pdf/{id}/pago', [PagoController::class, 'pagePDF'])->name('pdf.pago');
 });

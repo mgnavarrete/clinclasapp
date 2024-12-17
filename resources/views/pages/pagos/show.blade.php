@@ -37,9 +37,10 @@
                                     </div>
                                     <div class="ms-auto mt-md-0 mt-2">
 
-                                        <button class="btn btn-success">Descargar <i class="ri-download-2-line ms-1 align-middle"></i></button>
-                               
-                                        <button class="btn btn-primary">Editar<i class="ri-edit-line ms-1 align-middle"></i></button>
+                                        <button class="btn btn-success" onclick="window.open('{{ route('pdf.pago', $pago->id_pago) }}', '_blank')">
+                                            Descargar <i class="ri-download-2-line ms-1 align-middle"></i>
+                                        </button>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPago{{ $pago->id_pago }}">Editar Estado<i class="ri-edit-line ms-1 align-middle"></i></button>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -94,30 +95,34 @@
                                                 
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
-                                            <p class="fw-semibold text-muted mb-1">Estado del Pago :</p>
-                                            <span class="fs-17 mb-1 fw-semibold
-                                            @if($pago->estado === 'atrasado') text-warning
-                                            @elseif($pago->estado === 'pendiente') text-secondary
-                                            @elseif($pago->estado === 'pagado') text-success
-                                            @endif">
-                                              {{ ucfirst($pago->estado) }}
-                                        </span>
+                                        <div class="row gy-3">
+                                            <div class="col-ml-12 d-flex flex-wrap">
+                                                <div class="col-md-3">
+                                                    <p class="fw-semibold text-muted mb-1">Estado del Pago :</p>
+                                                    <span class="fs-17 mb-1 fw-semibold
+                                                    @if($pago->estado === 'atrasado') text-warning
+                                                    @elseif($pago->estado === 'pendiente') text-secondary
+                                                    @elseif($pago->estado === 'pagado') text-success
+                                                    @endif">
+                                                    {{ ucfirst($pago->estado) }}
+                                                </span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p class="fw-semibold text-muted mb-1">Mes de Pago :</p>
+                                                    <p class="fs-15 mb-1"> {{ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F'))}}</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p class="fw-semibold text-muted mb-1">Pago Realizado el :</p>
+                                                    <p class="fs-15 mb-1">
+                                                        {{ $pago->fecha_pagado ? \Carbon\Carbon::parse($pago->fecha_pagado)->format('d/m/Y') : '-' }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p class="fw-semibold text-muted mb-1">Valor Total:</p>
+                                                    <p class="fs-16 mb-1 fw-semibold">${{ number_format($pago->valor_total, 0, ',', '.')}}</p>
+                                                </div>
                                         </div>
-                                        <div class="col-xl-3">
-                                            <p class="fw-semibold text-muted mb-1">Mes de Pago :</p>
-                                            <p class="fs-15 mb-1"> {{ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F'))}}</p>
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <p class="fw-semibold text-muted mb-1">Pago Realizado el :</p>
-                                            <p class="fs-15 mb-1">
-                                                {{ $pago->fecha_pago ? \Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y') : '-' }}
-                                            </p>
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <p class="fw-semibold text-muted mb-1">Valor Total:</p>
-                                            <p class="fs-16 mb-1 fw-semibold">${{ number_format($pago->valor_total, 0, ',', '.')}}</p>
-                                        </div>
+                                    </div>
                                         <div class="col-xl-12">
                                             <div class="table-responsive">
                                                 <table class="table nowrap text-nowrap border mt-4">
@@ -271,6 +276,7 @@
                     <!--End::row-1 -->
 
                 </div>
+@include('pages.modals.editPagoShow')
     
 @endsection
 

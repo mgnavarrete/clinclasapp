@@ -12,6 +12,7 @@ use App\Models\Sesion;
 use App\Models\Reunion;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tutor;
+use Spatie\Browsershot\Browsershot;
 
 class PagoController extends Controller
 {
@@ -106,6 +107,32 @@ class PagoController extends Controller
         }
     }
 
+    public function updateShow(Request $request, $id)
+    {
+        try {
+            $validatedData = $request->validate([
+                'estado' => 'required|string',
+            ]);
+
+            $pago = Pago::findOrFail($id);
+            if ($validatedData['estado'] === 'pagado') {
+                $pago->update([
+                    'estado' => $validatedData['estado'],
+                    'fecha_pagado' => Carbon::now('America/Santiago')->format('Y-m-d'),
+                ]);
+            } else {
+                $pago->update([
+                    'estado' => $validatedData['estado'],
+                    'fecha_pagado' => null,
+                ]);
+            }
+
+            return redirect()->route('pagos.show', $id)->with('success', 'Pago actualizado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('pagos.show', $id)->with('error', 'Error al actualizar el pago.');
+        }
+    }
+
     public function create(Request $request)
     {
         try {
@@ -119,9 +146,13 @@ class PagoController extends Controller
 
             $pacientes = Paciente::where('id_user', Auth::user()->id)->get();
 
+
+
             foreach ($pacientes as $paciente) {
                 $sesion = Sesion::where('id_paciente', $paciente->id_paciente)->first();
                 if ($sesion !== null) {
+
+
                     // obtener las estadoSesiones del mes de $mes y-m-d
                     $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)
                         ->whereIn('estado', ['no avisó', 'realizada'])
@@ -228,8 +259,79 @@ class PagoController extends Controller
                 'hora_final' => $sesion->hora_final,
             ]);
         }
-        $eventos = $eventos->sortByDesc('fecha');
+        $eventos = $eventos->sortBy('fecha');
 
         return view('pages.pagos.show', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
+    }
+
+
+
+    public function pagePDF($id)
+    {
+        $pago = Pago::findOrFail($id);
+        $paciente = Paciente::findOrFail($pago->id_paciente);
+        $sesion = Sesion::where('id_paciente', $pago->id_paciente)->first();
+        $estadoSesionesAll = EstadoSesion::with('sesion')->where('id_sesion', $sesion->id_sesion)->get();
+
+        $reunionesAll = Reunion::where('id_paciente', $pago->id_paciente)->get();
+        // Filtrar sesiones y reuniones del mes del pago
+        $mes = Carbon::parse($pago->mes)->format('Y-m');
+
+        $estadoSesiones = $estadoSesionesAll->filter(function ($estadoSesion) use ($mes) {
+            return Carbon::parse($estadoSesion->fecha)->format('Y-m') === $mes;
+        });
+
+        $reuniones = $reunionesAll->filter(function ($reunion) use ($mes) {
+            return Carbon::parse($reunion->fecha)->format('Y-m') === $mes;
+        });
+
+        $apoderados = Tutor::where('id_paciente', $pago->id_paciente)->get();
+        $eventos = collect();
+
+        foreach ($reuniones as $reunion) {
+            $eventos->push([
+                'id' => $reunion->id,
+                'tipo' => 'Reunión',
+                'fecha' => $reunion->fecha,
+                'estado' => $reunion->estado,
+                'notas' => "",
+                'valor' => $reunion->valor,
+                'hora_inicio' => $reunion->hora_inicio,
+                'hora_final' => $reunion->hora_final,
+            ]);
+        }
+
+        foreach ($estadoSesiones as $sesion) {
+            $eventos->push([
+                'id' => $sesion->id_estado,
+                'tipo' => 'Sesión',
+                'fecha' => $sesion->fecha,
+                'estado' => $sesion->estado,
+                'notas' => $sesion->notas,
+                'valor' => $sesion->sesion->valor,
+                'hora_inicio' => $sesion->hora_inicio,
+                'hora_final' => $sesion->hora_final,
+            ]);
+        }
+        $eventos = $eventos->sortBy('fecha');
+
+        $mes = Carbon::parse($pago->mes)->translatedFormat('F');
+
+        return view('pdf.pago', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
+    }
+
+    public function descargarPDF($id)
+    {
+        $pago = Pago::findOrFail($id);
+        $url = route('pdf.pago', $id); // Asegúrate de que esta ruta muestre la vista que deseas capturar
+
+        $pdfPath = storage_path('app/public/Pago_' . $pago->mes . '_' . $pago->paciente->nombre . '.pdf');
+
+        Browsershot::url($url)
+            ->setNodeBinary('/usr/local/bin/node') // Ajusta la ruta a tu instalación de Node.js si es necesario
+            ->setNpmBinary('/usr/local/bin/npm')   // Ajusta la ruta a tu instalación de npm si es necesario
+            ->savePdf($pdfPath);
+
+        return response()->download($pdfPath);
     }
 }
