@@ -140,17 +140,17 @@
                         @else
                             @foreach ($pagos as $pago)
                                 <div class="col-md-6 d-flex">
-                                    <div class="card custom-card flex-fill
+                                    <a href="{{ route('pagos.show', $pago->id_pago) }}" class="card custom-card flex-fill
                                         @if($pago->estado === 'atrasado') task-pending-card
                                         @elseif($pago->estado === 'pendiente') task-pending-card
                                         @elseif($pago->estado === 'pagado') task-completed-card
                                         @endif
-                                    " data-bs-toggle="modal" data-bs-target="#editPago{{ $pago->id_pago }}">
+                                    ">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between flex-wrap gap-2">
                                                 <div>
                                                     <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                        <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                        <i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i>
                                                         {{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }} - {{ $pago->paciente->nombre }}
                                                     </p>
                                                     <p class="mb-2">Valor Total :
@@ -167,7 +167,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         @endif
