@@ -74,6 +74,32 @@ class EstadoController extends Controller
         }
     }
 
+    public function updatePago(Request $request, $id_estado, $id_pago)
+    {
+        try {
+            // Validar los datos del formulario
+            $validatedData = $request->validate([
+                'estado' => 'required|string',
+                'notas' => 'nullable|string',
+            ]);
+
+            $estadoSesion = EstadoSesion::findOrFail($id_estado);
+            $estadoSesion->update([
+                'estado' => $validatedData['estado'],
+                'notas' => $validatedData['notas'],
+            ]);
+
+            $sesion = Sesion::findOrFail($estadoSesion->id_sesion);
+
+            // Redirigir a la página anterior con un mensaje de éxito
+            return redirect()->route('pagos.show', $id_pago)->with('success', 'Actualización exitosa.');
+        } catch (\Exception $e) {
+            logger()->error('Error al actualizar: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar. ' . $e->getMessage()]);
+        }
+    }
+
+
     public function updateIdx(Request $request, $id)
     {
         try {

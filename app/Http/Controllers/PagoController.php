@@ -244,6 +244,7 @@ class PagoController extends Controller
                 'valor' => $reunion->valor,
                 'hora_inicio' => $reunion->hora_inicio,
                 'hora_final' => $reunion->hora_final,
+                'modal' => 'editReunion',
             ]);
         }
 
@@ -257,11 +258,31 @@ class PagoController extends Controller
                 'valor' => $sesion->sesion->valor,
                 'hora_inicio' => $sesion->hora_inicio,
                 'hora_final' => $sesion->hora_final,
+                'modal' => 'editEstado',
             ]);
         }
         $eventos = $eventos->sortBy('fecha');
+        $total_reuniones = 0;
+        $total_valor = 0;
+        $total_sesiones = 0;
+        foreach ($eventos as $evento) {
+            if ($evento['tipo'] === 'Reunión' && $evento['estado'] === 'realizada') {
+                $total_reuniones += intval($evento['valor']);
+            }
+            if ($evento['tipo'] === 'Sesión' && $evento['estado'] === 'realizada') {
+                $total_sesiones += intval($evento['valor']);
+            }
+            if ($evento['tipo'] === 'Sesión' && $evento['estado'] === 'no avisó') {
+                $total_sesiones += intval($evento['valor']);
+            }
+        }
+        $total_valor = $total_reuniones + $total_sesiones;
 
-        return view('pages.pagos.show', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
+        $pago->update([
+            'valor_total' => $total_valor,
+        ]);
+
+        return view('pages.pagos.show', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos', 'total_reuniones', 'total_sesiones', 'total_valor'));
     }
 
 

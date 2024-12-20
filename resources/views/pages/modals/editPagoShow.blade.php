@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editPagoModal{{ $pago->id_pago }}">Editar Pago</h5>
+                <h5 class="modal-title" id="editPagoModal{{ $pago->id_pago }}">Pago de {{ $pago->paciente->nombre }}</h5>
                 <br>
                 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

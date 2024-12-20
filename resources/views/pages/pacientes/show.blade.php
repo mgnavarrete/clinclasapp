@@ -230,236 +230,236 @@
         </div>
 
         <div class="col-md-7 d-flex">
-                    <div class="card custom-card">
-                        <div class="card-body p-0">
-                            <div class="p-3 border-bottom border-block-end-dashed d-flex align-items-center justify-content-between">
-                                <div>
-                                    <ul class="nav nav-tabs mb-0 tab-style-6 justify-content-start" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="sesionesMes-tab" data-bs-toggle="tab"
-                                                data-bs-target="#sesionesMes-tab-pane" type="button" role="tab"
-                                                aria-controls="sesionesMes-tab-pane" aria-selected="true"><i
-                                                    class="ri-bill-line me-1 align-middle d-inline-block"></i>Sesiones de {{ ucfirst(\Carbon\Carbon::now()->translatedFormat('F')) }}</button>
-                                        </li>
+            <div class="card custom-card" style="background-color: transparent;">
+                <div class="card-body p-0">
+                    <div class="p-3 border-bottom border-block-end-dashed d-flex align-items-center justify-content-between">
+                        <div>
+                            <ul class="nav nav-tabs mb-0 tab-style-6 justify-content-start" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="sesionesMes-tab" data-bs-toggle="tab"
+                                        data-bs-target="#sesionesMes-tab-pane" type="button" role="tab"
+                                        aria-controls="sesionesMes-tab-pane" aria-selected="true"><i
+                                            class="ri-bill-line me-1 align-middle d-inline-block"></i>Sesiones de {{ ucfirst(\Carbon\Carbon::now()->translatedFormat('F')) }}</button>
+                                </li>
 
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="reuniones-tab" data-bs-toggle="tab"
-                                                data-bs-target="#reuniones-tab-pane" type="button" role="tab"
-                                                aria-controls="reuniones-tab-pane" aria-selected="false"><i
-                                                    class="ri-briefcase-4-line me-1 align-middle d-inline-block"></i>Reuniones</button>
-                                        </li>
-
-
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pagos-tab" data-bs-toggle="tab"
-                                                data-bs-target="#pagos-tab-pane" type="button" role="tab"
-                                                aria-controls="pagos-tab-pane" aria-selected="false"><i
-                                                    class="ri-money-dollar-box-line me-1 align-middle d-inline-block"></i>Pagos</button>
-                                        </li>
-                                        
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="reuniones-tab" data-bs-toggle="tab"
+                                        data-bs-target="#reuniones-tab-pane" type="button" role="tab"
+                                        aria-controls="reuniones-tab-pane" aria-selected="false"><i
+                                            class="ri-briefcase-4-line me-1 align-middle d-inline-block"></i>Reuniones</button>
+                                </li>
 
 
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pagos-tab" data-bs-toggle="tab"
+                                        data-bs-target="#pagos-tab-pane" type="button" role="tab"
+                                        aria-controls="pagos-tab-pane" aria-selected="false"><i
+                                            class="ri-money-dollar-box-line me-1 align-middle d-inline-block"></i>Pagos</button>
+                                </li>
+                                
 
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="sesionesPasadas-tab" data-bs-toggle="tab"
-                                                data-bs-target="#sesionesPasadas-tab-pane" type="button" role="tab"
-                                                aria-controls="sesionesPasadas-tab-pane" aria-selected="false"><i
-                                                    class="ri-attachment-line me-1 align-middle d-inline-block"></i>Sesiones Pasadas</button>
-                                        </li>
 
-                                    </ul>
-                                </div>   
-                                <div>
-                                    <div class="dropdown ms-2">
-                                        <button class="btn btn-light btn-wave waves-effect waves-light px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ti ti-dots-vertical fs-18"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarReunion">Agendar Reunión</a></li>
-                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarSesion">Agendar Sesión</a></li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="sesionesPasadas-tab" data-bs-toggle="tab"
+                                        data-bs-target="#sesionesPasadas-tab-pane" type="button" role="tab"
+                                        aria-controls="sesionesPasadas-tab-pane" aria-selected="false"><i
+                                            class="ri-attachment-line me-1 align-middle d-inline-block"></i>Sesiones Pasadas</button>
+                                </li>
+
+                            </ul>
+                        </div>   
+                        <div>
+                            <div class="dropdown ms-2">
+                                <button class="btn btn-light btn-wave waves-effect waves-light px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="ti ti-dots-vertical fs-18"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarReunion">Agendar Reunión</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarSesion">Agendar Sesión</a></li>
         
-                                        </ul>
-                                    </div>
-                                </div> 
+                                </ul>
                             </div>
-                            <div class="p-3">
-                                <div class="tab-content h-100 w-100" id="myTabContent">
-                                    <div class="tab-pane show active fade p-0 border-0 h-100" id="sesionesMes-tab-pane"
-                                        role="tabpanel" aria-labelledby="sesionesMes-tab" tabindex="0">
-                                        <div class="row d-flex align-items-stretch">
-                                            @foreach ($estadoSesiones as $estado)
-                                            @if (\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
-                                            
-                                            <div class="col-md-6 d-flex">
-                                                <div class="card custom-card flex-fill
-                                                    @if($estado->estado === 'realizada') task-completed-card
-                                                    @elseif($estado->estado === 'pendiente') task-pending-card
-                                                    @elseif($estado->estado === 'cancelada') task-inprogress-card
-                                                    @elseif($estado->estado === 'no avisó') task-inprogress-card
-                                                    @endif"
-                                                    data-bs-toggle="modal" data-bs-target="#editEstado{{ $estado->id_estado }}">
-                                                    <div class="card-body">
-                                                        <div class="d-flex justify-content-between flex-wrap gap-2">
-                                                            <div>
-                                                                <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-bill-line fs-16 op-5 me-1 text-muted"></i></a>
-                                                                    {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
-                                                                </p>
-
-                                                                <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
-                                                                    @if($estado->estado === 'realizada') text-success 
-                                                                    @elseif($estado->estado === 'pendiente') text-secondary
-                                                                    @elseif($estado->estado === 'cancelada') text-danger
-                                                                    @elseif($estado->estado === 'no avisó') text-warning
-                                                                    @endif">
-                                                                      {{ ucfirst($estado->estado) }}
-                                                                </span>
-                                                                </p>                                                    
-                                                                
-                                                                <p class="mb-0">Notas : 
-                                                                    <span class="fs-12 mb-1 text-muted">{{ empty($estado->notas) ? 'No hay notas todavía.' : $estado->notas }}</span>
-                                                                </p>
-                                                            </div>                                            
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @endforeach
-                                          
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="tab-pane fade p-0 border-0 h-100" id="reuniones-tab-pane"
-                                        role="tabpanel" aria-labelledby="reuniones-tab" tabindex="0">
-                                        <div class="row d-flex align-items-stretch" style="overflow-x: auto; white-space: nowrap;">
-                                            @foreach ($reuniones as $reunion)
-                                            
-                                            <div class="col-md-6 d-flex">
-                                                <div class="card custom-card flex-fill
-                                                    @if($reunion->estado === 'realizada') task-completed-card
-                                                    @elseif($reunion->estado === 'pendiente') task-pending-card
-                                                    @elseif($reunion->estado === 'cancelada') task-inprogress-card
-                                                    @endif"
-                                                    data-bs-toggle="modal" data-bs-target="#editReunion{{ $reunion->id_reunion }}">
-                                                    <div class="card-body">
-                                                        <div class="d-flex justify-content-between flex-wrap gap-2">
-                                                            <div>
-                                                                <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-briefcase-4-fill fs-16 op-5 me-1 text-muted"></i></a>
-                                                                    {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($reunion->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($reunion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($reunion->hora_final)->format('H:i') }}
-                                                                </p>
-
-                                                                <p class="mb-3">Estado Reunión: <span class="fs-12 mb-1 fw-semibold
-                                                                    @if($reunion->estado === 'realizada') text-success 
-                                                                    @elseif($reunion->estado === 'pendiente') text-secondary
-                                                                    @elseif($reunion->estado === 'cancelada') text-danger
-                                                                    @endif">
-                                                                      {{ ucfirst($reunion->estado) }}
-                                                                </span>
-                                                                </p>                                                    
-                                                                
-                                                                <p class="mb-0">Valor : 
-                                                                    <span class="fs-12 mb-1 text-muted">${{ number_format($reunion->valor, 0, ',', '.') }}</span>
-                                                                </p>
-                                                            </div>                                            
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                  
-                                            @endforeach
-                                          
-                                        </div>
+                        </div> 
+                    </div>
+                    <div class="p-3">
+                        <div class="tab-content h-100 w-100" id="myTabContent">
+                            <div class="tab-pane show active fade p-0 border-0 h-100" id="sesionesMes-tab-pane"
+                                role="tabpanel" aria-labelledby="sesionesMes-tab" tabindex="0">
+                                <div class="row d-flex align-items-stretch">
+                                    @foreach ($estadoSesiones as $estado)
+                                    @if (\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
                                     
-                                    </div>
-                                    <div class="tab-pane fade p-0 border-0 h-100" id="pagos-tab-pane"
-                                        role="tabpanel" aria-labelledby="pagos-tab" tabindex="0">
-                                        <div class="row d-flex align-items-stretch">
-                                            @foreach ($pagosPaciente as $pago)
-                                                    <div class="col-md-6 d-flex">
-                                                        <a href="{{ route('pagos.show', $pago->id_pago) }}" class="card custom-card flex-fill
-                                                            @if($pago->estado === 'atrasado') task-pending-card
-                                                            @elseif($pago->estado === 'pendiente') task-pending-card
-                                                            @elseif($pago->estado === 'pagado') task-completed-card
+                                    <div class="col-md-6 d-flex">
+                                        <div class="card custom-card flex-fill
+                                            @if($estado->estado === 'realizada') task-completed-card
+                                            @elseif($estado->estado === 'pendiente') task-pending-card
+                                            @elseif($estado->estado === 'cancelada') task-inprogress-card
+                                            @elseif($estado->estado === 'no avisó') task-inprogress-card
+                                            @endif"
+                                            data-bs-toggle="modal" data-bs-target="#editEstado{{ $estado->id_estado }}">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between flex-wrap gap-2">
+                                                    <div>
+                                                        <p class="fw-semibold mb-3 d-flex align-items-center">
+                                                            <a><i class="ri-bill-line fs-16 op-5 me-1 text-muted"></i></a>
+                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
+                                                        </p>
+
+                                                        <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
+                                                            @if($estado->estado === 'realizada') text-success 
+                                                            @elseif($estado->estado === 'pendiente') text-secondary
+                                                            @elseif($estado->estado === 'cancelada') text-danger
+                                                            @elseif($estado->estado === 'no avisó') text-warning
                                                             @endif">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between flex-wrap gap-2">
-                                                                    <div>
-                                                                        <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                            <i class="ri-money-dollar-box-fill fs-16 op-5 me-1 text-muted"></i>
-                                                                            {{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }} - {{ $pago->paciente->nombre }}
-                                                                        </p>
-                                                                        <p class="mb-2">Valor Total :
-                                                                            <span class="fs-12 mb-1 text-muted">{{ '$' . number_format($pago->valor_total, 0, ',', '.') }}</span>
-                                                                        </p>
-                                                                        <p class="mb-2">Estado Pago: <span class="fs-12 mb-1 fw-semibold
-                                                                            @if($pago->estado === 'atrasado') text-warning
-                                                                            @elseif($pago->estado === 'pendiente') text-secondary
-                                                                            @elseif($pago->estado === 'pagado') text-success
-                                                                            @endif">
-                                                                              {{ ucfirst($pago->estado) }}
-                                                                        </span>
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                            @endforeach
+                                                              {{ ucfirst($estado->estado) }}
+                                                        </span>
+                                                        </p>                                                    
+                                                        
+                                                        <p class="mb-0">Notas : 
+                                                            <span class="fs-12 mb-1 text-muted">{{ empty($estado->notas) ? 'No hay notas todavía.' : $estado->notas }}</span>
+                                                        </p>
+                                                    </div>                                            
+                                                </div> 
+                                            </div>
                                         </div>
-                                    
                                     </div>
-                                    <div class="tab-pane fade p-0 border-0 h-100" id="sesionesPasadas-tab-pane"
-                                        role="tabpanel" aria-labelledby="sesionesPasadas-tab" tabindex="0">
-                                        <div class="row d-flex align-items-stretch" style="overflow-x: auto; white-space: nowrap;">
-                                            @foreach ($estadoSesiones as $estado)
-                                            @if (!\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
-                                            
+                                    @endif
+                                    @endforeach
+                                  
+                                </div>
+                                
+                            </div>
+                            <div class="tab-pane fade p-0 border-0 h-100" id="reuniones-tab-pane"
+                                role="tabpanel" aria-labelledby="reuniones-tab" tabindex="0">
+                                <div class="row d-flex align-items-stretch" style="overflow-x: auto; white-space: nowrap;">
+                                    @foreach ($reuniones as $reunion)
+                                    
+                                    <div class="col-md-6 d-flex">
+                                        <div class="card custom-card flex-fill
+                                            @if($reunion->estado === 'realizada') task-completed-card
+                                            @elseif($reunion->estado === 'pendiente') task-pending-card
+                                            @elseif($reunion->estado === 'cancelada') task-inprogress-card
+                                            @endif"
+                                            data-bs-toggle="modal" data-bs-target="#editReunion{{ $reunion->id_reunion }}">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between flex-wrap gap-2">
+                                                    <div>
+                                                        <p class="fw-semibold mb-3 d-flex align-items-center">
+                                                            <a><i class="ri-briefcase-4-fill fs-16 op-5 me-1 text-muted"></i></a>
+                                                            {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($reunion->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($reunion->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($reunion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($reunion->hora_final)->format('H:i') }}
+                                                        </p>
+
+                                                        <p class="mb-3">Estado Reunión: <span class="fs-12 mb-1 fw-semibold
+                                                            @if($reunion->estado === 'realizada') text-success 
+                                                            @elseif($reunion->estado === 'pendiente') text-secondary
+                                                            @elseif($reunion->estado === 'cancelada') text-danger
+                                                            @endif">
+                                                              {{ ucfirst($reunion->estado) }}
+                                                        </span>
+                                                        </p>                                                    
+                                                        
+                                                        <p class="mb-0">Valor : 
+                                                            <span class="fs-12 mb-1 text-muted">${{ number_format($reunion->valor, 0, ',', '.') }}</span>
+                                                        </p>
+                                                    </div>                                            
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                    @endforeach
+                                  
+                                </div>
+                            
+                            </div>
+                            <div class="tab-pane fade p-0 border-0 h-100" id="pagos-tab-pane"
+                                role="tabpanel" aria-labelledby="pagos-tab" tabindex="0">
+                                <div class="row d-flex align-items-stretch">
+                                    @foreach ($pagosPaciente as $pago)
                                             <div class="col-md-6 d-flex">
-                                                <div class="card custom-card flex-fill
-                                                    @if($estado->estado === 'realizada') task-completed-card
-                                                    @elseif($estado->estado === 'pendiente') task-pending-card
-                                                    @elseif($estado->estado === 'cancelada') task-inprogress-card
-                                                    @elseif($estado->estado === 'no avisó') task-inprogress-card
-                                                    @endif"
-                                                    data-bs-toggle="modal" data-bs-target="#editEstado{{ $estado->id_estado }}">
+                                                <a href="{{ route('pagos.show', $pago->id_pago) }}" class="card custom-card flex-fill
+                                                    @if($pago->estado === 'atrasado') task-pending-card
+                                                    @elseif($pago->estado === 'pendiente') task-pending-card
+                                                    @elseif($pago->estado === 'pagado') task-completed-card
+                                                    @endif">
                                                     <div class="card-body">
                                                         <div class="d-flex justify-content-between flex-wrap gap-2">
                                                             <div>
                                                                 <p class="fw-semibold mb-3 d-flex align-items-center">
-                                                                    <a><i class="ri-attachment-line fs-16 op-5 me-1 text-muted"></i></a>
-                                                                    {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
+                                                                    <i class="ri-money-dollar-box-fill fs-16 op-5 me-1 text-muted"></i>
+                                                                    {{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }} - {{ $pago->paciente->nombre }}
                                                                 </p>
-
-                                                                <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
-                                                                    @if($estado->estado === 'realizada') text-success 
-                                                                    @elseif($estado->estado === 'pendiente') text-secondary
-                                                                    @elseif($estado->estado === 'cancelada') text-danger
-                                                                    @elseif($estado->estado === 'no avisó') text-warning
+                                                                <p class="mb-2">Valor Total :
+                                                                    <span class="fs-12 mb-1 text-muted">{{ '$' . number_format($pago->valor_total, 0, ',', '.') }}</span>
+                                                                </p>
+                                                                <p class="mb-2">Estado Pago: <span class="fs-12 mb-1 fw-semibold
+                                                                    @if($pago->estado === 'atrasado') text-warning
+                                                                    @elseif($pago->estado === 'pendiente') text-secondary
+                                                                    @elseif($pago->estado === 'pagado') text-success
                                                                     @endif">
-                                                                      {{ ucfirst($estado->estado) }}
+                                                                      {{ ucfirst($pago->estado) }}
                                                                 </span>
-                                                                </p>                                                    
-                                                                
-                                                                <p class="mb-0">Notas : 
-                                                                    <span class="fs-12 mb-1 text-muted">{{ empty($estado->notas) ? 'No hay notas todavía.' : $estado->notas }}</span>
                                                                 </p>
-                                                            </div>                                            
-                                                        </div> 
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </a>
                                             </div>
-                                            @endif
-                                            @endforeach
-                                          
-                                        </div>
-                                    
-                                    </div>    
+                                    @endforeach
                                 </div>
+                            
                             </div>
+                            <div class="tab-pane fade p-0 border-0 h-100" id="sesionesPasadas-tab-pane"
+                                role="tabpanel" aria-labelledby="sesionesPasadas-tab" tabindex="0">
+                                <div class="row d-flex align-items-stretch" style="overflow-x: auto; white-space: nowrap;">
+                                    @foreach ($estadoSesiones as $estado)
+                                    @if (!\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
+                                    
+                                    <div class="col-md-6 d-flex">
+                                        <div class="card custom-card flex-fill
+                                            @if($estado->estado === 'realizada') task-completed-card
+                                            @elseif($estado->estado === 'pendiente') task-pending-card
+                                            @elseif($estado->estado === 'cancelada') task-inprogress-card
+                                            @elseif($estado->estado === 'no avisó') task-inprogress-card
+                                            @endif"
+                                            data-bs-toggle="modal" data-bs-target="#editEstado{{ $estado->id_estado }}">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between flex-wrap gap-2">
+                                                    <div>
+                                                        <p class="fw-semibold mb-3 d-flex align-items-center">
+                                                            <a><i class="ri-attachment-line fs-16 op-5 me-1 text-muted"></i></a>
+                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
+                                                        </p>
+
+                                                        <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
+                                                            @if($estado->estado === 'realizada') text-success 
+                                                            @elseif($estado->estado === 'pendiente') text-secondary
+                                                            @elseif($estado->estado === 'cancelada') text-danger
+                                                            @elseif($estado->estado === 'no avisó') text-warning
+                                                            @endif">
+                                                              {{ ucfirst($estado->estado) }}
+                                                        </span>
+                                                        </p>                                                    
+                                                        
+                                                        <p class="mb-0">Notas : 
+                                                            <span class="fs-12 mb-1 text-muted">{{ empty($estado->notas) ? 'No hay notas todavía.' : $estado->notas }}</span>
+                                                        </p>
+                                                    </div>                                            
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                  
+                                </div>
+                            
+                            </div>    
                         </div>
                     </div>
+                </div>
+            </div>
         </div>
     </div>
     <!--End::row-1 -->

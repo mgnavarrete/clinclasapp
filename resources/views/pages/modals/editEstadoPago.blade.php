@@ -8,11 +8,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('estado.updateCal', $estado->id_estado) }}" method="POST" id="formEditEstado{{ $estado->id_estado }}">
+                <form action="{{ route('estado.updatePago', ['id_estado' => $estado->id_estado, 'id_pago' => $pago->id_pago]) }}" method="POST" id="formEditEstado{{ $estado->id_estado }}">
                     @csrf
                     <p class="fw-semibold mb-3 d-flex align-items-center">
                         <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
-                       {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} a {{ \Carbon\Carbon::parse($estado->hora_fin)->format('H:i') }}
+                        {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} a {{ \Carbon\Carbon::parse($estado->hora_fin)->format('H:i') }}
                     </p>
                     <div class="mb-3">
                         <label for="estado{{ $estado->id_estado }}" class="form-label">Estado Sesión:</label>
@@ -28,19 +28,19 @@
                         <label for="notas{{ $estado->id_estado }}" class="form-label">Notas:</label>
                         <textarea class="form-control" id="notas{{ $estado->id_estado }}" name="notas" rows="3">{{ $estado->notas }}</textarea>
                     </div>
-            </div>
-
-            <div class="modal-footer">
-                <div class="spinner-border text-primary d-none" role="status" id="spinnerEditEstado{{ $estado->id_estado }}">
-                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <button type="submit" class="btn btn-secondary" id="guardarBtnEditEstado{{ $estado->id_estado }}">Guardar</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+
+                <div class="modal-footer">
+                    <div class="spinner-border text-primary d-none" role="status" id="spinnerEditEstado{{ $estado->id_estado }}">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" id="guardarBtnEditEstado{{ $estado->id_estado }}">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
-</div>
 </div>
 
 <script>

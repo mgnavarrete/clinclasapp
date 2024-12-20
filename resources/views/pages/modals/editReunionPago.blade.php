@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('reuniones.update', $reunion->id_reunion) }}" method="POST" id="formEditReunion{{ $reunion->id_reunion }}">
+                <form action="{{ route('reuniones.updatePago', ['id_reunion' => $reunion->id_reunion, 'id_pago' => $pago->id_pago]) }}" method="POST" id="formEditReunion{{ $reunion->id_reunion }}">
                     @csrf
                     <p class="fw-semibold mb-3 d-flex align-items-center">
                         <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
