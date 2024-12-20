@@ -125,7 +125,7 @@
                                     </div>
                                         <div class="col-xl-12">
                                             <div class="table-responsive">
-                                                <table class="table nowrap text-nowrap border mt-4">
+                                                <table class="table table- border mt-4">
                                                     <thead>
                                                         <tr>
                                                             <th>TIPO</th>
@@ -133,6 +133,7 @@
                                                             <th>FECHA</th>
                                                             <th>ESTADO</th>
                                                             <th>VALOR</th>
+                                                            <th>EDITAR ESTADO</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -208,8 +209,11 @@
                                                             <td>
                                                                 ${{ number_format($evento['valor'], 0, ',', '.') }}
                                                             </td>
-                                                            @endif
                                                             
+                                                            @endif
+                                                            <td>
+                                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{$evento['modal']}}{{ $evento['id'] }}"><i class="ri-edit-line align-middle"></i></button>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                         
@@ -277,7 +281,10 @@
 
                 </div>
 @include('pages.modals.editPagoShow')
+@include('pages.modals.editReunionPago')
+@include('pages.modals.editEstadoPago')
     
+
 @endsection
 
 @section('scripts')

@@ -81,6 +81,26 @@ class ReunionController extends Controller
         }
     }
 
+    public function updatePago(Request $request, $id_reunion, $id_pago)
+    {
+        $validatedData = $request->validate([
+            'estado' => 'required|string',
+        ]);
+
+        try {
+            $reunion = Reunion::findOrFail($id_reunion);
+            $reunion->update([
+                'estado' => $validatedData['estado'],
+            ]);
+
+            // Redirigir a la página anterior con un mensaje de éxito
+            return redirect()->route('pagos.show', $id_pago)->with('success', 'Reunión actualizada exitosamente.');
+        } catch (\Exception $e) {
+            logger()->error('Error al actualizar la reunión: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al actualizar la reunión. ' . $e->getMessage()]);
+        }
+    }
+
     public function updateCal(Request $request, $id)
     {
         $validatedData = $request->validate([

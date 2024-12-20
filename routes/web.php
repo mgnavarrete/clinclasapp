@@ -13,6 +13,7 @@ use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\ReunionController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PerfilController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +69,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pago/create', [PagoController::class, 'create'])->name('pago.create');
     Route::get('/pagos/{id}', [PagoController::class, 'show'])->name('pagos.show');
     Route::post('/pago/{id}/updateShow', [PagoController::class, 'updateShow'])->name('pago.updateShow');
+
+    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
+    Route::post('/reuniones/{id_reunion}/{id_pago}/updatePago', [ReunionController::class, 'updatePago'])->name('reuniones.updatePago');
+    Route::post('/estado/{id_estado}/{id_pago}/updatePago', [EstadoController::class, 'updatePago'])->name('estado.updatePago');
+
 
     Route::get('/pagos/{id}/descargar', [PagoController::class, 'descargarPDF'])->name('pagos.descargar');
     Route::get('/pdf/{id}/pago', [PagoController::class, 'pagePDF'])->name('pdf.pago');

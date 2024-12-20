@@ -136,7 +136,7 @@
                 </div>
                     <div class="col-xl-12">
                         <div class="table-responsive">
-                            <table class="table nowrap text-nowrap border mt-4">
+                            <table class="table border mt-4">
                                 <thead>
                                     <tr>
                                         <th>TIPO</th>

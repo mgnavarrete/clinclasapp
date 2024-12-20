@@ -114,7 +114,6 @@
                             <label for="info_adicional" class="form-label text-default mb-3">Información Adicional <span class="text-muted">(Opcional)</span></label>
                             <textarea class=" form-control form-control-lg bg-outline-primary mb-2" id="info_adicional" name="info_adicional" placeholder="Escribe aquí cualquier información adicional sobre el paciente"></textarea>
                         </div>
-
                         <br>
                     </div>
 
@@ -198,18 +197,24 @@
                         </select>
                     </div>
 
-                    <!-- Hora -->
+                    <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora" class="form-label text-default">Horario Sesión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="hora" name="hora" required>
-                            <option value="">Seleccionar hora</option>
-                            <option value="09:30,10:15">09:30 a 10:15</option>
-                            <option value="10:30,11:15">10:30 a 11:15</option>
-                            <option value="11:30,12:15">11:30 a 12:15</option>
-                            <option value="12:30,13:15">12:30 a 13:15</option>
-                            <option value="14:30,15:15">14:30 a 15:15</option>
-                            <option value="15:30,16:30">15:30 a 16:30</option>
-                        </select>
+                        <label for="hora_inicio" class="form-label text-default">Horario Inicio Sesión</label>
+                    
+                        <div class="input-group">
+                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
+                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Inicio" name="hora_inicio" readonly="readonly">
+                        </div>
+                       
+                    </div>
+
+                    <!-- Hora Fin Sesión-->
+                    <div class="col-xl-12 mb-3">
+                        <label for="hora_fin" class="form-label text-default">Horario Final Sesión</label>
+                        <div class="input-group">
+                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
+                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Final" name="hora_fin" readonly="readonly">
+                        </div>
                     </div>
 
                     <!-- Tipo de sesión -->
@@ -238,6 +243,15 @@
                         </select>
                     </div>
 
+                    <!-- Crear Sesiones por todo el año -->
+                    <div class="col-xl-12 mb-3">
+                        <div class="form-check form-check-lg d-flex align-items-center">
+                            <input class="form-check-input" type="checkbox" value="1" id="checkebox-lg" name="sesiones-anual" checked="">
+                            <label class="form-check-label" for="checkebox-lg">
+                                Crear Sesiones por todo el año
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -257,6 +271,20 @@
     
     
 </div>
+
+{{-- Mostrar mensaje de éxito --}}
+@if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+@endif
+
+{{-- Mostrar mensaje de error --}}
+@if($errors->any())
+    <script>
+        alert("{{ $errors->first() }}");
+    </script>
+@endif
 
 @endsection
 

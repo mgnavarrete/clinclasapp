@@ -10,17 +10,33 @@ use App\Models\Sesion;
 use App\Models\EstadoSesion;
 use App\Models\Reunion;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarioController extends Controller
 {
 
     public function index()
     {
+        $userId = Auth::id();
 
-        $pacientes = Paciente::all();
-        $sesiones = Sesion::with('paciente')->get();
-        $estadoSesiones = EstadoSesion::with('sesion')->get();
-        $reuniones = Reunion::with('paciente')->get();
+        $pacientes = Paciente::where('id_user', $userId)->get();
+        $sesiones = Sesion::with('paciente')
+            ->whereHas('paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
+            ->get();
+
+        $estadoSesiones = EstadoSesion::with('sesion.paciente')
+            ->whereHas('sesion.paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
+            ->get();
+
+        $reuniones = Reunion::with('paciente')
+            ->whereHas('paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
+            ->get();
 
 
         // Próximas sesiones (semana actual)
@@ -28,6 +44,9 @@ class CalendarioController extends Controller
         $finSemana = Carbon::now('America/Santiago')->endOfWeek();
 
         $proximasSesiones = EstadoSesion::with('sesion.paciente')
+            ->whereHas('sesion.paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
             ->where('fecha', '>=', $inicioSemana)
             ->where('fecha', '<=', $finSemana)
             ->orderBy('fecha', 'asc')
@@ -36,6 +55,9 @@ class CalendarioController extends Controller
 
 
         $proximasReuniones = Reunion::with('paciente')
+            ->whereHas('paciente', function ($query) use ($userId) {
+                $query->where('id_user', $userId);
+            })
             ->where('fecha', '>=', $inicioSemana)
             ->where('fecha', '<=', $finSemana)
             ->orderBy('fecha', 'asc')
