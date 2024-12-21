@@ -113,7 +113,7 @@
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
                                             <i class="ri-time-line align-middle fs-14"></i>
                                         </span>
-                                        {{ date('H:i', strtotime($sesion->hora_inicio))}} a {{ date('H:i', strtotime($sesion->hora_fin))}}
+                                        {{ date('H:i', strtotime($sesion->hora_inicio))}} a {{ date('H:i', strtotime($sesion->hora_final))}}
                                     </p>
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
@@ -179,6 +179,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#asignarEspecialista">Agregar Especialista Existente</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#createEspecialista">Agregar Nuevo Especialista</a></li>
+                                    
 
                                 </ul>
                             </div>
@@ -277,6 +278,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarReunion">Agendar Reunión</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarSesion">Agendar Sesión</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editSesion">Generar Sesiones Anuales</a></li>
         
                                 </ul>
                             </div>
@@ -553,10 +555,7 @@
                 editSesionModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;
                     const sesion = @json($sesion);
-                    document.getElementById('dia_semana').value = sesion.dia_semana;
-                    document.getElementById('timepickr1').value = new Date('1970-01-01T' + sesion.hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('tipo').value = sesion.tipo;
-                    document.getElementById('valor').value = sesion.valor.split('.')[0];
+
                 });
             });
             

@@ -140,7 +140,6 @@
                                 <thead>
                                     <tr>
                                         <th>TIPO</th>
-                                        <th>NOTAS</th>
                                         <th>FECHA</th>
                                         <th>ESTADO</th>
                                         <th>VALOR</th>
@@ -160,10 +159,6 @@
                                         
                                         @if($evento['estado'] === 'realizada')
                                         <td>
-                                            Realizada el {{ \Carbon\Carbon::parse($evento['fecha'])->translatedFormat('j \d\e F') }} desde {{ \Carbon\Carbon::parse($evento['hora_inicio'])->format('H:i') }} a {{ \Carbon\Carbon::parse($evento['hora_final'])->format('H:i') }}.
-                                            {{ ucfirst($evento['notas']) }} 
-                                        </td>
-                                        <td>
                                             <div class="text-muted">
                                                 {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('d/m/Y')) }}
                                             </div>
@@ -175,9 +170,6 @@
                                             ${{ number_format($evento['valor'], 0, ',', '.') }}
                                         </td>
                                         @elseif($evento['estado'] === 'pendiente')
-                                        <td>
-                                            {{ $evento['tipo'] }} pendiente a realizar.
-                                        </td>
                                         <td>
                                             <div class="text-muted">
                                                 {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('d/m/Y')) }}
@@ -191,9 +183,6 @@
                                         </td>
                                         @elseif($evento['estado'] === 'cancelada')
                                         <td>
-                                            {{ $evento['tipo'] }} cancelada.
-                                        </td>
-                                        <td>
                                             <div class="text-muted">
                                                 {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('d/m/Y')) }}
                                             </div>
@@ -205,9 +194,6 @@
                                             $0
                                         </td>
                                         @elseif($evento['estado'] === 'no avisó')
-                                        <td>
-                                            No asistio a la sesión y no se dio avisó.
-                                        </td>
                                         <td>
                                             <div class="text-muted">
                                                 {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('d/m/Y')) }}

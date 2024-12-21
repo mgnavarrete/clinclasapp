@@ -69,12 +69,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pago/create', [PagoController::class, 'create'])->name('pago.create');
     Route::get('/pagos/{id}', [PagoController::class, 'show'])->name('pagos.show');
     Route::post('/pago/{id}/updateShow', [PagoController::class, 'updateShow'])->name('pago.updateShow');
-
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
     Route::post('/reuniones/{id_reunion}/{id_pago}/updatePago', [ReunionController::class, 'updatePago'])->name('reuniones.updatePago');
     Route::post('/estado/{id_estado}/{id_pago}/updatePago', [EstadoController::class, 'updatePago'])->name('estado.updatePago');
-
-
+    Route::get('/sesiones/{id}/generarAnual', [SesionController::class, 'generarAnual'])->name('sesiones.generarAnual');
     Route::get('/pagos/{id}/descargar', [PagoController::class, 'descargarPDF'])->name('pagos.descargar');
     Route::get('/pdf/{id}/pago', [PagoController::class, 'pagePDF'])->name('pdf.pago');
 });
