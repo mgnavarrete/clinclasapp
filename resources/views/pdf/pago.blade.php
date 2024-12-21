@@ -228,7 +228,7 @@
                                         }
 
                                         @endphp
-                                        <td colspan="3"></td>
+                                        <td colspan="2"></td>
                                         <td colspan="2">
                                             <table class="table table-sm text-nowrap mb-0 table-borderless">
                                                 <tbody>
