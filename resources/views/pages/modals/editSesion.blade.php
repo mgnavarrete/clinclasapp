@@ -9,10 +9,9 @@
             <div class="modal-body">
                 <form action="{{ route('sesiones.update', $sesion->id_sesion) }}" method="POST" id="editSesionForm">
                     @csrf
-                    <!-- Dia de la semana -->
                     <div class="col-xl-12 mb-3">
-                        <label for="dia_semana" class="form-label text-default">Día de la semana</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="dia_semana" name="dia_semana" required>
+                        <label for="dia" class="form-label text-default">Día de la semana</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="dia" name="dia" required>
                             <option value="">Seleccionar día</option>
                             <option value="lunes">Lunes</option>
                             <option value="martes">Martes</option>
@@ -22,24 +21,30 @@
                         </select>
                     </div>
 
-                    <!-- Hora -->
+                    <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora" class="form-label text-default">Horario Sesión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="hora" name="hora" required>
-                            <option value="">Seleccionar hora</option>
-                            <option value="09:30,10:15">09:30 a 10:15</option>
-                            <option value="10:30,11:15">10:30 a 11:15</option>
-                            <option value="11:30,12:15">11:30 a 12:15</option>
-                            <option value="12:30,13:15">12:30 a 13:15</option>
-                            <option value="14:30,15:15">14:30 a 15:15</option>
-                            <option value="15:30,16:30">15:30 a 16:30</option>
-                        </select>
+                        <label for="hora_inicio" class="form-label text-default">Horario Inicio Sesión</label>
+                    
+                        <div class="input-group">
+                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
+                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Inicio" name="hora_inicio" readonly="readonly">
+                        </div>
+                       
+                    </div>
+
+                    <!-- Hora Fin Sesión-->
+                    <div class="col-xl-12 mb-3">
+                        <label for="hora_fin" class="form-label text-default">Horario Final Sesión</label>
+                        <div class="input-group">
+                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
+                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Final" name="hora_fin" readonly="readonly">
+                        </div>
                     </div>
 
                     <!-- Tipo de sesión -->
                     <div class="col-xl-12 mb-3">
-                        <label for="tipo" class="form-label text-default">Tipo de sesión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="tipo" name="tipo" required>
+                        <label for="tipoSesion" class="form-label text-default">Tipo de sesión</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="tipoSesion" name="tipoSesion" required>
                             <option value="">Seleccionar tipo</option>
                             <option value="individual">Individual</option>
                             <option value="grupal">Grupal</option>
@@ -49,9 +54,18 @@
                     <!-- Valor-->
                     <div class="col-xl-12 mb-3">
                         <label for="valor" class="form-label text-default">Valor</label>
-                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="valor" name="valor" placeholder="Valor"  required>
+                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="valor" name="valor" placeholder="Valor" oninput="formatCurrency(this)" required>
                     </div>
 
+                    <!-- Year -->
+                    <div class="col-xl-12 mb-3">
+                        <label for="year"    class="form-label text-default">Año</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="year" name="year" required>
+                            <option value="{{ \Carbon\Carbon::now()->year }}">{{ \Carbon\Carbon::now()->year }}</option>
+                            <option value="{{ \Carbon\Carbon::now()->year + 1 }}">{{ \Carbon\Carbon::now()->year + 1 }}</option>
+                            <option value="{{ \Carbon\Carbon::now()->year + 2 }}">{{ \Carbon\Carbon::now()->year + 2 }}</option>
+                        </select>
+                    </div>
                     <div class="modal-footer">
                         <div class="spinner-border text-primary d-none" role="status" id="spinnerSesion">
                             <span class="visually-hidden">Loading...</span>

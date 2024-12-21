@@ -31,9 +31,9 @@
             <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
                 <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
                     <div class="my-5 d-flex justify-content-center">
-                        <a href="{{url('index')}}">
-                            <img src="{{asset('build/assets/images/brand-logos/adentu-sidebar.png')}}" alt="logo" class="adentu-sidebar">
-                            <img src="{{asset('build/assets/images/brand-logos/desktop-dark.png')}}" alt="logo" class="desktop-dark">
+                        <a href="{{route('index')}}">
+                            <img style="width: 350px;" src="{{asset('build/assets/images/brand-logos/adentu-sidebar.png')}}" alt="logo" class="adentu-sidebar">
+                            <img style="width: 350px;" src="{{asset('build/assets/images/brand-logos/desktop-dark.png')}}" alt="logo" class="desktop-dark">
                         </a>
                     </div>
                     <div class="card custom-card">
