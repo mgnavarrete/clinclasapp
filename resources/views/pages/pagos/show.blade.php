@@ -253,7 +253,7 @@
                                                                                 <p class="mb-0">Total Reuniones :</p>
                                                                             </th>
                                                                             <td>
-                                                                                <p class="mb-0 fw-semibold fs-15">{{ number_format($total_reuniones, 0, ',', '.') }}</p>
+                                                                                <p class="mb-0 fw-semibold fs-15">${{ number_format($total_reuniones, 0, ',', '.') }}</p>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
