@@ -236,7 +236,7 @@ class PagoController extends Controller
 
         foreach ($reuniones as $reunion) {
             $eventos->push([
-                'id' => $reunion->id,
+                'id' => $reunion->id_reunion,
                 'tipo' => 'Reunión',
                 'fecha' => $reunion->fecha,
                 'estado' => $reunion->estado,
