@@ -171,7 +171,7 @@
         </div>
     </div>
    
-    <div class="row d-flex align-items-stretch">
+    {{-- <div class="row d-flex align-items-stretch">
         <div class="col-xl-12">
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -192,7 +192,7 @@
                     </div>
                 </div>
         </div>
-    </div>
+    </div> --}}
   
     <div class="container-fluid">
         <div class="row">
