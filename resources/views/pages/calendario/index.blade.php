@@ -259,3 +259,21 @@
     </script>
 @endif
 @endsection
+
+@section('scripts')
+
+    <!-- JSVECTOR MAPS JS -->
+    <script src="{{asset('build/assets/libs/jsvectormap/js/jsvectormap.min.js')}}"></script>
+    <script src="{{asset('build/assets/libs/jsvectormap/maps/world-merc.js')}}"></script>
+
+    <!-- APEX CHARTS JS -->
+    <script src="{{asset('build/assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+
+    <!-- CHARTJS CHART JS -->
+    <script src="{{asset('build/assets/libs/chart.js/chart.min.js')}}"></script>
+
+    <!-- CRM-Dashboard -->
+    @vite('resources/assets/js/crm-dashboard.js')
+
+    
+@endsection

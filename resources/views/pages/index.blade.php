@@ -20,17 +20,17 @@
 <div class="container-fluid">
 
 <!-- Page Header -->
-<div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-    <h1 class="page-title fw-semibold fs-18 mb-0">¡Hola 👋, @auth{{Auth::user()->name}}@endauth!</h1>
-    <div class="ms-md-1 ms-0">
-        <nav>
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="javascript:void(0);">Páginas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Resumen</li>
-            </ol>
-        </nav>
+    <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+        <h1 class="page-title fw-semibold fs-18 mb-0">¡Hola 👋, @auth{{Auth::user()->name}}@endauth!</h1>
+        <div class="ms-md-1 ms-0">
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Páginas</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Resumen</li>
+                </ol>
+            </nav>
+        </div>
     </div>
-</div>
 <!-- Page Header Close -->
 
     <div class="row d-flex align-items-stretch">
@@ -47,7 +47,7 @@
                                 <span class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">{{ $totalPacientes }}</span>
                                 <span class="d-block fs-10 fw-semibold text-muted">Este Mes</span>
                             </p>
-                            <a href="{{ route('pacientes.index') }}" class="fs-12 mb-0 text-secondary">Ver Alumnos<i class="ti ti-chevron-right ms-1"></i></a>
+                            {{-- <a href="{{ route('pacientes.index') }}" class="fs-12 mb-0 text-secondary">Ver Alumnos<i class="ti ti-chevron-right ms-1"></i></a> --}}
                         </div>
                         <div class="col-6">
                             @php
@@ -80,7 +80,7 @@
                                 <span class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">${{ number_format($totalGanadoMesActual, 0, ',', '.') }}</span>
                                 <span class="d-block fs-10 fw-semibold text-muted">Este Mes</span>
                             </p>
-                            <a href="/" class="fs-12 mb-0 text-secondary">Ver Ingresos<i class="ti ti-chevron-right ms-1"></i></a>
+                            {{-- <a href="/" class="fs-12 mb-0 text-secondary">Ver Ingresos<i class="ti ti-chevron-right ms-1"></i></a> --}}
                         </div>
                         <div class="col-6">
                             @php
@@ -114,7 +114,7 @@
                                 <span class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">{{ $pagosPendientes->count() }}</span>
                                 <span class="d-block fs-10 fw-semibold text-muted">Este Mes</span>
                             </p>
-                            <a href="{{ route('pagos.index') }}" class="fs-12 mb-0 text-secondary">Ver Pendientes<i class="ti ti-chevron-right ms-1"></i></a>
+                            {{-- <a href="{{ route('pagos.index') }}" class="fs-12 mb-0 text-secondary">Ver Pendientes<i class="ti ti-chevron-right ms-1"></i></a> --}}
                         </div>
                         <div class="col-6">
                             @php
@@ -149,7 +149,7 @@
                                 <span class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">${{ number_format($totalGanadoMesPasado, 0, ',', '.') }}</span>
                                 <span class="d-block fs-10 fw-semibold text-muted">Mes Pasado</span>
                             </p>
-                            <a href="{{ route('pagos.index') }}" class="fs-12 mb-0 text-secondary">Ver Pagos<i class="ti ti-chevron-right ms-1"></i></a>
+                            {{-- <a href="{{ route('pagos.index') }}" class="fs-12 mb-0 text-secondary">Ver Pagos<i class="ti ti-chevron-right ms-1"></i></a> --}}
                         </div>
                         <div class="col-6">
                             @php
@@ -171,6 +171,28 @@
         </div>
     </div>
    
+    <div class="row d-flex align-items-stretch">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">Gráfica de Ingresos:</div>
+                </div>
+                <div class="card-body">
+      </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Gráfica de Pagos</div>
+                    
+                    </div>
+                    <div class="card-body">
+                      
+                    </div>
+                </div>
+        </div>
+    </div>
   
     <div class="container-fluid">
         <div class="row">
@@ -344,3 +366,20 @@
 @endsection
 
 
+@section('scripts')
+
+        <!-- JSVECTOR MAPS JS -->
+        <script src="{{asset('build/assets/libs/jsvectormap/js/jsvectormap.min.js')}}"></script>
+        <script src="{{asset('build/assets/libs/jsvectormap/maps/world-merc.js')}}"></script>
+
+        <!-- APEX CHARTS JS -->
+        <script src="{{asset('build/assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+
+        <!-- CHARTJS CHART JS -->
+        <script src="{{asset('build/assets/libs/chart.js/chart.min.js')}}"></script>
+
+        <!-- CRM-Dashboard -->
+        @vite('resources/assets/js/crm-dashboard.js')
+
+    
+@endsection
