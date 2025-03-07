@@ -273,11 +273,11 @@
 </div>
 
 {{-- Mostrar mensaje de éxito --}}
-@if(session('success'))
+{{-- @if(session('success'))
     <script>
         alert("{{ session('success') }}");
     </script>
-@endif
+@endif --}}
 
 {{-- Mostrar mensaje de error --}}
 @if($errors->any())

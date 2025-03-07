@@ -197,7 +197,7 @@
     <!--End::row-1 -->
 
 </div>
-{{-- Mostrar mensaje de éxito --}}
+Mostrar mensaje de éxito
 @if(session('success'))
     <script>
         alert("{{ session('success') }}");
