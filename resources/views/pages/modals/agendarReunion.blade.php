@@ -27,6 +27,8 @@
                         <label for="hora_reunion" class="form-label text-default">Horario Reunión</label>
                         <select class="form-select form-select-lg bg-outline-primary" id="hora_reunion" name="hora_reunion" required>
                             <option value="">Seleccionar hora</option>
+                            <option value="08:00,09:00">08:00 a 09:00</option>
+                            <option value="09:00,10:00">09:00 a 10:00</option>
                             <option value="10:00,11:00">10:00 a 11:00</option>
                             <option value="11:00,12:00">11:00 a 12:00</option>
                             <option value="12:00,13:00">12:00 a 13:00</option>
