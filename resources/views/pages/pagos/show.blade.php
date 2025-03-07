@@ -28,8 +28,8 @@
                             <div class="card custom-card">
                                 <div class="card-header d-md-flex d-block">
                                     <div class="h5 mb-0 d-sm-flex d-bllock align-items-center">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{asset('build/assets/images/brand-logos/toggle-logo.png')}}" alt="">
+                                        <div class="avatar avatar-sm me-2 ms-1">
+                                            <img src="{{asset('build/assets/images/brand-logos/toggle-logo.png')}}" style="width: 50px; height: 100%;" alt="">
                                         </div>
                                         <div class="ms-sm-2 ms-0 mt-sm-0 mt-2">
                                         <div class="h6 fw-semibold mb-0">DETALLES DEL PAGO : <span class="text-primary"></span></div>

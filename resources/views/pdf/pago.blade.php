@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="dark" data-toggled="close">
-
+    @php
+    \Carbon\Carbon::setLocale('es');
+    @endphp
     <head>
 
         <!-- META DATA -->
@@ -12,7 +14,7 @@
         <meta name="keywords" content="dashboard bootstrap, laravel template, admin panel in laravel, php admin panel, admin panel for laravel, admin template bootstrap 5, laravel admin panel, admin dashboard template, hrm dashboard, vite laravel, admin dashboard, ecommerce admin dashboard, dashboard laravel, analytics dashboard, template dashboard, admin panel template, bootstrap admin panel template">
         
         <!-- TITLE -->
-		<title> Pago_{{ \Carbon\Carbon::parse($pago->mes)->translatedFormat('F') }}_{{$pago->paciente->nombre}} </title>
+		<title> Pago_{{ ucfirst(\Carbon\Carbon::parse($pago->mes)->translatedFormat('F')) }}_{{$pago->paciente->nombre}} </title>
 
         <!-- FAVICON -->
         <link rel="icon" href="{{asset('build/assets/images/brand-logos/favicon.png')}}" type="image/x-icon">
@@ -37,17 +39,15 @@
 	</head>
 
 	<body>
-                        @php
-\Carbon\Carbon::setLocale('es');
-@endphp
+
 
 <div class="row">
     <div class="">
         <div class="card custom-card">
             <div class="card-header d-md-flex d-block">
                 <div class="h5 mb-0 d-sm-flex d-bllock align-items-center">
-                    <div class="avatar avatar-sm">
-                        <img src="{{asset('build/assets/images/brand-logos/toggle-logo.png')}}" alt="">
+                    <div class="avatar avatar-sm me-2 ms-1">
+                        <img src="{{asset('build/assets/images/brand-logos/toggle-logo.png')}}" style="width: 50px; height: 100%;" alt="">
                     </div>
                     <div class="ms-sm-2 ms-0 mt-sm-0 mt-2">
                     <div class="h6 fw-semibold mb-0">DETALLES DEL PAGO : <span class="text-primary"></span></div>
