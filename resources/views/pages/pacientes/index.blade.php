@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="dropdown ms-2">
                                                 <button class="btn btn-light btn-wave waves-effect waves-light px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ti ti-dots-vertical fs-18"></i>
+                                                    <i class="ti ti-plus fs-18"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="{{ route('pacientes.form') }}">Agregar Alumno</a></li>
