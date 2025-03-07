@@ -27,6 +27,7 @@
                         <label for="hora_sesionAgendar" class="form-label text-default">Horario Sesión</label>
                         <select class="form-select form-select-lg bg-outline-primary" id="hora_sesionAgendar" name="hora_sesionAgendar" required>
                             <option value="">Seleccionar hora</option>
+                            <option value="08:30,09:15">08:30 a 09:15</option>
                             <option value="09:30,10:15">09:30 a 10:15</option>
                             <option value="10:30,11:15">10:30 a 11:15</option>
                             <option value="11:30,12:15">11:30 a 12:15</option>

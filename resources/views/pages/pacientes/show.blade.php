@@ -265,7 +265,7 @@
                                     <button class="nav-link" id="sesionesPasadas-tab" data-bs-toggle="tab"
                                         data-bs-target="#sesionesPasadas-tab-pane" type="button" role="tab"
                                         aria-controls="sesionesPasadas-tab-pane" aria-selected="false"><i
-                                            class="ri-attachment-line me-1 align-middle d-inline-block"></i>Sesiones Pasadas</button>
+                                            class="ri-attachment-line me-1 align-middle d-inline-block"></i>Todas las Sesiones</button>
                                 </li>
 
                             </ul>
@@ -467,12 +467,12 @@
     <!--End::row-1 -->
 
 </div>
-{{-- Mostrar mensaje de éxito --}}
+{{-- Mostrar mensaje de éxito
 @if(session('success'))
     <script>
         alert("{{ session('success') }}");
     </script>
-@endif
+@endif --}}
 
 {{-- Mostrar mensaje de error --}}
 @if($errors->any())
