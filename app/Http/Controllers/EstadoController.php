@@ -132,14 +132,19 @@ class EstadoController extends Controller
             // Validar los datos del formulario
             $validatedData = $request->validate([
                 'fecha_sesionAgendar' => 'required|date',
-                'hora_sesionAgendar' => 'required|string',
+                'hora_inicioSesion' => 'required|string',
+                'minuto_inicioSesion' => 'required|string',
+                'hora_finSesion' => 'required|string',
+                'minuto_finSesion' => 'required|string',
                 'notas_sesionAgendar' => 'nullable|string',
             ]);
 
             // Separar la hora en hora_inicio y hora_fin
-            $hora = explode(',', $validatedData['hora_sesionAgendar']);
-            $hora_inicio = Carbon::createFromFormat('H:i', $hora[0])->format('H:i:s');
-            $hora_final = Carbon::createFromFormat('H:i', $hora[1])->format('H:i:s');
+            $hora_inicio = $validatedData['hora_inicioSesion'] . ':' . $validatedData['minuto_inicioSesion'];
+            $hora_final = $validatedData['hora_finSesion'] . ':' . $validatedData['minuto_finSesion'];
+            $hora_inicio = Carbon::createFromFormat('H:i', $hora_inicio)->format('H:i:s');
+            $hora_final = Carbon::createFromFormat('H:i', $hora_final)->format('H:i:s');
+
 
             $sesion = Sesion::where('id_paciente', $id)->first();
 

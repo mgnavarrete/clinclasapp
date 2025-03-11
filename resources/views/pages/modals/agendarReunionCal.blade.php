@@ -33,17 +33,89 @@
                     </div>
 
                     <!-- Hora -->
+                    <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora_reunion" class="form-label text-default">Horario Reunión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="hora_reunion" name="hora_reunion" required>
-                            <option value="">Seleccionar hora</option>
-                            <option value="10:00,11:00">10:00 a 11:00</option>
-                            <option value="11:00,12:00">11:00 a 12:00</option>
-                            <option value="12:00,13:00">12:00 a 13:00</option>
-                            <option value="13:00,14:00">13:00 a 14:00</option>
-                            <option value="14:00,15:00">14:00 a 15:00</option>
-                            <option value="15:00,16:00">15:00 a 16:00</option>
-                        </select>
+                        <label for="hora_inicioReunion" class="form-label text-default">Horario Inicio Reunión</label>
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicioReunion" name="hora_inicioReunion" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicioReunion" name="minuto_inicioReunion" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Hora Fin Sesión-->
+                    <div class="col-xl-12 mb-3">
+                        <label for="hora_finReunion" class="form-label text-default">Horario Final Reunión</label>
+
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_finReunion" name="hora_finReunion" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_finReunion" name="minuto_finReunion" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Valor -->
