@@ -58,7 +58,9 @@ class PacienteController extends Controller
             'mail_tutor' => 'nullable|email|max:100',
             'dia' => 'required|in:lunes,martes,miércoles,jueves,viernes',
             'hora_inicio' => 'required|string',
+            'minuto_inicio' => 'required|string',
             'hora_fin' => 'required|string',
+            'minuto_fin' => 'required|string',
             'valor' => 'required|numeric|between:0,99999999.99',
             'nombre_tutor2' => 'nullable|string|max:100',
             'telefono_tutor2' => 'nullable|string|max:15',
@@ -107,12 +109,16 @@ class PacienteController extends Controller
             // Obtener el primer día del mes actual
             $fechaActual = Carbon::now();
             $primerDiaMes = $fechaActual->copy()->startOfMonth();
+            $horaInicio = $validatedData['hora_inicio'] . ':' . $validatedData['minuto_inicio'];
+            $horaFin = $validatedData['hora_fin'] . ':' . $validatedData['minuto_fin'];
+            $horaInicio = Carbon::createFromFormat('H:i', $horaInicio)->format('H:i:s');
+            $horaFin = Carbon::createFromFormat('H:i', $horaFin)->format('H:i:s');
 
             // Crear la Sesion
             $sesion = Sesion::create([
                 'dia_semana' => $validatedData['dia'],
-                'hora_inicio' => $validatedData['hora_inicio'],
-                'hora_final' => $validatedData['hora_fin'],
+                'hora_inicio' => $horaInicio,
+                'hora_final' => $horaFin,
                 'valor' => $validatedData['valor'],
                 'year' => $validatedData['year'],
                 'id_paciente' => $paciente->id_paciente,
@@ -139,8 +145,8 @@ class PacienteController extends Controller
                             EstadoSesion::create([
                                 'id_sesion' => $sesion->id_sesion,
                                 'fecha' => $fecha->toDateString(),
-                                'hora_inicio' => $validatedData['hora_inicio'],
-                                'hora_final' => $validatedData['hora_fin'],
+                                'hora_inicio' => $horaInicio,
+                                'hora_final' => $horaFin,
                                 'estado' => 'pendiente',
                                 'notas' => '',
                             ]);

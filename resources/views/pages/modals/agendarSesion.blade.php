@@ -23,19 +23,91 @@
                     </div>
 
                     <!-- Hora -->
+                    <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora_sesionAgendar" class="form-label text-default">Horario Sesión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="hora_sesionAgendar" name="hora_sesionAgendar" required>
-                            <option value="">Seleccionar hora</option>
-                            <option value="08:30,09:15">08:30 a 09:15</option>
-                            <option value="09:30,10:15">09:30 a 10:15</option>
-                            <option value="10:30,11:15">10:30 a 11:15</option>
-                            <option value="11:30,12:15">11:30 a 12:15</option>
-                            <option value="12:30,13:15">12:30 a 13:15</option>
-                            <option value="14:30,15:15">14:30 a 15:15</option>
-                            <option value="15:30,16:30">15:30 a 16:30</option>
-                        </select>
+                        <label for="hora_inicioSesion" class="form-label text-default">Horario Inicio Sesión</label>
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicioSesion" name="hora_inicioSesion" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicioSesion" name="minuto_inicioSesion" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <!-- Hora Fin Sesión-->
+                    <div class="col-xl-12 mb-3">
+                        <label for="hora_finSesion" class="form-label text-default">Horario Final Sesión</label>
+
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_finSesion" name="hora_finSesion" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_finSesion" name="minuto_finSesion" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <!-- Notas -->
                     <div class="col-xl-12 mb-3">
                         <label for="notas_sesionAgendar" class="form-label text-default">Notas <span class="text-muted">(Opcional)</span></label>

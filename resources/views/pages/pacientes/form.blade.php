@@ -200,22 +200,88 @@
                     <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
                         <label for="hora_inicio" class="form-label text-default">Horario Inicio Sesión</label>
-                    
-                        <div class="input-group">
-                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
-                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Inicio" name="hora_inicio" readonly="readonly">
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicio" name="hora_inicio" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicio" name="minuto_inicio" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
                         </div>
-                       
                     </div>
 
                     <!-- Hora Fin Sesión-->
                     <div class="col-xl-12 mb-3">
                         <label for="hora_fin" class="form-label text-default">Horario Final Sesión</label>
-                        <div class="input-group">
-                            <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
-                            <input type="text" class="form-control flatpickr-input active" id="timepickr1" placeholder="Elige Hora Final" name="hora_fin" readonly="readonly">
+
+                        <div class="d-flex gap-2">
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_fin" name="hora_fin" required>
+                                <option value="">Hora</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_fin" name="minuto_fin" required>
+                                <option value="">Min</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
                         </div>
                     </div>
+             
 
                     <!-- Tipo de sesión -->
                     <div class="col-xl-12 mb-3">

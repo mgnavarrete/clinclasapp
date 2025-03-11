@@ -83,16 +83,20 @@ class CalendarioController extends Controller
         $validatedData = $request->validate([
             'paciente_reunion' => 'required|numeric',
             'fecha_reunion' => 'required|date',
-            'hora_reunion' => 'required|string',
+            'hora_inicioReunion' => 'required|string',
+            'minuto_inicioReunion' => 'required|string',
+            'hora_finReunion' => 'required|string',
+            'minuto_finReunion' => 'required|string',
             'valor_reunion' => 'required|numeric|between:0,99999999.99',
         ]);
 
         try {
 
             // Separar la hora en hora_inicio y hora_fin
-            $hora = explode(',', $validatedData['hora_reunion']);
-            $hora_inicio = Carbon::createFromFormat('H:i', $hora[0])->format('H:i:s');
-            $hora_final = Carbon::createFromFormat('H:i', $hora[1])->format('H:i:s');
+            $hora_inicio = $validatedData['hora_inicioReunion'] . ':' . $validatedData['minuto_inicioReunion'];
+            $hora_final = $validatedData['hora_finReunion'] . ':' . $validatedData['minuto_finReunion'];
+            $hora_inicio = Carbon::createFromFormat('H:i', $hora_inicio)->format('H:i:s');
+            $hora_final = Carbon::createFromFormat('H:i', $hora_final)->format('H:i:s');
 
 
             $reunion = Reunion::create([
@@ -119,16 +123,20 @@ class CalendarioController extends Controller
         $validatedData = $request->validate([
             'paciente_sesion' => 'required|numeric',
             'fecha_sesionAgendar' => 'required|date',
-            'hora_sesionAgendar' => 'required|string',
+            'hora_inicioSesion' => 'required|string',
+            'minuto_inicioSesion' => 'required|string',
+            'hora_finSesion' => 'required|string',
+            'minuto_finSesion' => 'required|string',
             'notas_sesionAgendar' => 'nullable|string',
         ]);
 
         try {
 
             // Separar la hora en hora_inicio y hora_fin
-            $hora = explode(',', $validatedData['hora_sesionAgendar']);
-            $hora_inicio = Carbon::createFromFormat('H:i', $hora[0])->format('H:i:s');
-            $hora_final = Carbon::createFromFormat('H:i', $hora[1])->format('H:i:s');
+            $hora_inicio = $validatedData['hora_inicioSesion'] . ':' . $validatedData['minuto_inicioSesion'];
+            $hora_final = $validatedData['hora_finSesion'] . ':' . $validatedData['minuto_finSesion'];
+            $hora_inicio = Carbon::createFromFormat('H:i', $hora_inicio)->format('H:i:s');
+            $hora_final = Carbon::createFromFormat('H:i', $hora_final)->format('H:i:s');
 
             $sesion = Sesion::where('id_paciente', $validatedData['paciente_sesion'])->first();
 
