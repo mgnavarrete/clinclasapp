@@ -1,33 +1,35 @@
 <!-- agendar Sesion -->
-<div class="modal fade" id="agendarSesion" tabindex="-1" aria-labelledby="agendarSesionModal" aria-hidden="true">
+<div class="modal fade" id="agendarSesionAnual" tabindex="-1" aria-labelledby="agendarSesionModalAnual" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="agendarSesionModal">Agendar Sesion</h5>
+            <h5 class="modal-title" id="agendarSesionModalAnual">Agregar Sesion Anual</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                    <form action="{{ route('estado.create', $paciente->id_paciente) }}" method="POST" id="agendarSesionForm">
+                    <form action="{{ route('estado.createAnual', $paciente->id_paciente) }}" method="POST" id="agendarSesionFormAnual">
                     @csrf
         
 
-                    <!-- Fecha -->
+                    <!-- Dia de la semana -->
                     <div class="col-xl-12 mb-3">
-                        <label for="humanfrienndlydate" class="form-label text-default">Fecha de la sesión</label>
-                        <div class="form-group bg-outline-primary">
-                            <div class="input-group">
-                                <div class="input-group-text text-muted"> <i class="ri-calendar-line"></i> </div>
-                                <input type="text" class="form-control" id="humanfrienndlydate" name="fecha_sesionAgendar" placeholder="Seleccionar fecha sesión" required>
-                            </div>
-                        </div>
+                        <label for="dia" class="form-label text-default">Día de la semana</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="diaSesionAnual" name="diaSesionAnual" required>
+                            <option value="">Seleccionar día</option>
+                            <option value="lunes">Lunes</option>
+                            <option value="martes">Martes</option>
+                            <option value="miércoles">Miércoles</option>
+                            <option value="jueves">Jueves</option>
+                            <option value="viernes">Viernes</option>
+                        </select>
                     </div>
 
                     <!-- Hora -->
                     <!-- Hora Inicio Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora_inicioSesion" class="form-label text-default">Horario Inicio Sesión</label>
+                        <label for="hora_inicioSesionAnual" class="form-label text-default">Horario Inicio Sesión</label>
                         <div class="d-flex gap-2">
-                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicioSesion" name="hora_inicioSesion" required>
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicioSesionAnual" name="hora_inicioSesionAnual" required>
                                 <option value="">Hora</option>
                                 <option value="06">06</option>
                                 <option value="07">07</option>
@@ -47,7 +49,7 @@
                                 <option value="21">21</option>
                                 <option value="22">22</option>
                             </select>
-                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicioSesion" name="minuto_inicioSesion" required>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicioSesionAnual" name="minuto_inicioSesionAnual" required>
                                 <option value="">Min</option>
                                 <option value="00">00</option>
                                 <option value="05">05</option>
@@ -67,10 +69,10 @@
 
                     <!-- Hora Fin Sesión-->
                     <div class="col-xl-12 mb-3">
-                        <label for="hora_finSesion" class="form-label text-default">Horario Final Sesión</label>
+                        <label for="hora_finSesionAnual" class="form-label text-default">Horario Final Sesión</label>
 
                         <div class="d-flex gap-2">
-                            <select class="form-select form-select-lg bg-outline-primary" id="hora_finSesion" name="hora_finSesion" required>
+                            <select class="form-select form-select-lg bg-outline-primary" id="hora_finSesionAnual" name="hora_finSesionAnual" required>
                                 <option value="">Hora</option>
                                 <option value="06">06</option>
                                 <option value="07">07</option>
@@ -90,7 +92,7 @@
                                 <option value="21">21</option>
                                 <option value="22">22</option>
                             </select>
-                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_finSesion" name="minuto_finSesion" required>
+                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_finSesionAnual" name="minuto_finSesionAnual" required>
                                 <option value="">Min</option>
                                 <option value="00">00</option>
                                 <option value="05">05</option>
@@ -107,21 +109,41 @@
                             </select>
                         </div>
                     </div>
-                    
-                    <!-- Notas -->
+                    <!-- Tipo de sesión -->
                     <div class="col-xl-12 mb-3">
-                        <label for="notas_sesionAgendar" class="form-label text-default">Notas <span class="text-muted">(Opcional)</span></label>
-                        <textarea class=" form-control form-control-lg bg-outline-primary mb-2" id="notas_sesionAgendar" name="notas_sesionAgendar" placeholder="Escribe aquí cualquier información adicional sobre la sesión"></textarea>
+                        <label for="tipoSesionAnual" class="form-label text-default">Tipo de sesión</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="tipoSesionAnual" name="tipoSesionAnual" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="individual">Individual</option>
+                            <option value="grupal">Grupal</option>
+                        </select>
                     </div>
 
+                    <!-- Valor-->
+                    <div class="col-xl-12 mb-3">
+                        <label for="valorSesionAnual" class="form-label text-default">Valor</label>
+                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="valorSesionAnual" name="valorSesionAnual" placeholder="Valor" oninput="formatCurrency(this)" required>
+                    </div>
+
+                    <!-- Year -->
+                    <div class="col-xl-12 mb-3">
+                        <label for="yearSesionAnual"    class="form-label text-default">Año</label>
+                        <select class="form-select form-select-lg bg-outline-primary" id="yearSesionAnual" name="yearSesionAnual" required>
+                            <option value="{{ \Carbon\Carbon::now()->year }}">{{ \Carbon\Carbon::now()->year }}</option>
+                            <option value="{{ \Carbon\Carbon::now()->year + 1 }}">{{ \Carbon\Carbon::now()->year + 1 }}</option>
+                            <option value="{{ \Carbon\Carbon::now()->year + 2 }}">{{ \Carbon\Carbon::now()->year + 2 }}</option>
+                        </select>
+                    </div>
+
+               
 
                 
                     <div class="modal-footer">
-                        <div class="spinner-border text-primary d-none" role="status" id="spinnerAgendarSesion">
+                        <div class="spinner-border text-primary d-none" role="status" id="spinnerAgendarSesionAnual">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <button type="submit" class="btn btn-secondary" id="guardarBtnAgendarSesion">Guardar</button>
-                      
+                        <button type="submit" class="btn btn-secondary" id="guardarBtnAgendarSesionAnual">Guardar</button>
+                        
                         
                     </div>
                 </form>
@@ -131,11 +153,11 @@
 </div>
 
 <script>
-        document.getElementById('agendarSesionForm').addEventListener('submit', function() {
+        document.getElementById('agendarSesionFormAnual').addEventListener('submit', function() {
             // Ocultar el botón de guardar
-            document.getElementById('guardarBtnAgendarSesion').classList.add('d-none');
+            document.getElementById('guardarBtnAgendarSesionAnual').classList.add('d-none');
             // Mostrar el spinner
-            document.getElementById('spinnerAgendarSesion').classList.remove('d-none');
+            document.getElementById('spinnerAgendarSesionAnual').classList.remove('d-none');
         });
 
 </script>

@@ -75,4 +75,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sesiones/{id}/generarAnual', [SesionController::class, 'generarAnual'])->name('sesiones.generarAnual');
     Route::get('/pagos/{id}/descargar', [PagoController::class, 'descargarPDF'])->name('pagos.descargar');
     Route::get('/pdf/{id}/pago', [PagoController::class, 'pagePDF'])->name('pdf.pago');
+    Route::post('/estado/{id}/createAnual', [EstadoController::class, 'createAnual'])->name('estado.createAnual');
 });

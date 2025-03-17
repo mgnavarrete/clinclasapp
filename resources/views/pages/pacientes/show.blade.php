@@ -92,8 +92,20 @@
                                 <i class="ri-pencil-line"></i>
                             </button> --}}
                         </div>
+                        
                         <div class="text-muted">
                             <div class="row">
+                                @php
+                                    $sesionAnual = 0;
+                                @endphp
+                                @foreach ($sesionesPaciente as $sesion)
+                                @php
+                                    $sesionAnual ++;
+                                @endphp
+                                <div class="d-flex flex-wrap align-item-center  justify-content-between">
+                                    <p class="fs-15 mb-2 me-4 fw-semibold">Sesión {{ $sesionAnual }}:</p>
+                        
+                                </div>
                                 <div class="col-md-6">
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
@@ -122,7 +134,9 @@
                                         ${{ number_format($sesion->valor, 0, ',', '.') }}
                                     </p>  
                                 </div>
+                                @endforeach
                             </div>
+                            
                         </div>
                     </div>
 
@@ -273,12 +287,12 @@
                         <div>
                             <div class="dropdown ms-2">
                                 <button class="btn btn-light btn-wave waves-effect waves-light px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ti ti-dots-vertical fs-18"></i>
+                                    <i class="ti ti-plus fs-18"></i>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarReunion">Agendar Reunión</a></li>
                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarSesion">Agendar Sesión</a></li>
-                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editSesion">Generar Sesiones Anuales</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#agendarSesionAnual">Generar Sesiones Anuales</a></li>
         
                                 </ul>
                             </div>
@@ -492,6 +506,7 @@
 @include('pages.modals.editReunion')
 @include('pages.modals.agendarSesion')
 @include('pages.modals.editPagoPac')
+@include('pages.modals.agregarSesionAnual')
 
 @endsection
 

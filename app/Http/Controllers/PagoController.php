@@ -149,12 +149,14 @@ class PagoController extends Controller
 
 
             foreach ($pacientes as $paciente) {
-                $sesion = Sesion::where('id_paciente', $paciente->id_paciente)->first();
-                if ($sesion !== null) {
+                $sesionesPaciente = Sesion::where('id_paciente', $paciente->id_paciente);
+                $sesionValor = $sesionesPaciente->first()->valor;
+
+                if ($sesionesPaciente !== null) {
 
 
                     // obtener las estadoSesiones del mes de $mes y-m-d
-                    $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)
+                    $estadoSesiones = EstadoSesion::whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))
                         ->whereIn('estado', ['no avisó', 'realizada'])
                         ->get();
                     $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
@@ -168,8 +170,8 @@ class PagoController extends Controller
                         $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
 
                         if ($mesEstado === $mesComparar) {
-                            $datainfo = $sesion->valor;
-                            $valorSesiones += $sesion->valor;
+                            $datainfo = $sesionValor;
+                            $valorSesiones += $sesionValor;
                         }
                     }
                     $valorReuniones = 0;
@@ -216,8 +218,8 @@ class PagoController extends Controller
     {
         $pago = Pago::findOrFail($id);
 
-        $sesion = Sesion::where('id_paciente', $pago->id_paciente)->first();
-        $estadoSesionesAll = EstadoSesion::with('sesion')->where('id_sesion', $sesion->id_sesion)->get();
+        $sesionesPaciente = Sesion::where('id_paciente', $pago->id_paciente);
+        $estadoSesionesAll = EstadoSesion::with('sesion')->whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))->get();
 
         $reunionesAll = Reunion::where('id_paciente', $pago->id_paciente)->get();
         // Filtrar sesiones y reuniones del mes del pago
@@ -282,7 +284,7 @@ class PagoController extends Controller
             'valor_total' => $total_valor,
         ]);
 
-        return view('pages.pagos.show', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos', 'total_reuniones', 'total_sesiones', 'total_valor'));
+        return view('pages.pagos.show', compact('pago', 'sesionesPaciente', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos', 'total_reuniones', 'total_sesiones', 'total_valor'));
     }
 
 
@@ -291,8 +293,8 @@ class PagoController extends Controller
     {
         $pago = Pago::findOrFail($id);
         $paciente = Paciente::findOrFail($pago->id_paciente);
-        $sesion = Sesion::where('id_paciente', $pago->id_paciente)->first();
-        $estadoSesionesAll = EstadoSesion::with('sesion')->where('id_sesion', $sesion->id_sesion)->get();
+        $sesionesPaciente = Sesion::where('id_paciente', $pago->id_paciente);
+        $estadoSesionesAll = EstadoSesion::with('sesion')->whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))->get();
 
         $reunionesAll = Reunion::where('id_paciente', $pago->id_paciente)->get();
         // Filtrar sesiones y reuniones del mes del pago
@@ -301,9 +303,17 @@ class PagoController extends Controller
         $estadoSesiones = $estadoSesionesAll->filter(function ($estadoSesion) use ($mes) {
             return Carbon::parse($estadoSesion->fecha)->format('Y-m') === $mes;
         });
+        // Eliminar los estadoSesiones que sean cancelada
+        $estadoSesiones = $estadoSesiones->filter(function ($estadoSesion) {
+            return $estadoSesion->estado !== 'cancelada';
+        });
 
         $reuniones = $reunionesAll->filter(function ($reunion) use ($mes) {
             return Carbon::parse($reunion->fecha)->format('Y-m') === $mes;
+        });
+
+        $reuniones = $reuniones->filter(function ($reunion) {
+            return $reunion->estado !== 'cancelada';
         });
 
         $apoderados = Tutor::where('id_paciente', $pago->id_paciente)->get();
@@ -338,7 +348,7 @@ class PagoController extends Controller
 
         $mes = Carbon::parse($pago->mes)->translatedFormat('F');
 
-        return view('pdf.pago', compact('pago', 'sesion', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
+        return view('pdf.pago', compact('pago', 'sesionesPaciente', 'reuniones', 'apoderados', 'estadoSesiones', 'eventos'));
     }
 
     public function descargarPDF($id)

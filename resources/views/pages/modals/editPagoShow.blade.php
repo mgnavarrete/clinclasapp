@@ -35,7 +35,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <button type="submit" class="btn btn-secondary" id="guardarBtnEditPago{{ $pago->id_pago }}">Guardar</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        
                 </div>
                 </form>
             </div>
