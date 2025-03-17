@@ -163,4 +163,80 @@ class EstadoController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear la sesión. ' . $e->getMessage()]);
         }
     }
+
+    public function createAnual(Request $request, $id)
+    {
+
+        try {
+            // Validar los datos del formulario
+            $validatedData = $request->validate([
+                'diaSesionAnual' => 'required|string',
+                'hora_inicioSesionAnual' => 'required|string',
+                'minuto_inicioSesionAnual' => 'required|string',
+                'hora_finSesionAnual' => 'required|string',
+                'minuto_finSesionAnual' => 'required|string',
+                'valorSesionAnual' => 'required|numeric',
+                'yearSesionAnual' => 'required|numeric',
+                'tipoSesionAnual' => 'required|string',
+            ]);
+
+            // Obtener el día de la semana de la sesión creada
+            $diaSemana = $validatedData['diaSesionAnual'];
+
+            // Obtener el primer día del mes actual
+            $fechaActual = Carbon::now();
+            $primerDiaMes = $fechaActual->copy()->startOfMonth();
+            // Separar la hora en hora_inicio y hora_fin
+            $hora_inicio = $validatedData['hora_inicioSesionAnual'] . ':' . $validatedData['minuto_inicioSesionAnual'];
+            $hora_final = $validatedData['hora_finSesionAnual'] . ':' . $validatedData['minuto_finSesionAnual'];
+            $hora_inicio = Carbon::createFromFormat('H:i', $hora_inicio)->format('H:i:s');
+            $hora_final = Carbon::createFromFormat('H:i', $hora_final)->format('H:i:s');
+
+
+            // Crear la Sesion
+            $sesion = Sesion::create([
+                'dia_semana' => $validatedData['diaSesionAnual'],
+                'hora_inicio' => $hora_inicio,
+                'hora_final' => $hora_final,
+                'valor' => $validatedData['valorSesionAnual'],
+                'year' => $validatedData['yearSesionAnual'],
+                'id_paciente' => $id,
+                'tipo' => $validatedData['tipoSesionAnual'],
+            ]);
+
+
+
+            // Obtener el último día del mes actual
+            $ultimoDiaMes = $fechaActual->copy()->endOfMonth();
+            echo "<script>console.log($sesion->id_sesion);</script>";
+            // Iterar sobre los meses de marzo a diciembre
+            for ($mes = 3; $mes <= 12; $mes++) {
+                // Establecer el primer y último día del mes actual
+                $primerDiaMes = Carbon::create($sesion->year, $mes, 1);
+                $ultimoDiaMes = $primerDiaMes->copy()->endOfMonth();
+
+                // Iterar sobre los días del mes actual
+                for ($fecha = $primerDiaMes; $fecha->lte($ultimoDiaMes); $fecha->addDay()) {
+                    // Verificar si el día de la semana coincide
+                    if ($fecha->locale('es')->translatedFormat('l') === $diaSemana) {
+                        // Crear un registro en EstadoSesion
+                        EstadoSesion::create([
+                            'id_sesion' => $sesion->id_sesion,
+                            'fecha' => $fecha->toDateString(),
+                            'hora_inicio' => $hora_inicio,
+                            'hora_final' => $hora_final,
+                            'estado' => 'pendiente',
+                            'notas' => '',
+                        ]);
+                    }
+                }
+            }
+
+            // Redirigir a la vista de pacientes con un mensaje de éxito
+            return redirect()->route('pacientes.show', $id)->with('success', 'Sesión creada exitosamente.');
+        } catch (\Exception $e) {
+            logger()->error('Error al crear la sesión: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al crear la sesión. ' . $e->getMessage()]);
+        }
+    }
 }

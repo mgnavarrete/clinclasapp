@@ -167,7 +167,7 @@ class PacienteController extends Controller
     {
         $paciente = Paciente::where('id_user', Auth::user()->id)->findOrFail($id);
         $sesiones = Sesion::all();
-        $sesion = $sesiones->where('id_paciente', $id)->first();
+        $sesionesPaciente = $sesiones->where('id_paciente', $id);
 
         $apoderados = Tutor::all();
         $apoderadosPaciente = $apoderados->where('id_paciente', $id);
@@ -181,7 +181,8 @@ class PacienteController extends Controller
             ->orderByRaw("FIELD(estado, 'atrasado', 'pendiente', 'pagado')")
             ->get();
 
-        $estadoSesiones = EstadoSesion::where('id_sesion', $sesion->id_sesion)->get();
+        $listIDSesiones = $sesionesPaciente->pluck('id_sesion');
+        $estadoSesiones = EstadoSesion::whereIn('id_sesion', $listIDSesiones)->get();
         $sesionesCanceladas = $estadoSesiones->where('estado', 'cancelada')->count();
         $sesionesRealizadas = $estadoSesiones->where('estado', 'realizada')->count();
         $sesionesPendientes = $estadoSesiones->where('estado', 'pendiente')->count();
@@ -190,7 +191,7 @@ class PacienteController extends Controller
 
         return view('pages.pacientes.show', compact(
             'paciente',
-            'sesion',
+            'sesionesPaciente',
             'apoderadosPaciente',
             'edadPaciente',
             'especialistas',
