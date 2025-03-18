@@ -69,7 +69,7 @@
                         $edadPaciente = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age;
                         $coverImageNumber = rand(1, 6);
                         $avatarImageNumber = $paciente->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
-                        $sesion = $sesiones->where('id_paciente', $paciente->id_paciente)->first();
+                        $sesionesPaciente = $sesiones->where('id_paciente', $paciente->id_paciente);
                         @endphp
                         <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="card custom-card team-member-card" style="height: 280px;">
@@ -108,7 +108,9 @@
                                         <div class="text-center p-3 my-auto">
                                             <p class="fw-semibold mb-0">Día</p>
                                             <span class="text-muted fs-12">
-                                                {{ $sesion ? ($sesion->dia_semana ? ucfirst($sesion->dia_semana) : 'N/A') : 'N/A' }}
+                                                @foreach ($sesionesPaciente as $sesion)
+                                                    {{ $sesion ? ($sesion->dia_semana ? ucfirst($sesion->dia_semana) : 'N/A') : 'N/A' }} 
+                                                @endforeach
                                             </span>
                                         </div>
                                         <div class="text-center p-3 my-auto">

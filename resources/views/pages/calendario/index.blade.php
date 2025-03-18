@@ -41,9 +41,12 @@
 
     <!-- Start::row-1 -->
     <div class="row">
-        <div class="col-xl-3">
+                <div class="col-xl-12">
             <div class="card custom-card">
-                <div class="card-header d-grid">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-title">Semana
+
+                    </div>
                     <div class="dropdown ms-2">
                         <button class="btn btn-light btn-wave waves-effect waves-light px-2 w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-add-line align-middle me-1 fw-semibold d-inline-block fs-18"></i>Agendar
@@ -54,97 +57,6 @@
 
                         </ul>
                     </div>
-                </div>
-                <div class="card-body p-0">
-                    <div id="external-events" class="border-bottom p-3">
-                        <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
-                          style="background-color: #0000ff; border-color: #0000ff; cursor: pointer;"
-                          data-class="bg-info">
-                          <div class="fc-event-main">📓 Sesiones</div>
-                        </div>
-                        <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
-                            style="background-color: #6f42c1; border-color: #6f42c1; cursor: pointer;"
-                            data-class="bg-danger">
-                            <div class="fc-event-main">📋 Reuniones</div>
-                        </div>
-                        
-                        <div
-                          class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
-                          style="background-color: #00c0ef; border-color: #00c0ef; cursor: pointer;"
-                          data-class="bg-warning">
-                          <div class="fc-event-main">🎂 Cumpleaños</div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-3">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <h6 class="fw-semibold">
-                          Próximos Eventos
-                        </h6>
-                       
-                      </div>
-                    </div>
-                    <div class="p-3 border-bottom" id="full-calendar-activity">
-                      <ul class="list-unstyled mb-0 fullcalendar-events-activity">
-                        @php
-                            $eventos = collect();
-
-                            foreach ($proximasSesiones as $sesion) {
-                                if (\Carbon\Carbon::parse($sesion->fecha)->isToday() || \Carbon\Carbon::parse($sesion->fecha)->isFuture()) {
-                                    $eventos->push([
-                                        'tipo' => 'sesión',
-                                        'nombre' => $sesion->sesion->paciente->nombre,
-                                        'fecha' => $sesion->fecha,
-                                        'hora_inicio' => $sesion->hora_inicio,
-                                        'hora_fin' => $sesion->hora_fin
-                                    ]);
-                                }
-                            }
-
-                            foreach ($proximasReuniones as $reunion) {
-                                if (\Carbon\Carbon::parse($reunion->fecha)->isToday() || \Carbon\Carbon::parse($reunion->fecha)->isFuture()) {
-                                    $eventos->push([
-                                        'tipo' => 'reunión',
-                                        'nombre' => $reunion->paciente->nombre,
-                                        'fecha' => $reunion->fecha,
-                                        'hora_inicio' => $reunion->hora_inicio,
-                                        'hora_fin' => $reunion->hora_fin
-                                    ]);
-                                }
-                            }
-
-                            $eventos = $eventos->sortBy(function($evento) {
-                                return \Carbon\Carbon::parse($evento['fecha'] . ' ' . $evento['hora_inicio']);
-                            });
-                        @endphp
-
-                        @foreach ($eventos as $evento)
-                            <li>
-                                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                                    <p class="mb-1 fw-semibold">
-                                      {{ ucfirst($evento['tipo']) }}: {{ $evento['nombre'] }}
-                                    </p>
-                                    <span class="badge bg-light text-default mb-1">
-                                        {{ \Carbon\Carbon::parse($evento['hora_inicio'])->format('H:i') }} - {{ \Carbon\Carbon::parse($evento['hora_fin'])->format('H:i') }}
-                                    </span>
-                                </div>
-                                <p class="mb-0 text-muted fs-12">
-                                    {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('l j \d\e F') ) }}
-                                </p>
-                            </li>
-                        @endforeach
-                      </ul>
-                    </div>
-                    <div class="p-3">
-                      <img src="{{asset('build/assets/images/media/media-83.svg')}}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-9">
-            <div class="card custom-card">
-                <div class="card-header">
-                    <div class="card-title">Calendario</div>
                 </div>
                 <div class="card-body">
                     <div id='calendar2'></div>
@@ -173,7 +85,7 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
             firstDay: 1,
-            initialView: 'dayGridMonth',
+            initialView: 'timeGridWeek',
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -185,6 +97,7 @@
                 week: 'Semana',
                 day: 'Día',
                 list: 'Lista'
+ 
             },
             slotMinTime: '08:00:00',
             slotMaxTime: '19:00:00',
