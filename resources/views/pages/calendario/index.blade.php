@@ -20,7 +20,9 @@
 
 @php
     \Carbon\Carbon::setLocale('es');
-
+    $hrInicio = '07:00:00';
+    $hrFin = '08:30:00';
+    $currentYear = now()->year; // Obtener el año actual
 @endphp
 
 <div class="container-fluid">
@@ -99,11 +101,11 @@
                 list: 'Lista'
  
             },
-            slotMinTime: '08:00:00',
-            slotMaxTime: '19:00:00',
-            slotDuration: '00:15:00',
-            slotLabelInterval: '01:00',
-            displayEventTime: false,
+            slotMinTime: '07:00:00',
+            slotMaxTime: '18:30:00',
+            slotDuration: '00:10:00',
+            slotLabelInterval: '00:30',
+            displayEventTime: true,
             titleFormat: {
                 month: 'long',
                 year: 'numeric'
@@ -111,7 +113,7 @@
             events: [
                 @foreach($estadoSesiones as $sesion)
                 {
-                    title: '📓 {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }}: {{ $sesion->sesion->paciente->nombre }}',
+                    title: '📓 {{ $sesion->sesion->paciente->nombre }}',
                     start: '{{ $sesion->fecha }}T{{ $sesion->hora_inicio }}',
                     end: '{{ $sesion->fecha }}T{{ $sesion->hora_final }}',
                     color: '{{ $sesion->estado == "cancelada" || $sesion->estado == "no avisó" ? "#ff0000" : ($sesion->estado == "realizada" ? "#28a745" : "#007bff") }}',
@@ -123,7 +125,7 @@
                 @endforeach
                 @foreach($reuniones as $reunion)
                 {
-                    title: '📋{{ \Carbon\Carbon::parse($reunion->hora_inicio)->format('H:i') }}: {{ $reunion->paciente->nombre }}',
+                    title: '📋{{ $reunion->paciente->nombre }}',
                     start: '{{ $reunion->fecha }}T{{ $reunion->hora_inicio }}',
                     end: '{{ $reunion->fecha }}T{{ $reunion->hora_fin }}',
                     color: '{{ $reunion->estado == "cancelada" ? "#ff0000" : ($reunion->estado == "realizada" ? "#28a745" : "#6f42c1") }}',
@@ -132,12 +134,14 @@
                     tipo: 'reunion'
                 },
                 @endforeach
-                @foreach($pacientes  as $paciente)
+                @foreach($pacientes as $paciente)
                 {
                     title: '🎂 {{ $paciente->nombre }}',
-                    start: '{{ $paciente->fecha_nacimiento }}',
-                    color: '#00c0ef',
-                    display: 'block'
+                    start: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrInicio }}',
+                    end: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrFin }}',
+                    color: '#ffc107',
+                    display: 'block',
+                    tipo: 'cumple'
                 },
                 @endforeach
             ],

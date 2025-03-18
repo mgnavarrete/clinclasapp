@@ -12,7 +12,7 @@
                     @csrf
                     <p class="fw-semibold mb-3 d-flex align-items-center">
                         <a><i class="ri-bookmark-fill fs-16 op-5 me-1 text-muted"></i></a>
-                       {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} a {{ \Carbon\Carbon::parse($estado->hora_fin)->format('H:i') }}
+                       {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} a {{ \Carbon\Carbon::parse($estado->hora_final)->format('H:i') }}
                     </p>
                     <div class="mb-3">
                         <label for="estado{{ $estado->id_estado }}" class="form-label">Estado Sesión:</label>
