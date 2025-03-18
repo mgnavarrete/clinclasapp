@@ -183,6 +183,8 @@ class PacienteController extends Controller
 
         $listIDSesiones = $sesionesPaciente->pluck('id_sesion');
         $estadoSesiones = EstadoSesion::whereIn('id_sesion', $listIDSesiones)->get();
+        // ORdenar estado sesiones por fecha
+        $estadoSesiones = $estadoSesiones->sortBy('fecha');
         $sesionesCanceladas = $estadoSesiones->where('estado', 'cancelada')->count();
         $sesionesRealizadas = $estadoSesiones->where('estado', 'realizada')->count();
         $sesionesPendientes = $estadoSesiones->where('estado', 'pendiente')->count();
