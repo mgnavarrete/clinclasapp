@@ -101,7 +101,7 @@
                 list: 'Lista'
  
             },
-            slotMinTime: '07:00:00',
+            slotMinTime: '08:00:00',
             slotMaxTime: '18:30:00',
             slotDuration: '00:10:00',
             slotLabelInterval: '00:30',
@@ -137,11 +137,10 @@
                 @foreach($pacientes as $paciente)
                 {
                     title: '🎂 {{ $paciente->nombre }}',
-                    start: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrInicio }}',
-                    end: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrFin }}',
-                    color: '#ffc107',
+                    start: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}',
+                    color: '#fd7e14',
                     display: 'block',
-                    tipo: 'cumple'
+                    allDay: true
                 },
                 @endforeach
             ],
