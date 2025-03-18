@@ -105,6 +105,7 @@ class CalendarioController extends Controller
                 'hora_inicio' => $hora_inicio,
                 'hora_final' => $hora_final,
                 'valor' => $validatedData['valor_reunion'],
+                'estado' => 'pendiente',
             ]);
 
 
