@@ -139,7 +139,7 @@
                     title: '🎂 {{ $paciente->nombre }}',
                     start: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrInicio }}',
                     end: '{{ $currentYear }}-{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format("m-d") }}T{{ $hrFin }}',
-                    color: '#00c0ef',
+                    color: '#ffc107',
                     display: 'block',
                     tipo: 'cumple'
                 },
