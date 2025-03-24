@@ -319,7 +319,7 @@
                                                     <div>
                                                         <p class="fw-semibold mb-3 d-flex align-items-center">
                                                             <a><i class="ri-bill-line fs-16 op-5 me-1 text-muted"></i></a>
-                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
+                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($estado->hora_final)->format('H:i') }}
                                                         </p>
 
                                                         <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
@@ -445,7 +445,7 @@
                                                     <div>
                                                         <p class="fw-semibold mb-3 d-flex align-items-center">
                                                             <a><i class="ri-attachment-line fs-16 op-5 me-1 text-muted"></i></a>
-                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($sesion->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesion->hora_final)->format('H:i') }}
+                                                            {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('l')) }} {{ \Carbon\Carbon::parse($estado->fecha)->format('j') }} de {{ ucfirst(\Carbon\Carbon::parse($estado->fecha)->translatedFormat('F')) }} de {{ \Carbon\Carbon::parse($estado->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($estado->hora_final)->format('H:i') }}
                                                         </p>
 
                                                         <p class="mb-3">Estado Sesión: <span class="fs-12 mb-1 fw-semibold
