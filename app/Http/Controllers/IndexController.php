@@ -87,7 +87,8 @@ class IndexController extends Controller
         }])->get();
 
         // Próximas sesiones (semana actual)
-        $inicioSemana = Carbon::now('America/Santiago')->startOfWeek();
+        $inicioSemana = Carbon::now('America/Santiago')->today();
+
         $finSemana = Carbon::now('America/Santiago')->endOfWeek();
 
         $proximasSesiones = EstadoSesion::with('sesion.paciente')
