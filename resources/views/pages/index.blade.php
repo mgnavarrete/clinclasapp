@@ -276,7 +276,7 @@
                                                         <div class="d-flex align-items-center">
                                                             <div class="mt-sm-0 mt-2">
                                                                 <p class="mb-0 fs-14 fw-semibold">{{ $evento['paciente']->nombre }}</p>
-                                                                <p class="mb-0 text-muted">{{ $evento['paciente']->curso }}</p>
+                                                                <p class="mb-0 text-muted">{{ ucfirst($evento['tipo']) }}</p>
                                                             </div>
                                                             <div class="ms-auto">
                                                                 @php
