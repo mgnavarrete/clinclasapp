@@ -204,8 +204,11 @@
                     <div class="card-body p-0" style="height: 600px; overflow-y: auto;">
                         @php
                             $horaActual = \Carbon\Carbon::now();
-                            
-                            // Combinar sesiones y reuniones
+
+                            if ($proximasSesiones->isEmpty() && $proximasReuniones->isEmpty()) {
+                                $eventos = [];
+                            } else {
+                                // Combinar sesiones y reuniones
                             $eventos = $proximasSesiones->map(function($sesion) {
                                 return [
                                     'id' => $sesion->id_estado,
@@ -239,6 +242,7 @@
                                     return \Carbon\Carbon::parse($evento['fecha'])->isTomorrow();
                                 });
                             }
+                        }
                         @endphp
 
                         <ul class="timeline list-unstyled mb-5">
