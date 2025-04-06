@@ -212,7 +212,8 @@
                                 $sesionesArray = is_array($proximasSesiones) ? collect($proximasSesiones) : $proximasSesiones;
                                 $reunionesArray = is_array($proximasReuniones) ? collect($proximasReuniones) : $proximasReuniones;
                                 
-                                $eventos = $sesionesArray->map(function($sesion) {
+                                // Crear colecciones separadas para cada tipo de evento
+                                $sesionesEventos = $sesionesArray->map(function($sesion) {
                                     return [
                                         'id' => $sesion->id_estado,
                                         'tipo' => 'sesion',
@@ -222,7 +223,9 @@
                                         'estado' => $sesion->estado,
                                         'paciente' => isset($sesion->sesion) && isset($sesion->sesion->paciente) ? $sesion->sesion->paciente : null
                                     ];
-                                })->merge($reunionesArray->map(function($reunion) {
+                                });
+                                
+                                $reunionesEventos = $reunionesArray->map(function($reunion) {
                                     return [
                                         'id' => $reunion->id_reunion,
                                         'tipo' => 'reunion',
@@ -232,7 +235,10 @@
                                         'estado' => $reunion->estado,
                                         'paciente' => isset($reunion->paciente) ? $reunion->paciente : null
                                     ];
-                                }))->sortBy(function($evento) {
+                                });
+                                
+                                // Combinar las colecciones usando concat en lugar de merge
+                                $eventos = $sesionesEventos->concat($reunionesEventos)->sortBy(function($evento) {
                                     return \Carbon\Carbon::parse($evento['fecha'] . ' ' . $evento['hora_inicio']);
                                 });
 
