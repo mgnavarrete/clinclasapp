@@ -102,9 +102,9 @@
  
             },
             slotMinTime: '08:00:00',
-            slotMaxTime: '18:30:00',
+            slotMaxTime: '19:30:00',
             slotDuration: '00:10:00',
-            slotLabelInterval: '00:30',
+            slotLabelInterval: '00:15',
             displayEventTime: true,
             titleFormat: {
                 month: 'long',
