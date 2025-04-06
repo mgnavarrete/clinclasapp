@@ -275,7 +275,7 @@
                                                 <div class="d-flex align-items-top timeline-main-content flex-wrap mt-0">
                                                     <div class="avatar avatar-md online me-3 avatar-rounded mt-sm-0 mt-4">
                                                         @php
-                                                            $numeroAleatorio = $evento['paciente']->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
+                                                            $numeroAleatorio = isset($evento['paciente']) && $evento['paciente']->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
                                                         @endphp
                                                         <img alt="avatar" src="https://laravelui.spruko.com/ynex/build/assets/images/faces/{{ $numeroAleatorio }}.jpg">
                                                     </div>
