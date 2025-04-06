@@ -205,44 +205,47 @@
                         @php
                             $horaActual = \Carbon\Carbon::now();
 
-                            if ($proximasSesiones->isEmpty() && $proximasReuniones->isEmpty()) {
-                                $eventos = [];
+                            if (empty($proximasSesiones) && empty($proximasReuniones)) {
+                                $eventos = collect([]);
                             } else {
                                 // Combinar sesiones y reuniones
-                            $eventos = $proximasSesiones->map(function($sesion) {
-                                return [
-                                    'id' => $sesion->id_estado,
-                                    'tipo' => 'sesion',
-                                    'modal' => 'editEstado',
-                                    'fecha' => $sesion->fecha,
-                                    'hora_inicio' => $sesion->hora_inicio,
-                                    'estado' => $sesion->estado,
-                                    'paciente' => $sesion->sesion->paciente
-                                ];
-                            })->merge($proximasReuniones->map(function($reunion) {
-                                return [
-                                    'id' => $reunion->id_reunion,
-                                    'tipo' => 'reunion',
-                                    'modal' => 'editReunion',
-                                    'fecha' => $reunion->fecha,
-                                    'hora_inicio' => $reunion->hora_inicio,
-                                    'estado' => $reunion->estado,
-                                    'paciente' => $reunion->paciente
-                                ];
-                            }))->sortBy(function($evento) {
-                                return \Carbon\Carbon::parse($evento['fecha'] . ' ' . $evento['hora_inicio']);
-                            });
-
-                            $eventoMasProximo = $eventos->firstWhere(function($evento) use ($horaActual) {
-                                return \Carbon\Carbon::parse($evento['fecha'])->isToday() && \Carbon\Carbon::parse($evento['hora_inicio'])->greaterThanOrEqualTo($horaActual);
-                            });
-
-                            if (!$eventoMasProximo) {
-                                $eventoMasProximo = $eventos->firstWhere(function($evento) {
-                                    return \Carbon\Carbon::parse($evento['fecha'])->isTomorrow();
+                                $sesionesArray = is_array($proximasSesiones) ? collect($proximasSesiones) : $proximasSesiones;
+                                $reunionesArray = is_array($proximasReuniones) ? collect($proximasReuniones) : $proximasReuniones;
+                                
+                                $eventos = $sesionesArray->map(function($sesion) {
+                                    return [
+                                        'id' => $sesion->id_estado,
+                                        'tipo' => 'sesion',
+                                        'modal' => 'editEstado',
+                                        'fecha' => $sesion->fecha,
+                                        'hora_inicio' => $sesion->hora_inicio,
+                                        'estado' => $sesion->estado,
+                                        'paciente' => isset($sesion->sesion) && isset($sesion->sesion->paciente) ? $sesion->sesion->paciente : null
+                                    ];
+                                })->merge($reunionesArray->map(function($reunion) {
+                                    return [
+                                        'id' => $reunion->id_reunion,
+                                        'tipo' => 'reunion',
+                                        'modal' => 'editReunion',
+                                        'fecha' => $reunion->fecha,
+                                        'hora_inicio' => $reunion->hora_inicio,
+                                        'estado' => $reunion->estado,
+                                        'paciente' => isset($reunion->paciente) ? $reunion->paciente : null
+                                    ];
+                                }))->sortBy(function($evento) {
+                                    return \Carbon\Carbon::parse($evento['fecha'] . ' ' . $evento['hora_inicio']);
                                 });
+
+                                $eventoMasProximo = $eventos->firstWhere(function($evento) use ($horaActual) {
+                                    return \Carbon\Carbon::parse($evento['fecha'])->isToday() && \Carbon\Carbon::parse($evento['hora_inicio'])->greaterThanOrEqualTo($horaActual);
+                                });
+
+                                if (!$eventoMasProximo) {
+                                    $eventoMasProximo = $eventos->firstWhere(function($evento) {
+                                        return \Carbon\Carbon::parse($evento['fecha'])->isTomorrow();
+                                    });
+                                }
                             }
-                        }
                         @endphp
 
                         <ul class="timeline list-unstyled mb-5">
@@ -267,7 +270,7 @@
                                             <span class="time d-inline-block">{{ \Carbon\Carbon::parse($evento['hora_inicio'])->format('H:i') }}</span>
                                         </div>
                                         <div class="timeline-icon"></div>
-                                        <div class="timeline-body {{ $evento === $eventoMasProximo ? 'bg-outline-success' : 'bg-outline-primary' }}">
+                                        <div class="timeline-body {{ isset($eventoMasProximo) && $evento['id'] === $eventoMasProximo['id'] && $evento['tipo'] === $eventoMasProximo['tipo'] ? 'bg-outline-success' : 'bg-outline-primary' }}">
                                             <a href="javascript:void(0);" data-bs-target="#{{ $evento['modal'] }}{{ $evento['id'] }}" data-bs-toggle="modal">
                                                 <div class="d-flex align-items-top timeline-main-content flex-wrap mt-0">
                                                     <div class="avatar avatar-md online me-3 avatar-rounded mt-sm-0 mt-4">
