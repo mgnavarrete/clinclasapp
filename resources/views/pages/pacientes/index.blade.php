@@ -69,7 +69,7 @@
                         $edadPaciente = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age;
                         $coverImageNumber = rand(1, 6);
                         $avatarImageNumber = $paciente->sexo === 'Mujer' ? rand(1, 8) : rand(9, 15);
-                        $sesionesPaciente = $sesiones->where('id_paciente', $paciente->id_paciente);
+                        $sesionesPaciente = collect($sesiones)->where('id_paciente', $paciente->id_paciente);
                         @endphp
                         <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="card custom-card team-member-card" style="height: 280px;">

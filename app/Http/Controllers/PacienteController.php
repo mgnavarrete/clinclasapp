@@ -167,10 +167,10 @@ class PacienteController extends Controller
     {
         $paciente = Paciente::where('id_user', Auth::user()->id)->findOrFail($id);
         $sesiones = Sesion::all();
-        $sesionesPaciente = $sesiones->where('id_paciente', $id);
+        $sesionesPaciente = collect($sesiones)->where('id_paciente', $id);
 
         $apoderados = Tutor::all();
-        $apoderadosPaciente = $apoderados->where('id_paciente', $id);
+        $apoderadosPaciente = collect($apoderados)->where('id_paciente', $id);
         $edadPaciente = Carbon::parse($paciente->fecha_nacimiento)->age;
         $especialistas = Especialista::all();
         $PacienteEspecialista = PacienteEspecialista::where('id_paciente', $id)->get();
@@ -185,9 +185,9 @@ class PacienteController extends Controller
         $estadoSesiones = EstadoSesion::whereIn('id_sesion', $listIDSesiones)->get();
         // ORdenar estado sesiones por fecha
         $estadoSesiones = $estadoSesiones->sortBy('fecha');
-        $sesionesCanceladas = $estadoSesiones->where('estado', 'cancelada')->count();
-        $sesionesRealizadas = $estadoSesiones->where('estado', 'realizada')->count();
-        $sesionesPendientes = $estadoSesiones->where('estado', 'pendiente')->count();
+        $sesionesCanceladas = collect($estadoSesiones)->where('estado', 'cancelada')->count();
+        $sesionesRealizadas = collect($estadoSesiones)->where('estado', 'realizada')->count();
+        $sesionesPendientes = collect($estadoSesiones)->where('estado', 'pendiente')->count();
 
         $reuniones = Reunion::where('id_paciente', $id)->get();
 
