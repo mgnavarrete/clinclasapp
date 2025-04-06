@@ -63,7 +63,7 @@
                                     Datos Alumno :
                                 </p>
                                 <p class="fw-bold mb-1">
-                                    {{strtoupper($pago->paciente->nombre)}}
+                                    {{ucfirst($pago->paciente->nombre)}}
                                 </p>
                                 <p class="mb-1">
                                     {{$pago->paciente->rut}}

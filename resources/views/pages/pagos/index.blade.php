@@ -145,7 +145,7 @@
                                         @elseif($pago->estado === 'pendiente') task-pending-card
                                         @elseif($pago->estado === 'pagado') task-completed-card
                                         @endif
-                                    ">
+                                    " data-bs-toggle="modal" data-bs-target="#editPago{{ $pago->id_pago }}">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between flex-wrap gap-2">
                                                 <div>
