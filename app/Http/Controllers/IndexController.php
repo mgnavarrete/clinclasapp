@@ -101,6 +101,11 @@ class IndexController extends Controller
             ->orderBy('hora_inicio', 'asc')
             ->get();
 
+        // Asegurarse de que $proximasSesiones sea una colección
+        if (!($proximasSesiones instanceof \Illuminate\Database\Eloquent\Collection)) {
+            $proximasSesiones = collect([]);
+        }
+
         $proximasReuniones = Reunion::with('paciente')
             ->whereHas('paciente', function ($query) {
                 $query->where('id_user', Auth::user()->id);
@@ -110,6 +115,11 @@ class IndexController extends Controller
             ->orderBy('fecha', 'asc')
             ->orderBy('hora_inicio', 'asc')
             ->get();
+
+        // Asegurarse de que $proximasReuniones sea una colección
+        if (!($proximasReuniones instanceof \Illuminate\Database\Eloquent\Collection)) {
+            $proximasReuniones = collect([]);
+        }
 
         for ($i = 5; $i >= 0; $i--) {
             $mes = Carbon::now()->subMonths($i)->format('Y-m');
@@ -141,13 +151,6 @@ class IndexController extends Controller
                 ->where('estado', 'pendiente')
                 ->count();
         }
-
-        $proximasReuniones = Reunion::with('paciente')
-            ->where('fecha', '>=', $inicioSemana)
-            ->where('fecha', '<=', $finSemana)
-            ->orderBy('fecha', 'asc')
-            ->orderBy('hora_inicio', 'asc')
-            ->get();
 
         // Pasar los datos a la vista
         return view('pages.index', compact(
