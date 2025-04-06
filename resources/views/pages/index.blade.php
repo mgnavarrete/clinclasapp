@@ -323,7 +323,7 @@
                     </div>
                     <div class="card-body" style="height: 600px; overflow-y: auto;">
                         
-                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <div class="table-responsive" style="max-height: 100%; overflow-y: auto;">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
