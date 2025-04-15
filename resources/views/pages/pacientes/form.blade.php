@@ -183,140 +183,180 @@
                 <div class="card-header">
                     <h5 class="card-title">Información de Sesión</h5>
                 </div>
+                
+            
                 <div class="card-body">
-                    <!-- Dia de la semana -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="dia" class="form-label text-default">Día de la semana</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="dia" name="dia" required>
-                            <option value="">Seleccionar día</option>
-                            <option value="lunes">Lunes</option>
-                            <option value="martes">Martes</option>
-                            <option value="miércoles">Miércoles</option>
-                            <option value="jueves">Jueves</option>
-                            <option value="viernes">Viernes</option>
-                        </select>
-                    </div>
-
-                    <!-- Hora Inicio Sesión-->
-                    <div class="col-xl-12 mb-3">
-                        <label for="hora_inicio" class="form-label text-default">Horario Inicio Sesión</label>
-                        <div class="d-flex gap-2">
-                            <select class="form-select form-select-lg bg-outline-primary" id="hora_inicio" name="hora_inicio" required>
-                                <option value="">Hora</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                            </select>
-                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicio" name="minuto_inicio" required>
-                                <option value="">Min</option>
-                                <option value="00">00</option>
-                                <option value="05">05</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="30">30</option>
-                                <option value="35">35</option>
-                                <option value="40">40</option>
-                                <option value="45">45</option>
-                                <option value="50">50</option>
-                                <option value="55">55</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Hora Fin Sesión-->
-                    <div class="col-xl-12 mb-3">
-                        <label for="hora_fin" class="form-label text-default">Horario Final Sesión</label>
-
-                        <div class="d-flex gap-2">
-                            <select class="form-select form-select-lg bg-outline-primary" id="hora_fin" name="hora_fin" required>
-                                <option value="">Hora</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                            </select>
-                            <select class="form-select form-select-lg bg-outline-primary" id="minuto_fin" name="minuto_fin" required>
-                                <option value="">Min</option>
-                                <option value="00">00</option>
-                                <option value="05">05</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="30">30</option>
-                                <option value="35">35</option>
-                                <option value="40">40</option>
-                                <option value="45">45</option>
-                                <option value="50">50</option>
-                                <option value="55">55</option>
-                            </select>
-                        </div>
-                    </div>
-             
-
-                    <!-- Tipo de sesión -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="tipoSesion" class="form-label text-default">Tipo de sesión</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="tipoSesion" name="tipoSesion" required>
-                            <option value="">Seleccionar tipo</option>
-                            <option value="individual">Individual</option>
-                            <option value="grupal">Grupal</option>
-                        </select>
-                    </div>
-
-                    <!-- Valor-->
-                    <div class="col-xl-12 mb-3">
-                        <label for="valor" class="form-label text-default">Valor</label>
-                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="valor" name="valor" placeholder="Valor" oninput="formatCurrency(this)" required>
-                    </div>
-
-                    <!-- Year -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="year"    class="form-label text-default">Año</label>
-                        <select class="form-select form-select-lg bg-outline-primary" id="year" name="year" required>
-                            <option value="{{ \Carbon\Carbon::now()->year }}">{{ \Carbon\Carbon::now()->year }}</option>
-                            <option value="{{ \Carbon\Carbon::now()->year + 1 }}">{{ \Carbon\Carbon::now()->year + 1 }}</option>
-                            <option value="{{ \Carbon\Carbon::now()->year + 2 }}">{{ \Carbon\Carbon::now()->year + 2 }}</option>
-                        </select>
-                    </div>
-
                     <!-- Crear Sesiones por todo el año -->
                     <div class="col-xl-12 mb-3">
                         <div class="form-check form-check-lg d-flex align-items-center">
-                            <input class="form-check-input" type="checkbox" value="1" id="checkebox-lg" name="sesiones-anual" checked="">
-                            <label class="form-check-label" for="checkebox-lg">
+                            <input class="form-check-input" type="checkbox" value="1" id="sesiones-anual" name="sesiones-anual" checked="">
+                            <label class="form-check-label" for="sesiones-anual">
                                 Crear Sesiones por todo el año
                             </label>
                         </div>
+                    </div>
+                    <!-- Contenido para sesiones anuales -->
+                    <div id="contenido-anual">
+                        <!-- Dia de la semana -->
+                        <div class="col-xl-12 mb-3">
+                            <label for="dia" class="form-label text-default">Día de la semana</label>
+                            <select class="form-select form-select-lg bg-outline-primary" id="dia" name="dia" >
+                                <option value="">Seleccionar día</option>
+                                <option value="lunes">Lunes</option>
+                                <option value="martes">Martes</option>
+                                <option value="miércoles">Miércoles</option>
+                                <option value="jueves">Jueves</option>
+                                <option value="viernes">Viernes</option>
+                            </select>
+                        </div>
+
+                        <!-- Hora Inicio Sesión-->
+                        <div class="col-xl-12 mb-3">
+                            <label for="hora_inicio" class="form-label text-default">Horario Inicio Sesión</label>
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-lg bg-outline-primary" id="hora_inicio" name="hora_inicio" >
+                                    <option value="">Hora</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                </select>
+                                <select class="form-select form-select-lg bg-outline-primary" id="minuto_inicio" name="minuto_inicio" >
+                                    <option value="">Min</option>
+                                    <option value="00">00</option>
+                                    <option value="05">05</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="30">30</option>
+                                    <option value="35">35</option>
+                                    <option value="40">40</option>
+                                    <option value="45">45</option>
+                                    <option value="50">50</option>
+                                    <option value="55">55</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Hora Fin Sesión-->
+                        <div class="col-xl-12 mb-3">
+                            <label for="hora_fin" class="form-label text-default">Horario Final Sesión</label>
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-lg bg-outline-primary" id="hora_fin" name="hora_fin" >
+                                    <option value="">Hora</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                </select>
+                                <select class="form-select form-select-lg bg-outline-primary" id="minuto_fin" name="minuto_fin" >
+                                    <option value="">Min</option>
+                                    <option value="00">00</option>
+                                    <option value="05">05</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="30">30</option>
+                                    <option value="35">35</option>
+                                    <option value="40">40</option>
+                                    <option value="45">45</option>
+                                    <option value="50">50</option>
+                                    <option value="55">55</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Tipo de sesión -->
+                        <div class="col-xl-12 mb-3">
+                            <label for="tipoSesion" class="form-label text-default">Tipo de sesión</label>
+                            <select class="form-select form-select-lg bg-outline-primary" id="tipoSesion" name="tipoSesion" >
+                                <option value="">Seleccionar tipo</option>
+                                <option value="individual">Individual</option>
+                                <option value="grupal">Grupal</option>
+                            </select>
+                        </div>
+
+                        <!-- Valor-->
+                        <div class="col-xl-12 mb-3">
+                            <label for="valor" class="form-label text-default">Valor</label>
+                            <input type="text" class="form-control form-control-lg bg-outline-primary" id="valor" name="valor" placeholder="Valor" oninput="formatCurrency(this)" >
+                        </div>
+
+                        <!-- Year -->
+                        <div class="col-xl-12 mb-3">
+                            <label for="year" class="form-label text-default">Año</label>
+                            <select class="form-select form-select-lg bg-outline-primary" id="year" name="year" >
+                                <option value="{{ \Carbon\Carbon::now()->year }}">{{ \Carbon\Carbon::now()->year }}</option>
+                                <option value="{{ \Carbon\Carbon::now()->year + 1 }}">{{ \Carbon\Carbon::now()->year + 1 }}</option>
+                                <option value="{{ \Carbon\Carbon::now()->year + 2 }}">{{ \Carbon\Carbon::now()->year + 2 }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Contenido para sesiones individuales -->
+                    <div id="contenido-individual" style="display: none;">
+                        
+                        <!-- Dia de la semana -->
+                        <input type="hidden" id="diaNA" name="diaNA"  value="">
+                          
+                       
+
+                        <!-- Hora Inicio Sesión-->
+                        <input type="hidden" id="hora_inicioNA" name="hora_inicioNA"  value="00">
+                        <input type="hidden"id="minuto_inicioNA" name="minuto_inicioNA"  value="00">
+                    
+
+                        <!-- Hora Fin Sesión-->
+                        <input type="hidden" id="hora_finNA" name="hora_finNA"  value="00">
+                        <input type="hidden"id="minuto_finNA" name="minuto_finNA"  value="00">
+                        
+                        <!-- Tipo de sesión -->
+                        <div class="col-xl-12 mb-3">
+                            <label for="tipoSesion" class="form-label text-default">Tipo de sesión</label>
+                            <select class="form-select form-select-lg bg-outline-primary" id="tipoSesionNA" name="tipoSesionNA" >
+                                <option value="">Seleccionar tipo</option>
+                                <option value="individual">Individual</option>
+                                <option value="grupal">Grupal</option>
+                            </select>
+                        </div>
+
+                        <!-- Valor-->
+                        <div class="col-xl-12 mb-3">
+                            <label for="valor" class="form-label text-default">Valor</label>
+                            <input type="text" class="form-control form-control-lg bg-outline-primary" id="valorNA" name="valorNA" placeholder="Valor" oninput="formatCurrency(this)" >
+                        </div>
+
+                        <!-- Year -->
+                        <input type="hidden" id="yearNA" name="yearNA"  value="{{ \Carbon\Carbon::now()->year }}">
+                    </div>
                     </div>
                 </div>
             </div>
@@ -362,11 +402,59 @@
         document.getElementById('guardarBtnPaciente').classList.add('d-none');
         document.getElementById('spinnerPaciente').classList.remove('d-none');
     });
+
+    // Manejar el cambio del checkbox de sesiones anuales
+    document.getElementById('sesiones-anual').addEventListener('change', function() {
+        const contenidoAnual = document.getElementById('contenido-anual');
+        const contenidoIndividual = document.getElementById('contenido-individual');
+        
+        if (this.checked) {
+            contenidoAnual.style.display = 'block';
+            contenidoIndividual.style.display = 'none';
+            // Hacer los campos de sesión anual requeridos
+            document.querySelectorAll('#contenido-anual input, #contenido-anual select').forEach(element => {
+                element.required = true;
+            });
+            // Hacer los campos de sesión individual no requeridos
+            document.querySelectorAll('#contenido-individual input, #contenido-individual select').forEach(element => {
+                element.required = false;
+            });
+        } else {
+            contenidoAnual.style.display = 'none';
+            contenidoIndividual.style.display = 'block';
+            // Hacer los campos de sesión anual no requeridos
+            document.querySelectorAll('#contenido-anual input, #contenido-anual select').forEach(element => {
+                element.required = false;
+            });
+            // Hacer los campos de sesión individual requeridos
+            document.querySelectorAll('#contenido-individual input, #contenido-individual select').forEach(element => {
+                element.required = true;
+            });
+        }
+    });
+
+    // Inicializar el estado al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.getElementById('sesiones-anual');
+        const contenidoAnual = document.getElementById('contenido-anual');
+        const contenidoIndividual = document.getElementById('contenido-individual');
+        
+        if (checkbox.checked) {
+            contenidoAnual.style.display = 'block';
+            contenidoIndividual.style.display = 'none';
+        } else {
+            contenidoAnual.style.display = 'none';
+            contenidoIndividual.style.display = 'block';
+        }
+    });
 </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         flatpickr("#humanfrienndlydate", {
+            locale: "es",
+        });
+        flatpickr("#fecha_sesion", {
             locale: "es",
         });
     });
