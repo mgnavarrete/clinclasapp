@@ -501,7 +501,7 @@
     </script>
 @endif
 <!-- Modals de Edicion, Creacion y Asignacion -->
-@include('pages.modals.editSesion')
+
 @include('pages.modals.createEspecialista')
 @include('pages.modals.asignarEspecialista')
 @include('pages.modals.createTutor')
