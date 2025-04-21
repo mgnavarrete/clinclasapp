@@ -571,14 +571,7 @@
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const editSesionModal = document.getElementById('editSesion');
-                editSesionModal.addEventListener('show.bs.modal', function (event) {
-                    const button = event.relatedTarget;
-                    const sesion = @json($sesion);
-
-                });
-            });
+           
             
 
 
