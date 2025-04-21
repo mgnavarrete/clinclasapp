@@ -501,7 +501,7 @@
     </script>
 @endif
 <!-- Modals de Edicion, Creacion y Asignacion -->
-
+@include('pages.modals.editSesion')
 @include('pages.modals.createEspecialista')
 @include('pages.modals.asignarEspecialista')
 @include('pages.modals.createTutor')
@@ -571,7 +571,14 @@
                 });
             });
 
-           
+            document.addEventListener('DOMContentLoaded', function() {
+                const editSesionModal = document.getElementById('editSesion');
+                editSesionModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const sesion = @json($sesion);
+
+                });
+            });
             
 
 
