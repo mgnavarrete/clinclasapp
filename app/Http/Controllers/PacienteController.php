@@ -56,18 +56,26 @@ class PacienteController extends Controller
             'nombre_tutor' => 'required|string|max:100',
             'telefono_tutor' => 'nullable|string|max:15',
             'mail_tutor' => 'nullable|email|max:100',
-            'dia' => 'required|in:lunes,martes,miércoles,jueves,viernes',
-            'hora_inicio' => 'required|string',
-            'minuto_inicio' => 'required|string',
-            'hora_fin' => 'required|string',
-            'minuto_fin' => 'required|string',
-            'valor' => 'required|numeric|between:0,99999999.99',
+            'dia' => 'nullable|string',
+            'hora_inicio' => 'nullable|string',
+            'minuto_inicio' => 'nullable|string',
+            'hora_fin' => 'nullable|string',
+            'minuto_fin' => 'nullable|string',
+            'valor' => 'nullable|numeric|between:0,99999999.99',
             'nombre_tutor2' => 'nullable|string|max:100',
             'telefono_tutor2' => 'nullable|string|max:15',
             'mail_tutor2' => 'nullable|email|max:100',
-            'tipoSesion' => 'required|in:individual,grupal',
+            'tipoSesion' => 'nullable|string',
             'year' => 'required|integer',
             'sesiones-anual' => 'nullable|integer',
+            'diaNA' => 'nullable|string',
+            'hora_inicioNA' => 'nullable|string',
+            'minuto_inicioNA' => 'nullable|string',
+            'hora_finNA' => 'nullable|string',
+            'minuto_finNA' => 'nullable|string',
+            'tipoSesionNA' => 'nullable|string',
+            'valorNA' => 'nullable|numeric|between:0,99999999.99',
+            'yearNA' => 'nullable|integer',
         ]);
 
         try {
@@ -103,31 +111,31 @@ class PacienteController extends Controller
             }
 
 
-            // Obtener el día de la semana de la sesión creada
-            $diaSemana = $validatedData['dia'];
-
-            // Obtener el primer día del mes actual
-            $fechaActual = Carbon::now();
-            $primerDiaMes = $fechaActual->copy()->startOfMonth();
-            $horaInicio = $validatedData['hora_inicio'] . ':' . $validatedData['minuto_inicio'];
-            $horaFin = $validatedData['hora_fin'] . ':' . $validatedData['minuto_fin'];
-            $horaInicio = Carbon::createFromFormat('H:i', $horaInicio)->format('H:i:s');
-            $horaFin = Carbon::createFromFormat('H:i', $horaFin)->format('H:i:s');
-
-            // Crear la Sesion
-            $sesion = Sesion::create([
-                'dia_semana' => $validatedData['dia'],
-                'hora_inicio' => $horaInicio,
-                'hora_final' => $horaFin,
-                'valor' => $validatedData['valor'],
-                'year' => $validatedData['year'],
-                'id_paciente' => $paciente->id_paciente,
-                'tipo' => $validatedData['tipoSesion'],
-            ]);
-
-
             // Si el checkbox sesiones-anual está marcado, crear las sesiones por todo el año
             if (isset($validatedData['sesiones-anual']) && $validatedData['sesiones-anual'] == 1) {
+                // Obtener el día de la semana de la sesión creada
+                $diaSemana = $validatedData['dia'];
+
+                // Obtener el primer día del mes actual
+                $fechaActual = Carbon::now();
+                $primerDiaMes = $fechaActual->copy()->startOfMonth();
+                $horaInicio = $validatedData['hora_inicio'] . ':' . $validatedData['minuto_inicio'];
+                $horaFin = $validatedData['hora_fin'] . ':' . $validatedData['minuto_fin'];
+                $horaInicio = Carbon::createFromFormat('H:i', $horaInicio)->format('H:i:s');
+                $horaFin = Carbon::createFromFormat('H:i', $horaFin)->format('H:i:s');
+
+                // Crear la Sesion
+                $sesion = Sesion::create([
+                    'dia_semana' => $validatedData['dia'],
+                    'hora_inicio' => $horaInicio,
+                    'hora_final' => $horaFin,
+                    'valor' => $validatedData['valor'],
+                    'year' => $validatedData['year'],
+                    'id_paciente' => $paciente->id_paciente,
+                    'tipo' => $validatedData['tipoSesion'],
+                ]);
+
+
                 // Obtener el último día del mes actual
                 $ultimoDiaMes = $fechaActual->copy()->endOfMonth();
                 echo "<script>console.log($sesion->id_sesion);</script>";
@@ -153,6 +161,18 @@ class PacienteController extends Controller
                         }
                     }
                 }
+            } else {
+
+                // Crear la Sesion
+                $sesion = Sesion::create([
+                    'dia_semana' => "no definido",
+                    'hora_inicio' => "00:00:00",
+                    'hora_final' => "00:00:00",
+                    'valor' => $validatedData['valorNA'],
+                    'year' => $validatedData['yearNA'],
+                    'id_paciente' => $paciente->id_paciente,
+                    'tipo' => $validatedData['tipoSesionNA'],
+                ]);
             }
 
             // Redirigir a la vista de pacientes con un mensaje de éxito

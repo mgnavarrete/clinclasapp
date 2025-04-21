@@ -106,27 +106,33 @@
                                     <p class="fs-15 mb-2 me-4 fw-semibold">Sesión {{ $sesionAnual }}:</p>
                         
                                 </div>
+                                
                                 <div class="col-md-6">
+                                    @if ($sesion->dia_semana !== "no definido")
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
                                             <i class="ri-calendar-check-fill align-middle fs-14"></i>
                                         </span>
                                         {{ ucfirst($sesion->dia_semana) }}
                                     </p>
+                                    @endif
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
                                             <i class="ri-palette-line align-middle fs-14"></i>
                                         </span>
-                                        Sesión {{ ucfirst($sesion->tipo) }}
+                                        {{ ucfirst($sesion->tipo) }}
                                     </p>
                                 </div>
+                               
                                 <div class="col-md-6">
+                                    @if ($sesion->dia_semana !== "no definido")
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
                                             <i class="ri-time-line align-middle fs-14"></i>
                                         </span>
                                         {{ date('H:i', strtotime($sesion->hora_inicio))}} a {{ date('H:i', strtotime($sesion->hora_final))}}
                                     </p>
+                                    @endif
                                     <p class="mb-3">
                                         <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
                                             <i class="bx bx-money align-middle fs-14"></i>
