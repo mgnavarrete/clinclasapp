@@ -1,38 +1,99 @@
 <!-- CREAR TUTOR -->
 <div class="modal fade" id="createTutor" tabindex="-1" aria-labelledby="createTutorModal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createTutorModal">Agregar Apoderado</h5>
+                <h5 class="modal-title" id="createTutorModal">
+                    <i class="ri-parent-line me-2"></i>
+                    Agregar Apoderado
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <!-- Información del paciente -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <p class="fw-semibold mb-2 d-flex align-items-center">
+                                            <i class="ri-user-line fs-16 me-2 text-primary"></i>
+                                            {{ $paciente->nombre }}
+                                        </p>
+                                        <p class="text-muted mb-0">
+                                            <i class="ri-parent-line me-1"></i>Nuevo apoderado/tutor
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <span class="badge bg-warning fs-12">
+                                            <i class="ri-parent-line me-1"></i>Apoderado
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <form action="{{ route('tutores.create', $paciente->id_paciente) }}" method="POST" id="createTutorForm">
                     @csrf
+                <!-- Campos del formulario -->
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="fw-semibold mb-3">
+                            <i class="ri-edit-line me-2"></i>
+                            Información del Apoderado
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="row">
                     <!-- Nombre -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="nombre_tutor" class="form-label text-default ">Nombre</label>
-                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="nombre_tutor" name="nombre_tutor" placeholder="Nombre" required>
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre_tutor" class="form-label text-default">
+                            <i class="ri-user-line me-1"></i>Nombre Completo
+                        </label>
+                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="nombre_tutor" name="nombre_tutor" placeholder="Nombre completo del apoderado" required>
                     </div>
-                    <!-- Telefono -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="telefono_tutor" class="form-label text-default ">Teléfono</label>
-                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="telefono_tutor" name="telefono_tutor" placeholder="Teléfono" oninput="addPrefix(this)" required>
-                    </div>
-
+                    
                     <!-- Mail -->
-                    <div class="col-xl-12 mb-3">
-                        <label for="mail_tutor" class="form-label text-default ">Mail</label>
-                        <input type="email" class="form-control form-control-lg bg-outline-primary" id="mail_tutor" name="mail_tutor" placeholder="Mail" required>
+                    <div class="col-md-6 mb-3">
+                        <label for="mail_tutor" class="form-label text-default">
+                            <i class="ri-mail-line me-1"></i>Correo Electrónico
+                        </label>
+                        <input type="email" class="form-control form-control-lg bg-outline-primary" id="mail_tutor" name="mail_tutor" placeholder="correo@ejemplo.com" required>
                     </div>
+                </div>
 
-                    <div class="modal-footer">
-                        <div class="spinner-border text-primary d-none" role="status" id="spinnerCreateTutor">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <button type="submit" class="btn btn-secondary" id="guardarBtnCreateTutor">Guardar</button>
-           
+                <div class="row">
+                    <!-- Telefono -->
+                    <div class="col-12 mb-3">
+                        <label for="telefono_tutor" class="form-label text-default">
+                            <i class="ri-phone-line me-1"></i>Teléfono
+                        </label>
+                        <input type="text" class="form-control form-control-lg bg-outline-primary" id="telefono_tutor" name="telefono_tutor" placeholder="Número de teléfono" oninput="addPrefix(this)" required>
                     </div>
+                </div>
+
+                <!-- Alerta informativa -->
+                <div class="alert alert-warning">
+                    <i class="ri-information-line me-2"></i>
+                    <strong>Información:</strong> El apoderado será asociado al paciente y recibirá notificaciones importantes.
+                </div>
+                
+                <div class="modal-footer">
+                    <div class="d-flex gap-2 align-items-center">
+                        <div class="spinner-border text-primary d-none" role="status" id="spinnerCreateTutor">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            <i class="ri-close-line me-1"></i>Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-warning" id="guardarBtnCreateTutor">
+                            <i class="ri-save-line me-1"></i>Guardar Apoderado
+                        </button>
+                    </div>
+                </div>
                 </form>
             </div>
         </div>

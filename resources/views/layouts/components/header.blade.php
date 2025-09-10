@@ -41,7 +41,7 @@
                             <!-- Start::header-link|dropdown-toggle -->
                             <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                 <div class="d-flex align-items-center">
-                                    <img src="https://laravelui.spruko.com/ynex/build/assets/images/faces/21.jpg" alt="img" width="32" height="32" class="rounded-circle me-2">
+                                    <img src="{{asset('build/assets/images/profile/mama.jpg')}}" alt="img" width="32" height="32" class="rounded-circle me-2">
 
                                     <div class="d-sm-block d-none">
                                         <p class="fw-semibold mb-0 lh-1">@auth{{Auth::user()->name}}@endauth</p>

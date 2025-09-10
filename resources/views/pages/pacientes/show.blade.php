@@ -88,9 +88,9 @@
                     <div class="p-4 border-bottom border-block-end-dashed">
                         <div class="d-flex flex-wrap align-item-center  justify-content-between">
                             <p class="fs-15 mb-2 me-4 fw-semibold">Información Sesiones:</p>
-                            {{-- <button class="btn btn-sm btn-icon btn-wave waves-effect waves-light fs-10 border-0 p-0" type="button" data-bs-toggle="modal" data-bs-target="#editSesion">
+                            <button class="btn btn-sm btn-icon btn-wave waves-effect waves-light fs-10 border-0 p-0" type="button" data-bs-toggle="modal" data-bs-target="#editSesion">
                                 <i class="ri-pencil-line"></i>
-                            </button> --}}
+                            </button>
                         </div>
                         
                         <div class="text-muted">
@@ -575,8 +575,11 @@
                 const editSesionModal = document.getElementById('editSesion');
                 editSesionModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;
-                    const sesion = @json($sesion);
-
+                    const sesionesPaciente = @json($sesionesPaciente);
+                    
+                    // Los datos de las sesiones ya se cargan directamente en el modal
+                    // No necesitamos JavaScript adicional para cargar los datos
+                    console.log('Modal de edición de sesiones abierto', sesionesPaciente);
                 });
             });
             
