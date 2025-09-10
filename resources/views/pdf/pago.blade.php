@@ -34,6 +34,77 @@
         <!-- MAIN JS -->
         <script src="{{asset('build/assets/main.js')}}"></script>
 
+        <!-- Estilos específicos para impresión -->
+        <style>
+            @media print {
+                .print-columns {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    width: 100% !important;
+                }
+                
+                .print-column {
+                    flex: 1 !important;
+                    width: 33.333% !important;
+                    float: none !important;
+                    display: block !important;
+                    margin-right: 10px !important;
+                }
+                
+                .print-column:last-child {
+                    margin-right: 0 !important;
+                }
+                
+                .col-xl-4, .col-lg-4, .col-md-4, .col-sm-4, .col-sm-12 {
+                    width: 33.333% !important;
+                    float: left !important;
+                    display: block !important;
+                    margin-right: 10px !important;
+                }
+                
+                .col-xl-4:last-child, .col-lg-4:last-child, .col-md-4:last-child, .col-sm-4:last-child, .col-sm-12:last-child {
+                    margin-right: 0 !important;
+                }
+                
+                /* Estilos para tablas en impresión */
+                .table {
+                    font-size: 11px !important;
+                }
+                
+                .table th {
+                    font-size: 10px !important;
+                    padding: 4px 6px !important;
+                }
+                
+                .table td {
+                    font-size: 10px !important;
+                    padding: 4px 6px !important;
+                }
+                
+                .table-sm th {
+                    font-size: 9px !important;
+                    padding: 2px 4px !important;
+                }
+                
+                .table-sm td {
+                    font-size: 9px !important;
+                    padding: 2px 4px !important;
+                }
+                
+                /* Estilos para la sección de información del pago */
+                .payment-info-section * {
+                    font-size: 12px !important;
+                }
+                
+                .payment-info-section .fs-17,
+                .payment-info-section .fs-16,
+                .payment-info-section .fs-15,
+                .payment-info-section .fs-14 {
+                    font-size: 12px !important;
+                }
+            }
+        </style>
+
         @yield('styles')
 
 	</head>
@@ -57,56 +128,106 @@
             <div class="card-body">
                 <div class="row gy-3">
                     <div class="col-xl-12">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <p class="text-muted mb-2">
-                                    Datos Alumno :
-                                </p>
-                                <p class="fw-bold mb-1">
-                                    {{ucfirst($pago->paciente->nombre)}}
-                                </p>
-                                <p class="mb-1">
-                                    {{$pago->paciente->rut}}
-                                    
-                                </p>
-                                <p class="mb-1">
-                                    {{$pago->paciente->direccion}}
-                                </p>
-                                <p class="mb-1">
-                                    {{ \Carbon\Carbon::parse($pago->paciente->fecha_nacimiento)->format('d/m/Y') }}
-                                </p>
-                                <p class="mb-1">
-                                    {{$pago->paciente->curso}}, {{$pago->paciente->colegio}}
-                                </p>
-                                
-                            </div>
-                            @foreach ($apoderados as $apoderado)
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
-                                @if ($loop->first)
-                                <p class="text-muted mb-2">
-                                    Datos Apoderados :
-                                </p>
-                                <p class="fw-bold mb-1">
-                                    {{$apoderado->nombre}}
-                                </p>
-                                @else
-                                <p class="fw-bold mt-4 mb-1">
-                                    {{$apoderado->nombre}}
-                                </p>
-                                @endif
-                                
-                                <p class="mb-1">
-                                    {{$apoderado->mail}}
-                                </p>
-                                <p class="mb-1">
-                                    {{$apoderado->telefono}}
-                                </p>
-                            </div>
-                            @endforeach
-                            
-                        </div>
+                        <div class="row align-items-between print-columns">
+                             <!-- Columna 1: Datos del Alumno -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 print-column">
+                                            <div class="card bg-transparent border-0">
+                                                <div class="card-body">
+                                                    <h6 class="card-title text-primary mb-3">
+                                                        <i class="ri-user-line me-2"></i>Datos del Alumno
+                                                    </h6>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Nombre:</span>
+                                                        <p class="fw-bold mb-1">{{ucfirst($pago->paciente->nombre)}}</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">RUT:</span>
+                                                        <p class="mb-1">{{$pago->paciente->rut}}</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Dirección:</span>
+                                                        <p class="mb-1">{{$pago->paciente->direccion}}</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Fecha de Nacimiento:</span>
+                                                        <p class="mb-1">{{ \Carbon\Carbon::parse($pago->paciente->fecha_nacimiento)->format('d/m/Y') }}</p>
+                                                    </div>
+                                                    <div class="mb-0">
+                                                        <span class="text-muted fs-12">Curso y Colegio:</span>
+                                                        <p class="mb-0">{{$pago->paciente->curso}}, {{$pago->paciente->colegio}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Columna 2: Datos de Apoderados -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 print-column">
+                                            <div class="card bg-transparent border-0">
+                                                <div class="card-body">
+                                                    <h6 class="card-title text-success mb-3">
+                                                        <i class="ri-parent-line me-2"></i>Datos de Apoderados
+                                                    </h6>
+                                                    @forelse ($apoderados as $apoderado)
+                                                        <div class="mb-3 {{ !$loop->last ? 'border-bottom pb-3' : '' }}">
+                                                            <div class="mb-2">
+                                                                <span class="text-muted fs-12">Nombre:</span>
+                                                                <p class="fw-bold mb-1">{{$apoderado->nombre}}</p>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <span class="text-muted fs-12">Email:</span>
+                                                                <p class="mb-1">{{$apoderado->mail}}</p>
+                                                            </div>
+                                                            <div class="mb-0">
+                                                                <span class="text-muted fs-12">Teléfono:</span>
+                                                                <p class="mb-0">{{$apoderado->telefono}}</p>
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                        <div class="text-center text-muted">
+                                                            <i class="ri-user-line fs-24 mb-2"></i>
+                                                            <p class="mb-0">No hay apoderados registrados</p>
+                                                        </div>
+                                                    @endforelse
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Columna 3: Datos de Transferencia -->
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 print-column">
+                                            <div class="card bg-transparent border-0">
+                                                <div class="card-body">
+                                                    <h6 class="card-title text-warning mb-3">
+                                                        <i class="ri-bank-line me-2"></i>Datos de Transferencia
+                                                    </h6>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Titular:</span>
+                                                        <p class="fw-bold mb-1">Norma Tapia</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">RUT:</span>
+                                                        <p class="mb-1">10.335.911-2</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Banco:</span>
+                                                        <p class="mb-1">Banco Edwards</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Tipo de Cuenta:</span>
+                                                        <p class="mb-1">Cuenta Corriente</p>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">Número de Cuenta:</span>
+                                                        <p class="mb-1">00-153-03387-08</p>
+                                                    </div>
+                                                    <div class="mb-0">
+                                                        <span class="text-muted fs-12">Email:</span>
+                                                        <p class="mb-0">natapiar@gmail.com</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                     </div>
-                    <div class="row gy-3">
+                    <div class="row gy-3 payment-info-section">
                         <div class="col-ml-12 d-flex flex-wrap">
                             <div class="col-md-3 ">
                                 <p class="fw-semibold text-muted mb-1">Estado del Pago :</p>

@@ -10,6 +10,7 @@
         <meta name="Description" content="Laravel Bootstrap Responsive Admin Web Dashboard Template">
         <meta name="Author" content="Spruko Technologies Private Limited">
         <meta name="keywords" content="dashboard bootstrap, laravel template, admin panel in laravel, php admin panel, admin panel for laravel, admin template bootstrap 5, laravel admin panel, admin dashboard template, hrm dashboard, vite laravel, admin dashboard, ecommerce admin dashboard, dashboard laravel, analytics dashboard, template dashboard, admin panel template, bootstrap admin panel template">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         
         <!-- TITLE -->
 		<title> Minttu | Clinclas </title>

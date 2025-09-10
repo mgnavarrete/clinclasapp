@@ -39,4 +39,9 @@ class Sesion extends Model
     {
         return $this->belongsTo(Paciente::class, 'id_paciente', 'id_paciente');
     }
+
+    public function estadoSesiones()
+    {
+        return $this->hasMany(EstadoSesion::class, 'id_sesion', 'id_sesion');
+    }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\ReunionController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pacientes/{id}', [PacienteController::class, 'show'])->name('pacientes.show');
     Route::post('/pacientes/{id}/update', [PacienteController::class, 'update'])->name('pacientes.update');
     Route::post('/sesiones/{id}/update', [SesionController::class, 'update'])->name('sesiones.update');
+    Route::delete('/sesiones/{id}/delete', [SesionController::class, 'delete'])->name('sesiones.delete');
     Route::post('/tutores/{id}/update', [TutorController::class, 'update'])->name('tutores.update');
     Route::post('/tutores/{id}/create', [TutorController::class, 'create'])->name('tutores.create');
     Route::post('/especialistas/{id}/create', [EspecialistaController::class, 'create'])->name('especialistas.create');
@@ -76,4 +78,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pagos/{id}/descargar', [PagoController::class, 'descargarPDF'])->name('pagos.descargar');
     Route::get('/pdf/{id}/pago', [PagoController::class, 'pagePDF'])->name('pdf.pago');
     Route::post('/estado/{id}/createAnual', [EstadoController::class, 'createAnual'])->name('estado.createAnual');
+    
+    // Dashboard de métricas
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });

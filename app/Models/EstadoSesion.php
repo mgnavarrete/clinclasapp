@@ -25,4 +25,22 @@ class EstadoSesion extends Model
     {
         return $this->belongsTo(Sesion::class, 'id_sesion', 'id_sesion');
     }
+
+    /**
+     * Scope para obtener solo EstadoSesion futuros
+     */
+    public function scopeFuturos($query, $fechaDesde = null)
+    {
+        $fecha = $fechaDesde ?: now()->startOfDay();
+        return $query->whereDate('fecha', '>=', $fecha);
+    }
+
+    /**
+     * Scope para obtener solo EstadoSesion pasados
+     */
+    public function scopePasados($query, $fechaHasta = null)
+    {
+        $fecha = $fechaHasta ?: now()->startOfDay();
+        return $query->whereDate('fecha', '<', $fecha);
+    }
 }
