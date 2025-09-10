@@ -214,7 +214,7 @@
         <!-- Tercera Fila de Gráficos -->
         <div class="row">
             <!-- Tendencia Anual -->
-            <div class="col-xl-8 col-lg-12">
+            <div class="col-xl-12 col-lg-12">
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title">
@@ -227,32 +227,7 @@
                 </div>
             </div>
 
-            <!-- Ingresos por Tipo -->
-            <div class="col-xl-4 col-lg-12">
-                <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="ri-donut-chart-line me-2"></i>Ingresos por Tipo
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="ingresosTipoChart" height="250"></canvas>
-                        <div class="mt-3">
-                            @foreach($ingresosPorTipo as $tipo)
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <span class="avatar avatar-xs me-2 
-                                        @if($tipo['tipo'] == 'Sesiones') bg-primary 
-                                        @else bg-info @endif"></span>
-                                    <span class="fs-12">{{ $tipo['tipo'] }}</span>
-                                </div>
-                                <span class="fw-semibold">${{ number_format($tipo['valor'], 0, ',', '.') }}</span>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
         <!-- Resumen Estadístico -->
@@ -311,6 +286,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const topPacientes = @json($topPacientes);
     const tendenciaAnual = @json($tendenciaAnual);
     const ingresosPorTipo = @json($ingresosPorTipo);
+    
+    // Debug: Mostrar datos en consola
+    console.log('Datos del Dashboard:');
+    console.log('Ingresos por Mes:', ingresosPorMes);
+    console.log('Comparación Mensual:', comparacionMensual);
+    console.log('Estados Pagos:', estadosPagos);
+    console.log('Top Pacientes:', topPacientes);
+    console.log('Tendencia Anual:', tendenciaAnual);
+    console.log('Ingresos por Tipo:', ingresosPorTipo);
 
     // Gráfico de Ingresos Mensuales
     const ctxIngresos = document.getElementById('ingresosMensualesChart').getContext('2d');
@@ -367,7 +351,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Gráfico de Estados de Pagos
+    // Gráfico de Estados de Pagos (Comentado - no se muestra en la vista)
+    /*
     const ctxEstados = document.getElementById('estadosPagosChart').getContext('2d');
     new Chart(ctxEstados, {
         type: 'doughnut',
@@ -408,10 +393,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    */
 
     // Gráfico de Comparación Mensual
     const ctxComparacion = document.getElementById('comparacionMensualChart').getContext('2d');
-    new Chart(ctxComparacion, {
+    
+    // Verificar si hay datos para mostrar
+    if (comparacionMensual && comparacionMensual.length > 0) {
+        new Chart(ctxComparacion, {
         type: 'line',
         data: {
             labels: comparacionMensual.map(item => item.mes),
@@ -467,10 +456,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    } else {
+        // Mostrar mensaje si no hay datos
+        ctxComparacion.canvas.parentNode.innerHTML = '<div class="text-center text-muted p-4"><i class="ri-bar-chart-line fs-24 mb-2"></i><p>No hay datos disponibles para mostrar</p></div>';
+    }
 
     // Gráfico Top Pacientes
     const ctxTopPacientes = document.getElementById('topPacientesChart').getContext('2d');
-    new Chart(ctxTopPacientes, {
+    
+    if (topPacientes && topPacientes.length > 0) {
+        new Chart(ctxTopPacientes, {
         type: 'bar',
         data: {
             labels: topPacientes.map(item => item.nombre),
@@ -533,10 +528,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    } else {
+        // Mostrar mensaje si no hay datos
+        ctxTopPacientes.canvas.parentNode.innerHTML = '<div class="text-center text-muted p-4"><i class="ri-user-star-line fs-24 mb-2"></i><p>No hay datos disponibles para mostrar</p></div>';
+    }
 
     // Gráfico Tendencia Anual
     const ctxTendencia = document.getElementById('tendenciaAnualChart').getContext('2d');
-    new Chart(ctxTendencia, {
+    
+    if (tendenciaAnual && tendenciaAnual.length > 0) {
+        new Chart(ctxTendencia, {
         type: 'line',
         data: {
             labels: tendenciaAnual.map(item => item.mes),
@@ -598,10 +599,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    } else {
+        // Mostrar mensaje si no hay datos
+        ctxTendencia.canvas.parentNode.innerHTML = '<div class="text-center text-muted p-4"><i class="ri-line-chart-line fs-24 mb-2"></i><p>No hay datos disponibles para mostrar</p></div>';
+    }
 
     // Gráfico Ingresos por Tipo
     const ctxTipo = document.getElementById('ingresosTipoChart').getContext('2d');
-    new Chart(ctxTipo, {
+    
+    if (ingresosPorTipo && ingresosPorTipo.length > 0) {
+        new Chart(ctxTipo, {
         type: 'pie',
         data: {
             labels: ingresosPorTipo.map(item => item.tipo),
@@ -638,6 +645,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    } else {
+        // Mostrar mensaje si no hay datos
+        ctxTipo.canvas.parentNode.innerHTML = '<div class="text-center text-muted p-4"><i class="ri-donut-chart-line fs-24 mb-2"></i><p>No hay datos disponibles para mostrar</p></div>';
+    }
 });
 
 // Función para exportar datos
