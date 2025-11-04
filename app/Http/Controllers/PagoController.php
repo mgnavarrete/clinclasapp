@@ -150,74 +150,83 @@ class PagoController extends Controller
 
 
             foreach ($pacientes as $paciente) {
-                $sesionesPaciente = Sesion::where('id_paciente', $paciente->id_paciente)->get();
-
-                if ($sesionesPaciente->isNotEmpty()) {
-                    $sesionValor = $sesionesPaciente->first()->valor;
-
+                try {
                     Log::info("=== Procesando paciente ID: {$paciente->id_paciente} - {$paciente->nombre} ===");
+
+                    $sesionesPaciente = Sesion::where('id_paciente', $paciente->id_paciente)->get();
                     Log::info("Sesiones encontradas: " . $sesionesPaciente->count());
 
-                    // obtener las estadoSesiones del mes de $mes y-m-d
-                    $estadoSesiones = EstadoSesion::whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))
-                        ->whereIn('estado', ['no avisó', 'realizada'])
-                        ->get();
+                    if ($sesionesPaciente->isNotEmpty()) {
+                        $sesionValor = $sesionesPaciente->first()->valor;
+                        Log::info("Valor de sesión: " . $sesionValor);
 
-                    Log::info("Estados de sesión encontrados: " . $estadoSesiones->count());
-                    $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
-                        ->where('estado', 'realizada')
-                        ->get();
+                        // obtener las estadoSesiones del mes de $mes y-m-d
+                        $estadoSesiones = EstadoSesion::whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))
+                            ->whereIn('estado', ['no avisó', 'realizada'])
+                            ->get();
 
-                    $mesComparar = Carbon::parse($mes)->format('Y-m');
-                    $valorSesiones = 0;
-                    $datainfo = "no entro";
-                    foreach ($estadoSesiones as $estadoSesion) {
-                        $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
+                        Log::info("Estados de sesión encontrados: " . $estadoSesiones->count());
+                        $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
+                            ->where('estado', 'realizada')
+                            ->get();
 
-                        if ($mesEstado === $mesComparar) {
-                            $datainfo = $sesionValor;
-                            $valorSesiones += $sesionValor;
+                        $mesComparar = Carbon::parse($mes)->format('Y-m');
+                        $valorSesiones = 0;
+                        $datainfo = "no entro";
+                        foreach ($estadoSesiones as $estadoSesion) {
+                            $mesEstado = Carbon::parse($estadoSesion->fecha)->format('Y-m');
+
+                            if ($mesEstado === $mesComparar) {
+                                $datainfo = $sesionValor;
+                                $valorSesiones += $sesionValor;
+                            }
                         }
-                    }
-                    $valorReuniones = 0;
-                    foreach ($reuniones as $reunion) {
-                        $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
+                        $valorReuniones = 0;
+                        foreach ($reuniones as $reunion) {
+                            $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
 
-                        if ($mesReunion === $mesComparar) {
-                            $valorReuniones += $reunion->valor;
+                            if ($mesReunion === $mesComparar) {
+                                $valorReuniones += $reunion->valor;
+                            }
                         }
+
+                        $valorTotal = $valorSesiones + $valorReuniones;
+
+                        Log::info("Mes a comparar: {$mesComparar}, Valor sesiones: {$valorSesiones}, Valor reuniones: {$valorReuniones}, Valor total: {$valorTotal}");
+
+                        // buscar pago del paciente de ese mes
+                        $pago = Pago::where('id_paciente', $paciente->id_paciente)
+                            ->where('mes', $mes)
+                            ->first();
+
+                        Log::info("Pago existente: " . ($pago ? "SI (ID: {$pago->id_pago}, Estado: {$pago->estado})" : "NO"));
+
+                        if ($pago === null && $valorTotal > 0) {
+                            Log::info("CREANDO NUEVO PAGO para paciente {$paciente->id_paciente}");
+                            Pago::create([
+                                'id_paciente' => $paciente->id_paciente,
+                                'mes' => $mes,
+                                'valor_total' => $valorTotal,
+                                'estado' => 'pendiente',
+                                'fecha_pagado' => null,
+                            ]);
+                        } elseif ($pago === null && $valorTotal === 0) {
+                            Log::info("No se crea pago: valorTotal es 0");
+                        } elseif ($pago->estado === 'pagado') {
+                            Log::info("No se actualiza pago: ya está pagado");
+                        } elseif ($valorTotal > 0) {
+                            Log::info("ACTUALIZANDO PAGO existente {$pago->id_pago}");
+                            $pago->update([
+                                'valor_total' => $valorTotal,
+                            ]);
+                        }
+                    } else {
+                        Log::info("Paciente sin sesiones, se omite.");
                     }
-
-                    $valorTotal = $valorSesiones + $valorReuniones;
-
-                    Log::info("Mes a comparar: {$mesComparar}, Valor sesiones: {$valorSesiones}, Valor reuniones: {$valorReuniones}, Valor total: {$valorTotal}");
-
-                    // buscar pago del paciente de ese mes
-                    $pago = Pago::where('id_paciente', $paciente->id_paciente)
-                        ->where('mes', $mes)
-                        ->first();
-
-                    Log::info("Pago existente: " . ($pago ? "SI (ID: {$pago->id_pago}, Estado: {$pago->estado})" : "NO"));
-
-                    if ($pago === null && $valorTotal > 0) {
-                        Log::info("CREANDO NUEVO PAGO para paciente {$paciente->id_paciente}");
-                        Pago::create([
-                            'id_paciente' => $paciente->id_paciente,
-                            'mes' => $mes,
-                            'valor_total' => $valorTotal,
-                            'estado' => 'pendiente',
-                            'fecha_pagado' => null,
-                        ]);
-                    } elseif ($pago === null && $valorTotal === 0) {
-                        Log::info("No se crea pago: valorTotal es 0");
-                    } elseif ($pago->estado === 'pagado') {
-                        Log::info("No se actualiza pago: ya está pagado");
-                    } elseif ($valorTotal > 0) {
-                        Log::info("ACTUALIZANDO PAGO existente {$pago->id_pago}");
-                        $pago->update([
-                            'valor_total' => $valorTotal,
-                        ]);
-                    }
+                } catch (\Exception $e) {
+                    Log::error("ERROR procesando paciente {$paciente->id_paciente}: " . $e->getMessage());
+                    Log::error("Stack trace: " . $e->getTraceAsString());
+                    continue; // Continuar con el siguiente paciente
                 }
             }
 
