@@ -149,11 +149,10 @@ class PagoController extends Controller
 
 
             foreach ($pacientes as $paciente) {
-                $sesionesPaciente = Sesion::where('id_paciente', $paciente->id_paciente);
-                $sesionValor = $sesionesPaciente->first()->valor;
+                $sesionesPaciente = Sesion::where('id_paciente', $paciente->id_paciente)->get();
 
-                if ($sesionesPaciente !== null) {
-
+                if ($sesionesPaciente->isNotEmpty()) {
+                    $sesionValor = $sesionesPaciente->first()->valor;
 
                     // obtener las estadoSesiones del mes de $mes y-m-d
                     $estadoSesiones = EstadoSesion::whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))
