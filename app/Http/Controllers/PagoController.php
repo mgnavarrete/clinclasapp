@@ -11,6 +11,7 @@ use Mockery\Generator\StringManipulation\Pass\Pass;
 use App\Models\Sesion;
 use App\Models\Reunion;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Tutor;
 use Spatie\Browsershot\Browsershot;
 
@@ -154,10 +155,15 @@ class PagoController extends Controller
                 if ($sesionesPaciente->isNotEmpty()) {
                     $sesionValor = $sesionesPaciente->first()->valor;
 
+                    Log::info("=== Procesando paciente ID: {$paciente->id_paciente} - {$paciente->nombre} ===");
+                    Log::info("Sesiones encontradas: " . $sesionesPaciente->count());
+
                     // obtener las estadoSesiones del mes de $mes y-m-d
                     $estadoSesiones = EstadoSesion::whereIn('id_sesion', $sesionesPaciente->pluck('id_sesion'))
                         ->whereIn('estado', ['no avisó', 'realizada'])
                         ->get();
+
+                    Log::info("Estados de sesión encontrados: " . $estadoSesiones->count());
                     $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
                         ->where('estado', 'realizada')
                         ->get();
@@ -184,12 +190,17 @@ class PagoController extends Controller
 
                     $valorTotal = $valorSesiones + $valorReuniones;
 
+                    Log::info("Mes a comparar: {$mesComparar}, Valor sesiones: {$valorSesiones}, Valor reuniones: {$valorReuniones}, Valor total: {$valorTotal}");
+
                     // buscar pago del paciente de ese mes
                     $pago = Pago::where('id_paciente', $paciente->id_paciente)
                         ->where('mes', $mes)
                         ->first();
 
+                    Log::info("Pago existente: " . ($pago ? "SI (ID: {$pago->id_pago}, Estado: {$pago->estado})" : "NO"));
+
                     if ($pago === null && $valorTotal > 0) {
+                        Log::info("CREANDO NUEVO PAGO para paciente {$paciente->id_paciente}");
                         Pago::create([
                             'id_paciente' => $paciente->id_paciente,
                             'mes' => $mes,
@@ -198,8 +209,11 @@ class PagoController extends Controller
                             'fecha_pagado' => null,
                         ]);
                     } elseif ($pago === null && $valorTotal === 0) {
+                        Log::info("No se crea pago: valorTotal es 0");
                     } elseif ($pago->estado === 'pagado') {
+                        Log::info("No se actualiza pago: ya está pagado");
                     } elseif ($valorTotal > 0) {
+                        Log::info("ACTUALIZANDO PAGO existente {$pago->id_pago}");
                         $pago->update([
                             'valor_total' => $valorTotal,
                         ]);
@@ -209,7 +223,7 @@ class PagoController extends Controller
 
             return redirect()->route('pagos.index')->with('success', 'Pagos creados correctamente.');
         } catch (\Exception $e) {
-            return redirect()->route('pagos.index')->with('error', 'Error al crear los pagos.');
+            return redirect()->route('pagos.index')->with('error', 'Error al crear los pagos: ' . $e->getMessage());
         }
     }
 
