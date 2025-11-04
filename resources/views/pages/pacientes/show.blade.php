@@ -94,54 +94,73 @@
                         </div>
                         
                         <div class="text-muted">
-                            <div class="row">
-                                @php
-                                    $sesionAnual = 0;
-                                @endphp
-                                @foreach ($sesionesPaciente as $sesion)
-                                @php
-                                    $sesionAnual ++;
-                                @endphp
-                                <div class="d-flex flex-wrap align-item-center  justify-content-between">
-                                    <p class="fs-15 mb-2 me-4 fw-semibold">Sesión {{ $sesionAnual }}:</p>
-                        
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    @if ($sesion->dia_semana !== "no definido")
-                                    <p class="mb-3">
-                                        <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
-                                            <i class="ri-calendar-check-fill align-middle fs-14"></i>
-                                        </span>
-                                        {{ ucfirst($sesion->dia_semana) }}
-                                    </p>
-                                    @endif
-                                    <p class="mb-3">
-                                        <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
-                                            <i class="ri-palette-line align-middle fs-14"></i>
-                                        </span>
-                                        {{ ucfirst($sesion->tipo) }}
-                                    </p>
-                                </div>
-                               
-                                <div class="col-md-6">
-                                    @if ($sesion->dia_semana !== "no definido")
-                                    <p class="mb-3">
-                                        <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
-                                            <i class="ri-time-line align-middle fs-14"></i>
-                                        </span>
-                                        {{ date('H:i', strtotime($sesion->hora_inicio))}} a {{ date('H:i', strtotime($sesion->hora_final))}}
-                                    </p>
-                                    @endif
-                                    <p class="mb-3">
-                                        <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
-                                            <i class="bx bx-money align-middle fs-14"></i>
+                            @php
+                                // Filtrar solo sesiones activas (tipo no null)
+                                $sesionesActivas = $sesionesPaciente->filter(function($sesion) {
+                                    return $sesion->tipo !== null;
+                                });
+                            @endphp
+                            
+                            @if($sesionesActivas->count() > 0)
+                                <div class="row">
+                                    @php
+                                        $sesionAnual = 0;
+                                    @endphp
+                                    @foreach ($sesionesActivas as $sesion)
+                                    @php
+                                        $sesionAnual ++;
+                                    @endphp
+                                    <div class="d-flex flex-wrap align-item-center  justify-content-between">
+                                        <p class="fs-15 mb-2 me-4 fw-semibold">Sesión {{ $sesionAnual }}:</p>
+                            
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        @if ($sesion->dia_semana !== "no definido")
+                                        <p class="mb-3">
+                                            <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
+                                                <i class="ri-calendar-check-fill align-middle fs-14"></i>
                                             </span>
-                                        ${{ number_format($sesion->valor, 0, ',', '.') }}
-                                    </p>  
+                                            {{ ucfirst($sesion->dia_semana) }}
+                                        </p>
+                                        @endif
+                                        <p class="mb-3">
+                                            <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
+                                                <i class="ri-palette-line align-middle fs-14"></i>
+                                            </span>
+                                            {{ ucfirst($sesion->tipo) }}
+                                        </p>
+                                    </div>
+                                   
+                                    <div class="col-md-6">
+                                        @if ($sesion->dia_semana !== "no definido")
+                                        <p class="mb-3">
+                                            <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
+                                                <i class="ri-time-line align-middle fs-14"></i>
+                                            </span>
+                                            {{ date('H:i', strtotime($sesion->hora_inicio))}} a {{ date('H:i', strtotime($sesion->hora_final))}}
+                                        </p>
+                                        @endif
+                                        <p class="mb-3">
+                                            <span class="avatar avatar-sm avatar-rounded me-2 bg-light text-muted">
+                                                <i class="bx bx-money align-middle fs-14"></i>
+                                                </span>
+                                            ${{ number_format($sesion->valor, 0, ',', '.') }}
+                                        </p>  
+                                    </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
-                            </div>
+                            @else
+                                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                    <span class="avatar avatar-sm avatar-rounded me-2 bg-warning-transparent">
+                                        <i class="ri-alert-line align-middle fs-14"></i>
+                                    </span>
+                                    <div>
+                                        <strong>No tiene sesiones activas</strong>
+                                        <p class="mb-0 fs-12">Este paciente no tiene sesiones programadas actualmente.</p>
+                                    </div>
+                                </div>
+                            @endif
                             
                         </div>
                     </div>

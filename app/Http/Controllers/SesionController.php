@@ -256,16 +256,16 @@ class SesionController extends Controller
             $estadosFuturos = EstadoSesion::where('id_sesion', $sesion->id_sesion)
                 ->futuros($fechaHoy)
                 ->count();
-                
+
             $estadosPasados = EstadoSesion::where('id_sesion', $sesion->id_sesion)
                 ->pasados($fechaHoy)
                 ->count();
-                
+
             logger()->info("Estados encontrados", [
                 'futuros' => $estadosFuturos,
                 'pasados' => $estadosPasados
             ]);
-            
+
             // Verificar si hay citas futuras para cancelar
             if ($estadosFuturos === 0) {
                 logger()->info("No hay citas futuras para cancelar");
@@ -295,7 +295,6 @@ class SesionController extends Controller
                 'dia_semana' => 'lunes', // Usar día válido (no importa cuál para sesiones canceladas)
                 'hora_inicio' => '00:00:00', // Hora 00:00:00 indica sesión cancelada
                 'hora_final' => '00:00:00',
-                'valor' => 0,
                 'tipo' => null // NULL indica sesión eliminada
             ]);
 
