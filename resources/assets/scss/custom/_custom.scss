@@ -2370,3 +2370,10 @@ hr {
     float: right;
   }
 }
+
+/* Start:: Sidebar Logo - Tamaño personalizado */
+.app-sidebar .main-sidebar-header .header-logo img {
+  height: 3.5rem !important;
+  line-height: 3.5rem !important;
+}
+/* End:: Sidebar Logo */
