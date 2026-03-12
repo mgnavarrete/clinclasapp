@@ -94,19 +94,24 @@
                         </div>
                         
                         <div class="text-muted">
-                            @php
-                                // Filtrar solo sesiones activas (tipo no null)
-                                $sesionesActivas = $sesionesPaciente->filter(function($sesion) {
-                                    return $sesion->tipo !== null;
-                                });
-                            @endphp
-                            
-                            @if($sesionesActivas->count() > 0)
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <small class="text-muted">
+                                    Mostrando sesiones activas del año {{ $currentYear }}.
+                                </small>
+                                @if($sesionesHistoricas->count() > 0 || $estadoSesionesHistoricas->count() > 0)
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#sesionesHistoricasModal">
+                                        <i class="ri-history-line me-1"></i>Ver históricas
+                                    </button>
+                                @endif
+                            </div>
+
+                            @if($sesionesPaciente->count() > 0)
                                 <div class="row">
                                     @php
                                         $sesionAnual = 0;
                                     @endphp
-                                    @foreach ($sesionesActivas as $sesion)
+                                    @foreach ($sesionesPaciente as $sesion)
                                     @php
                                         $sesionAnual ++;
                                     @endphp
@@ -156,8 +161,8 @@
                                         <i class="ri-alert-line align-middle fs-14"></i>
                                     </span>
                                     <div>
-                                        <strong>No tiene sesiones activas</strong>
-                                        <p class="mb-0 fs-12">Este paciente no tiene sesiones programadas actualmente.</p>
+                                        <strong>No tiene sesiones activas en {{ $currentYear }}</strong>
+                                        <p class="mb-0 fs-12">Puedes revisar sesiones de otros años en "Ver históricas".</p>
                                     </div>
                                 </div>
                             @endif
@@ -304,13 +309,18 @@
                                     <button class="nav-link" id="sesionesPasadas-tab" data-bs-toggle="tab"
                                         data-bs-target="#sesionesPasadas-tab-pane" type="button" role="tab"
                                         aria-controls="sesionesPasadas-tab-pane" aria-selected="false"><i
-                                            class="ri-attachment-line me-1 align-middle d-inline-block"></i>Todas las Sesiones</button>
+                                            class="ri-attachment-line me-1 align-middle d-inline-block"></i>Resto del Año {{ $currentYear }}</button>
                                 </li>
 
                             </ul>
                         </div>   
-                        <div>
-                            <div class="dropdown ms-2">
+                        <div class="d-flex align-items-center">
+                            @if($sesionesHistoricas->count() > 0 || $estadoSesionesHistoricas->count() > 0)
+                                <button class="btn btn-outline-secondary btn-wave waves-effect waves-light px-3 me-2" type="button" data-bs-toggle="modal" data-bs-target="#sesionesHistoricasModal">
+                                    <i class="ri-history-line me-1"></i>Históricas
+                                </button>
+                            @endif
+                            <div class="dropdown">
                                 <button class="btn btn-light btn-wave waves-effect waves-light px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="ti ti-plus fs-18"></i>
                                 </button>
@@ -327,10 +337,13 @@
                         <div class="tab-content h-100 w-100" id="myTabContent">
                             <div class="tab-pane show active fade p-0 border-0 h-100" id="sesionesMes-tab-pane"
                                 role="tabpanel" aria-labelledby="sesionesMes-tab" tabindex="0">
+                                @php
+                                    $sesionesMesActual = $estadoSesiones->filter(function($estado) {
+                                        return \Carbon\Carbon::parse($estado->fecha)->isCurrentMonth();
+                                    });
+                                @endphp
                                 <div class="row d-flex align-items-stretch">
-                                    @foreach ($estadoSesiones as $estado)
-                                    @if (\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
-                                    
+                                    @forelse ($sesionesMesActual as $estado)
                                     <div class="col-md-6 d-flex">
                                         <div class="card custom-card flex-fill
                                             @if($estado->estado === 'realizada') task-completed-card
@@ -365,8 +378,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
-                                    @endforeach
+                                    @empty
+                                    <div class="col-12">
+                                        <div class="alert alert-info mb-0">
+                                            <i class="ri-information-line me-1"></i>No hay sesiones registradas este mes.
+                                        </div>
+                                    </div>
+                                    @endforelse
                                   
                                 </div>
                                 
@@ -453,10 +471,13 @@
                             </div>
                             <div class="tab-pane fade p-0 border-0 h-100" id="sesionesPasadas-tab-pane"
                                 role="tabpanel" aria-labelledby="sesionesPasadas-tab" tabindex="0">
+                                @php
+                                    $sesionesRestoAnio = $estadoSesiones->filter(function($estado) {
+                                        return !\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth();
+                                    });
+                                @endphp
                                 <div class="row d-flex align-items-stretch" style="overflow-x: auto; white-space: nowrap;">
-                                    @foreach ($estadoSesiones as $estado)
-                                    @if (!\Carbon\Carbon::parse($estado->fecha)->isCurrentMonth())
-                                    
+                                    @forelse ($sesionesRestoAnio as $estado)
                                     <div class="col-md-6 d-flex">
                                         <div class="card custom-card flex-fill
                                             @if($estado->estado === 'realizada') task-completed-card
@@ -491,8 +512,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
-                                    @endforeach
+                                    @empty
+                                    <div class="col-12">
+                                        <div class="alert alert-info mb-0">
+                                            <i class="ri-information-line me-1"></i>No hay más sesiones registradas para el año {{ $currentYear }}.
+                                        </div>
+                                    </div>
+                                    @endforelse
                                   
                                 </div>
                             
@@ -520,6 +546,7 @@
     </script>
 @endif
 <!-- Modals de Edicion, Creacion y Asignacion -->
+@include('pages.modals.sesionesHistoricas')
 @include('pages.modals.editSesion')
 @include('pages.modals.createEspecialista')
 @include('pages.modals.asignarEspecialista')

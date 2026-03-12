@@ -11,10 +11,20 @@
             </div>
             <div class="modal-body">
                 @php
-                    $sesionesActivas = $sesionesPaciente->filter(function($sesion) {
-                        return $sesion->tipo !== null;
-                    });
+                    $sesionesActivas = $sesionesPaciente;
+                    $sesionesHistoricasActivas = $sesionesHistoricas ?? collect();
                 @endphp
+                <div class="alert alert-light border d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="ri-filter-line me-1"></i>Mostrando solo sesiones activas del año {{ $currentYear }}.
+                    </div>
+                    @if($sesionesHistoricasActivas->count() > 0 || $estadoSesionesHistoricas->count() > 0)
+                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#sesionesHistoricasModal">
+                            <i class="ri-history-line me-1"></i>Ver históricas
+                        </button>
+                    @endif
+                </div>
                 @if(count($sesionesActivas) > 1)
                     <!-- Tabs para múltiples sesiones -->
                     <div class="row mb-4">
@@ -25,7 +35,7 @@
                                         <i class="ri-information-line me-2"></i>
                                         Seleccionar Sesión a Editar
                                     </h6>
-                                    <p class="text-muted mb-3">Este alumno tiene {{ count($sesionesActivas) }} sesiones activas configuradas. Selecciona la que deseas editar:</p>
+                                    <p class="text-muted mb-3">Este alumno tiene {{ count($sesionesActivas) }} sesiones activas en {{ $currentYear }}. Selecciona la que deseas editar:</p>
                                     
                                     <ul class="nav nav-pills nav-justified sesion-tabs" id="sesionTabs" role="tablist">
                                         @foreach($sesionesActivas as $index => $sesion)
@@ -69,9 +79,9 @@
                     @else
                         <div class="alert alert-warning">
                             <i class="ri-alert-line me-2"></i>
-                            <strong>Sin sesiones activas:</strong> Este alumno no tiene sesiones activas configuradas.
-                            @if(count($sesionesPaciente) > 0)
-                                <br><small class="text-muted">Hay {{ count($sesionesPaciente) - count($sesionesActivas) }} sesiones eliminadas en el historial.</small>
+                            <strong>Sin sesiones activas en {{ $currentYear }}:</strong> Este alumno no tiene sesiones activas configuradas para este año.
+                            @if($sesionesHistoricasActivas->count() > 0 || $estadoSesionesHistoricas->count() > 0)
+                                <br><small class="text-muted">Puedes revisar años anteriores con el botón "Ver históricas".</small>
                             @endif
                         </div>
                     @endif

@@ -186,8 +186,15 @@ class PacienteController extends Controller
     public function show($id)
     {
         $paciente = Paciente::where('id_user', Auth::user()->id)->findOrFail($id);
-        $sesiones = Sesion::all();
-        $sesionesPaciente = collect($sesiones)->where('id_paciente', $id);
+        $currentYear = Carbon::now('America/Santiago')->year;
+
+        $sesionesPacienteAll = Sesion::where('id_paciente', $id)->get();
+        $sesionesPaciente = $sesionesPacienteAll->filter(function ($sesion) use ($currentYear) {
+            return $sesion->tipo !== null && (int) $sesion->year === $currentYear;
+        })->values();
+        $sesionesHistoricas = $sesionesPacienteAll->filter(function ($sesion) use ($currentYear) {
+            return $sesion->tipo !== null && (int) $sesion->year < $currentYear;
+        })->sortByDesc('year')->values();
 
         $apoderados = Tutor::all();
         $apoderadosPaciente = collect($apoderados)->where('id_paciente', $id);
@@ -201,19 +208,28 @@ class PacienteController extends Controller
             ->orderByRaw("FIELD(estado, 'atrasado', 'pendiente', 'pagado')")
             ->get();
 
-        $listIDSesiones = $sesionesPaciente->pluck('id_sesion');
-        $estadoSesiones = EstadoSesion::whereIn('id_sesion', $listIDSesiones)->get();
-        // ORdenar estado sesiones por fecha
-        $estadoSesiones = $estadoSesiones->sortBy('fecha');
-        $sesionesCanceladas = collect($estadoSesiones)->where('estado', 'cancelada')->count();
-        $sesionesRealizadas = collect($estadoSesiones)->where('estado', 'realizada')->count();
-        $sesionesPendientes = collect($estadoSesiones)->where('estado', 'pendiente')->count();
+        $listIDSesiones = $sesionesPacienteAll->pluck('id_sesion');
+        $estadoSesionesAll = EstadoSesion::whereIn('id_sesion', $listIDSesiones)
+            ->orderBy('fecha')
+            ->orderBy('hora_inicio')
+            ->get();
+        $estadoSesiones = $estadoSesionesAll->filter(function ($estadoSesion) use ($currentYear) {
+            return Carbon::parse($estadoSesion->fecha)->year === $currentYear;
+        })->values();
+        $estadoSesionesHistoricas = $estadoSesionesAll->filter(function ($estadoSesion) use ($currentYear) {
+            return Carbon::parse($estadoSesion->fecha)->year < $currentYear;
+        })->values();
+
+        $sesionesCanceladas = $estadoSesiones->where('estado', 'cancelada')->count();
+        $sesionesRealizadas = $estadoSesiones->where('estado', 'realizada')->count();
+        $sesionesPendientes = $estadoSesiones->where('estado', 'pendiente')->count();
 
         $reuniones = Reunion::where('id_paciente', $id)->get();
 
         return view('pages.pacientes.show', compact(
             'paciente',
             'sesionesPaciente',
+            'sesionesHistoricas',
             'apoderadosPaciente',
             'edadPaciente',
             'especialistas',
@@ -224,6 +240,8 @@ class PacienteController extends Controller
             'sesionesPendientes',
             'especialistasPaciente',
             'estadoSesiones',
+            'estadoSesionesHistoricas',
+            'currentYear',
             'reuniones',
         ));
     }
