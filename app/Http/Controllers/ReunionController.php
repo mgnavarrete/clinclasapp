@@ -12,9 +12,17 @@ use Carbon\Carbon;
 use App\Models\Pago;
 use App\Models\PacienteEspecialista;
 use App\Models\Reunion;
+use Illuminate\Validation\Rule;
 
 class ReunionController extends Controller
 {
+    private const ALLOWED_STATES = [
+        'pendiente',
+        'cancelada',
+        'realizada',
+        'realizada-sin-costo',
+    ];
+
     /**
      * Mostrar listado de pacientes.
      */
@@ -36,6 +44,7 @@ class ReunionController extends Controller
             'hora_finReunion' => 'required|string',
             'minuto_finReunion' => 'required|string',
             'valor_reunion' => 'required|numeric|between:0,99999999.99',
+            'notas_reunion' => 'nullable|string',
         ]);
 
         try {
@@ -53,6 +62,7 @@ class ReunionController extends Controller
                 'hora_final' => $hora_final,
                 'valor' => $validatedData['valor_reunion'],
                 'estado' => 'pendiente',
+                'notas' => $validatedData['notas_reunion'] ?? null,
             ]);
 
 
@@ -67,13 +77,15 @@ class ReunionController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'estado' => 'required|string',
+            'estado' => ['required', 'string', Rule::in(self::ALLOWED_STATES)],
+            'notas' => 'nullable|string',
         ]);
 
         try {
             $reunion = Reunion::findOrFail($id);
             $reunion->update([
                 'estado' => $validatedData['estado'],
+                'notas' => $validatedData['notas'] ?? null,
             ]);
 
             // Redirigir a la página anterior con un mensaje de éxito
@@ -87,13 +99,15 @@ class ReunionController extends Controller
     public function updatePago(Request $request, $id_reunion, $id_pago)
     {
         $validatedData = $request->validate([
-            'estado' => 'required|string',
+            'estado' => ['required', 'string', Rule::in(self::ALLOWED_STATES)],
+            'notas' => 'nullable|string',
         ]);
 
         try {
             $reunion = Reunion::findOrFail($id_reunion);
             $reunion->update([
                 'estado' => $validatedData['estado'],
+                'notas' => $validatedData['notas'] ?? null,
             ]);
 
             // Redirigir a la página anterior con un mensaje de éxito
@@ -107,13 +121,15 @@ class ReunionController extends Controller
     public function updateCal(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'estado' => 'required|string',
+            'estado' => ['required', 'string', Rule::in(self::ALLOWED_STATES)],
+            'notas' => 'nullable|string',
         ]);
 
         try {
             $reunion = Reunion::findOrFail($id);
             $reunion->update([
                 'estado' => $validatedData['estado'],
+                'notas' => $validatedData['notas'] ?? null,
             ]);
 
             // Redirigir a la página anterior con un mensaje de éxito
@@ -127,13 +143,15 @@ class ReunionController extends Controller
     public function updateIdx(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'estado' => 'required|string',
+            'estado' => ['required', 'string', Rule::in(self::ALLOWED_STATES)],
+            'notas' => 'nullable|string',
         ]);
 
         try {
             $reunion = Reunion::findOrFail($id);
             $reunion->update([
                 'estado' => $validatedData['estado'],
+                'notas' => $validatedData['notas'] ?? null,
             ]);
 
             // Redirigir a la página anterior con un mensaje de éxito

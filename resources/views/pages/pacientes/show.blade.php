@@ -395,8 +395,13 @@
                                     @foreach ($reuniones as $reunion)
                                     
                                     <div class="col-md-6 d-flex">
+                                        @php
+                                            $estadoReunionLabel = $reunion->estado === 'realizada-sin-costo'
+                                                ? 'Realizada (sin costo)'
+                                                : ucfirst($reunion->estado);
+                                        @endphp
                                         <div class="card custom-card flex-fill
-                                            @if($reunion->estado === 'realizada') task-completed-card
+                                            @if($reunion->estado === 'realizada' || $reunion->estado === 'realizada-sin-costo') task-completed-card
                                             @elseif($reunion->estado === 'pendiente') task-pending-card
                                             @elseif($reunion->estado === 'cancelada') task-inprogress-card
                                             @endif"
@@ -410,16 +415,19 @@
                                                         </p>
 
                                                         <p class="mb-3">Estado Reunión: <span class="fs-12 mb-1 fw-semibold
-                                                            @if($reunion->estado === 'realizada') text-success 
+                                                            @if($reunion->estado === 'realizada' || $reunion->estado === 'realizada-sin-costo') text-success 
                                                             @elseif($reunion->estado === 'pendiente') text-secondary
                                                             @elseif($reunion->estado === 'cancelada') text-danger
                                                             @endif">
-                                                              {{ ucfirst($reunion->estado) }}
+                                                              {{ $estadoReunionLabel }}
                                                         </span>
                                                         </p>                                                    
                                                         
                                                         <p class="mb-0">Valor : 
                                                             <span class="fs-12 mb-1 text-muted">${{ number_format($reunion->valor, 0, ',', '.') }}</span>
+                                                        </p>
+                                                        <p class="mb-0">Notas :
+                                                            <span class="fs-12 mb-1 text-muted">{{ empty($reunion->notas) ? 'No hay notas todavía.' : $reunion->notas }}</span>
                                                         </p>
                                                     </div>                                            
                                                 </div> 

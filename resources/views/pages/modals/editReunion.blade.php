@@ -64,7 +64,17 @@
                                 <option value="pendiente" {{ $reunion->estado === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
                                 <option value="cancelada" {{ $reunion->estado === 'cancelada' ? 'selected' : '' }}>Cancelada</option>
                                 <option value="realizada" {{ $reunion->estado === 'realizada' ? 'selected' : '' }}>Realizada</option>
+                                <option value="realizada-sin-costo" {{ $reunion->estado === 'realizada-sin-costo' ? 'selected' : '' }}>Realizada (sin costo)</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="notas{{ $reunion->id_reunion }}" class="form-label fw-semibold">
+                                <i class="ri-file-text-line me-1"></i>Notas <span class="text-muted">(Opcional)</span>
+                            </label>
+                            <textarea class="form-control" id="notas{{ $reunion->id_reunion }}" name="notas" rows="4" placeholder="Agrega observaciones para esta reunión...">{{ $reunion->notas }}</textarea>
                         </div>
                     </div>
 

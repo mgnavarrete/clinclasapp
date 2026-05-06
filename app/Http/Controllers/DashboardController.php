@@ -254,9 +254,12 @@ class DashboardController extends Controller
         $ingresosReuniones = Reunion::whereHas('paciente', function($query) use ($userId) {
             $query->where('id_user', $userId);
         })
-        ->where('estado', 'realizada')
+        ->whereIn('estado', ['realizada', 'realizada-sin-costo'])
         ->whereYear('created_at', Carbon::now()->year)
-        ->sum('valor');
+        ->get()
+        ->sum(function ($reunion) {
+            return $reunion->estado === 'realizada' ? $reunion->valor : 0;
+        });
         
         return [
             ['tipo' => 'Sesiones', 'valor' => $ingresosSesiones],

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Str;
 
+$rawSessionLifetime = env('SESSION_LIFETIME', 120);
+$sessionLifetime = is_numeric($rawSessionLifetime) ? (int) $rawSessionLifetime : 120;
+$sessionLifetime = max(1, min($sessionLifetime, 525600));
+
 return [
 
     /*
@@ -31,7 +35,7 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 525600),
+    'lifetime' => $sessionLifetime,
 
     'expire_on_close' => false,
 

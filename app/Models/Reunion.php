@@ -29,6 +29,7 @@ class Reunion extends Model
         'hora_final',
         'estado',
         'valor',
+        'notas',
     ];
 
     /**

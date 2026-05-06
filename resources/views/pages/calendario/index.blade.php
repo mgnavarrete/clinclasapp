@@ -128,7 +128,7 @@
                     title: '📋{{ $reunion->paciente->nombre }}',
                     start: '{{ $reunion->fecha }}T{{ $reunion->hora_inicio }}',
                     end: '{{ $reunion->fecha }}T{{ $reunion->hora_fin }}',
-                    color: '{{ $reunion->estado == "cancelada" ? "#ff0000" : ($reunion->estado == "realizada" ? "#28a745" : "#6f42c1") }}',
+                    color: '{{ $reunion->estado == "cancelada" ? "#ff0000" : (in_array($reunion->estado, ["realizada", "realizada-sin-costo"]) ? "#28a745" : "#6f42c1") }}',
                     display: 'block',
                     id: '{{ $reunion->id_reunion }}',
                     tipo: 'reunion'

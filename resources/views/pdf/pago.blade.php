@@ -257,6 +257,7 @@
                                 <thead>
                                     <tr>
                                         <th>TIPO</th>
+                                        <th>NOTAS</th>
                                         <th>FECHA</th>
                                         <th>ESTADO</th>
                                         <th>VALOR</th>
@@ -267,24 +268,33 @@
     
                                     <script>console.log({{$eventos}})</script>
                                     @foreach ($eventos as $evento)
+                                    @php
+                                        $estadoLabel = $evento['estado'] === 'realizada-sin-costo'
+                                            ? 'Realizada (sin costo)'
+                                            : ucfirst($evento['estado']);
+                                        $valorCobradoEvento = ($evento['tipo'] === 'Reunión' && $evento['estado'] === 'realizada-sin-costo')
+                                            ? 0
+                                            : $evento['valor'];
+                                    @endphp
                                     <tr>
                                         <td>
                                             <div class="fw-semibold">
                                                 {{ $evento['tipo'] }}
                                             </div>
                                         </td>
+                                        <td>{{ empty($evento['notas']) ? '-' : $evento['notas'] }}</td>
                                         
-                                        @if($evento['estado'] === 'realizada')
+                                        @if(in_array($evento['estado'], ['realizada', 'realizada-sin-costo']))
                                         <td>
                                             <div class="text-muted">
                                                 {{ ucfirst(\Carbon\Carbon::parse($evento['fecha'])->translatedFormat('d/m/Y')) }}
                                             </div>
                                         </td>
                                         <td class="product-quantity-container text-success">
-                                            {{ ucfirst($evento['estado']) }}
+                                            {{ $estadoLabel }}
                                         </td>
                                         <td>
-                                            ${{ number_format($evento['valor'], 0, ',', '.') }}
+                                            ${{ number_format($valorCobradoEvento, 0, ',', '.') }}
                                         </td>
                                         @elseif($evento['estado'] === 'pendiente')
                                         <td>
@@ -293,7 +303,7 @@
                                             </div>
                                         </td>
                                         <td class="product-quantity-container text-secondary">
-                                            {{ ucfirst($evento['estado']) }}
+                                            {{ $estadoLabel }}
                                         </td>
                                         <td>
                                             $0
@@ -305,7 +315,7 @@
                                             </div>
                                         </td>
                                         <td class="product-quantity-container text-danger">
-                                            {{ ucfirst($evento['estado']) }}
+                                            {{ $estadoLabel }}
                                         </td>
                                         <td>
                                             $0
@@ -317,7 +327,7 @@
                                             </div>
                                         </td>
                                         <td class="product-quantity-container text-warning">
-                                            {{ ucfirst($evento['estado']) }}
+                                            {{ $estadoLabel }}
                                         </td>
                                         <td>
                                             ${{ number_format($evento['valor'], 0, ',', '.') }}
@@ -345,7 +355,7 @@
                                         }
 
                                         @endphp
-                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
                                         <td colspan="2">
                                             <table class="table table-sm text-nowrap mb-0 table-borderless">
                                                 <tbody>
@@ -413,4 +423,3 @@
 
 	</body>
 </html>
-

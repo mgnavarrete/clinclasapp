@@ -48,14 +48,14 @@ class IndexController extends Controller
             return strpos($estadoSesion->fecha, $mesActual) === 0;
         });
 
-        $reunionesRealizadas = Reunion::where('estado', 'realizada')
+        $reunionesRealizadas = Reunion::whereIn('estado', ['realizada', 'realizada-sin-costo'])
             ->where('fecha', 'LIKE', $mesActual . '%')
             ->whereHas('paciente', function ($query) {
                 $query->where('id_user', Auth::user()->id);
             })
             ->get();
         $totalReunionesRealizadas = $reunionesRealizadas->sum(function ($reunion) {
-            return $reunion->valor;
+            return $reunion->estado === 'realizada' ? $reunion->valor : 0;
         });
 
         $totalGanadoMesActual = $estadoSesionesRealizadasMesActual->sum(function ($estadoSesion) {

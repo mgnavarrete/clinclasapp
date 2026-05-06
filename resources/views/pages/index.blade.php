@@ -297,11 +297,15 @@
                                                                         'pendiente' => 'bg-warning',
                                                                         'cancelada' => 'bg-danger',
                                                                         'realizada' => 'bg-success',
+                                                                        'realizada-sin-costo' => 'bg-success',
                                                                         default => 'bg-light text-muted'
                                                                     };
+                                                                    $estadoLabel = strtolower($evento['estado']) === 'realizada-sin-costo'
+                                                                        ? 'Realizada (sin costo)'
+                                                                        : ucfirst($evento['estado']);
                                                                 @endphp
                                                                 <span class="float-end badge {{ $colorEstado }} timeline-badge mt-0 mt-sm-0">
-                                                                    {{ ucfirst($evento['estado']) }}
+                                                                    {{ $estadoLabel }}
                                                                 </span>
                                                             </div>
                                                         </div>

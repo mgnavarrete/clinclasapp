@@ -162,6 +162,15 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label for="notas_reunion" class="form-label text-default">
+                            <i class="ri-file-text-line me-1"></i>Notas <span class="text-muted">(Opcional)</span>
+                        </label>
+                        <textarea class="form-control form-control-lg bg-outline-primary" id="notas_reunion" name="notas_reunion" rows="4" placeholder="Agrega observaciones para esta reunión..."></textarea>
+                    </div>
+                </div>
+
                 <!-- Alerta informativa -->
                 <div class="alert alert-info">
                     <i class="ri-information-line me-2"></i>

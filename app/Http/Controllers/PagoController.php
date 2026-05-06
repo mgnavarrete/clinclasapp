@@ -167,7 +167,7 @@ class PagoController extends Controller
 
                         Log::info("Estados de sesión encontrados: " . $estadoSesiones->count());
                         $reuniones = Reunion::where('id_paciente', $paciente->id_paciente)
-                            ->where('estado', 'realizada')
+                            ->whereIn('estado', ['realizada', 'realizada-sin-costo'])
                             ->get();
 
                         $mesComparar = Carbon::parse($mes)->format('Y-m');
@@ -185,7 +185,7 @@ class PagoController extends Controller
                         foreach ($reuniones as $reunion) {
                             $mesReunion = Carbon::parse($reunion->fecha)->format('Y-m');
 
-                            if ($mesReunion === $mesComparar) {
+                            if ($mesReunion === $mesComparar && $reunion->estado === 'realizada') {
                                 $valorReuniones += $reunion->valor;
                             }
                         }
@@ -264,7 +264,7 @@ class PagoController extends Controller
                 'tipo' => 'Reunión',
                 'fecha' => $reunion->fecha,
                 'estado' => $reunion->estado,
-                'notas' => "",
+                'notas' => $reunion->notas,
                 'valor' => $reunion->valor,
                 'hora_inicio' => $reunion->hora_inicio,
                 'hora_final' => $reunion->hora_final,
@@ -343,11 +343,11 @@ class PagoController extends Controller
 
         foreach ($reuniones as $reunion) {
             $eventos->push([
-                'id' => $reunion->id,
+                'id' => $reunion->id_reunion,
                 'tipo' => 'Reunión',
                 'fecha' => $reunion->fecha,
                 'estado' => $reunion->estado,
-                'notas' => "",
+                'notas' => $reunion->notas,
                 'valor' => $reunion->valor,
                 'hora_inicio' => $reunion->hora_inicio,
                 'hora_final' => $reunion->hora_final,

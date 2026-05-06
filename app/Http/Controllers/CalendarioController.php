@@ -88,6 +88,7 @@ class CalendarioController extends Controller
             'hora_finReunion' => 'required|string',
             'minuto_finReunion' => 'required|string',
             'valor_reunion' => 'required|numeric|between:0,99999999.99',
+            'notas_reunion' => 'nullable|string',
         ]);
 
         try {
@@ -106,6 +107,7 @@ class CalendarioController extends Controller
                 'hora_final' => $hora_final,
                 'valor' => $validatedData['valor_reunion'],
                 'estado' => 'pendiente',
+                'notas' => $validatedData['notas_reunion'] ?? null,
             ]);
 
 

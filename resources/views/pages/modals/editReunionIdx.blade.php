@@ -35,12 +35,16 @@
                                             $badgeClass = match($reunion->estado) {
                                                 'pendiente' => 'bg-warning',
                                                 'realizada' => 'bg-success',
+                                                'realizada-sin-costo' => 'bg-success',
                                                 'cancelada' => 'bg-danger',
                                                 default => 'bg-secondary'
                                             };
+                                            $estadoLabel = $reunion->estado === 'realizada-sin-costo'
+                                                ? 'Realizada (sin costo)'
+                                                : ucfirst($reunion->estado);
                                         @endphp
                                         <span class="badge {{ $badgeClass }} fs-12">
-                                            <i class="ri-bookmark-line me-1"></i>{{ ucfirst($reunion->estado) }}
+                                            <i class="ri-bookmark-line me-1"></i>{{ $estadoLabel }}
                                         </span>
                                         <br>
                                         <small class="text-muted">Próxima reunión</small>
@@ -73,6 +77,7 @@
                                 <option value="pendiente" {{ $reunion->estado === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
                                 <option value="cancelada" {{ $reunion->estado === 'cancelada' ? 'selected' : '' }}>Cancelada</option>
                                 <option value="realizada" {{ $reunion->estado === 'realizada' ? 'selected' : '' }}>Realizada</option>
+                                <option value="realizada-sin-costo" {{ $reunion->estado === 'realizada-sin-costo' ? 'selected' : '' }}>Realizada (sin costo)</option>
                             </select>
                         </div>
                         
@@ -83,6 +88,15 @@
                                     <p class="text-muted small mb-0">Próxima reunión</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="notas{{ $reunion->id_reunion }}" class="form-label text-default">
+                                <i class="ri-file-text-line me-1"></i>Notas <span class="text-muted">(Opcional)</span>
+                            </label>
+                            <textarea class="form-control form-control-lg bg-outline-primary" id="notas{{ $reunion->id_reunion }}" name="notas" rows="4" placeholder="Agrega observaciones para esta reunión...">{{ $reunion->notas }}</textarea>
                         </div>
                     </div>
 
